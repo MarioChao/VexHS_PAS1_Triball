@@ -40,7 +40,7 @@ void flywheelThread() {
             newVoltage = fmin(12, fmax(-12, oldVoltage + pidValue));
             
             // Spin the flywheel
-            if (fabs(motAimSpeedRpm) < 20 && fabs(motSpeedRpm) < 40) {
+            if (fabs(motAimSpeedRpm) < 20) {
                 // Special case: low RPM
                 // FlywheelMotor.spin(fwd, motAimSpeedRpm, rpm);
                 FlywheelMotor.stop(coast);
