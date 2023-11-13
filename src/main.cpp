@@ -23,7 +23,7 @@
         ButtonR2                --> flywheel speed (switch)
 
     Endgame:
-        ButtonL1 & ButtonL2     --> elevation / climbing (switch)
+        ButtonR1 & ButtonR2     --> elevation / climbing (switch)
         ButtonUp (Controller2)  --> elevation / climbing (switch)
 
     Driving:

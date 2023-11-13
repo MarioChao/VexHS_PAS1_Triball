@@ -44,6 +44,7 @@ void flywheelThread() {
                 // Special case: low RPM
                 // FlywheelMotor.spin(fwd, motAimSpeedRpm, rpm);
                 FlywheelMotor.stop(coast);
+                flywheelDeltaVelocityPid.setErrorI(0);
             } else {
                 // Spin at the computed voltage
                 FlywheelMotor.spin(fwd, newVoltage, volt);
@@ -64,7 +65,9 @@ void switchFlywheelSpeed() {
     if (!flywheelSpeedDebounce) {
         flywheelSpeedDebounce = true;
 
-        if (liftState == 1) {
+        task::sleep(30);
+        printf("Elev: %d\n", elevationState);
+        if (liftState == 1 && elevationState == 0) {
             // Increment speed state
             flywheelSpeedState++;
             flywheelSpeedState %= 2;

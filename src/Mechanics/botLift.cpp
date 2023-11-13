@@ -8,6 +8,7 @@ namespace {
     void switchLiftState();
     void changeLiftMotorToDegree(double rotation, double liftVoltage = 9, double rotateTimeout = 3);
 
+    void resetElevationState();
     void switchElevationState();
     void elevationNextState();
     void elevationLiftUpper();
@@ -17,16 +18,17 @@ namespace {
     void elevationLiftLowerHold();
 
     double rotateESP = 1e-9;
+
+    bool liftResetted = false;
+    bool liftElevating = false;
+
+    bool liftDebounce = false;
+    bool elevationDebounce = false;
 }
 
 int liftState = 0;
 int elevationState = 0;
 
-bool liftResetted = false;
-bool liftElevating = false;
-
-bool liftDebounce = false;
-bool elevationDebounce = false;
 
 void preautonLift() {
     // Brake-types
@@ -46,10 +48,30 @@ void keybindLift() {
     });
 }
 void controlElevation() {
-    bool elevationControlState = (Controller1.ButtonL1.pressing() && Controller1.ButtonL2.pressing()) || (Controller2.ButtonUp.pressing());
+    bool elevationControlState = (Controller1.ButtonR1.pressing() && Controller1.ButtonR2.pressing()) || (Controller2.ButtonUp.pressing());
     if (elevationControlState) {
-        liftElevating = true;
         switchElevationState();
+    }
+}
+void elevationThread() {
+    while (!Competition.isDriverControl()) {
+        task::sleep(10);
+    }
+    
+    // Wait until 103.5 seconds passed
+    timer driverControlTimer;
+    do {
+        task::sleep(10);
+    } while (driverControlTimer.value() <= 103.5);
+    
+    // Lift clamp
+    elevationDebounce = true;
+    LiftClampPneumatic.set(true);
+
+    // Lower the lift for the remaining time
+    while (Competition.isDriverControl()) {
+        LiftMotors.spin(fwd, -12, volt);
+        task::sleep(10);
     }
 }
 
@@ -93,6 +115,9 @@ namespace {
 
             liftState++;
             liftState %= 2;
+
+            // Reset elevation state
+            resetElevationState();
 
             // Activate/deactivate flywheel
             switchFlywheelSpeed();
@@ -146,28 +171,41 @@ namespace {
         canControlIntake = true;
     }
 
+    void resetElevationState() {
+        elevationState = 0;
+    }
     void switchElevationState() {
         if (!elevationDebounce) {
             task elevationTask([] () -> int {
                 elevationDebounce = true;
+                liftElevating = true;
+
+                canControlIntake = false;
                 elevationNextState();
-                while ((Controller1.ButtonL1.pressing() && Controller1.ButtonL2.pressing()) || (Controller2.ButtonUp.pressing())) {
+                canControlIntake = true;
+
+                // Wait until not holding the elevation buttons
+                while ((Controller1.ButtonR1.pressing() && Controller1.ButtonR2.pressing()) || (Controller2.ButtonUp.pressing())) {
                     task::sleep(10);
                 }
                 task::sleep(100);
+
                 elevationDebounce = false;
+                liftElevating = false;
                 return 1;
             });
         }
     }
     void elevationNextState() {
         elevationState++;
+
+        // Deactivate flywheel
+        switchFlywheelSpeed();
+
         switch (elevationState) {
             case 1:
                 elevationLiftUpper();
                 break;
-            case 2:
-                LiftClampPneumatic.set(true);
             // case 2:
             //     elevationLiftLowerClamp1();
             //     break;
@@ -200,12 +238,12 @@ namespace {
     // }
     void elevationLiftLowerHold() {
         canControlIntake = false;
-        
+
         bool isHolding;
-        isHolding = (Controller1.ButtonL1.pressing() && Controller1.ButtonL2.pressing()) || (Controller2.ButtonUp.pressing());
+        isHolding = (Controller1.ButtonR1.pressing() && Controller1.ButtonR2.pressing()) || (Controller2.ButtonUp.pressing());
         LiftMotors.spin(fwd, -12, volt);
         while (isHolding) {
-            isHolding = (Controller1.ButtonL1.pressing() && Controller1.ButtonL2.pressing()) || (Controller2.ButtonUp.pressing());
+            isHolding = (Controller1.ButtonR1.pressing() && Controller1.ButtonR2.pressing()) || (Controller2.ButtonUp.pressing());
             task::sleep(10);
         }
         LiftMotor1.stop(hold);

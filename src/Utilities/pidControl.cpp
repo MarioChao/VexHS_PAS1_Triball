@@ -37,6 +37,10 @@ void PIDControl::computeFromError(double error) {
     }
 }
 
+void PIDControl::setErrorI(double errorI) {
+    cumulativeError = errorI;
+}
+
 double PIDControl::getValue(bool useP, bool useI, bool useD) {
     double valP = useP ? (currentError * kProp) : 0;
     double valI = useI ? (cumulativeError * kInteg) : 0;
