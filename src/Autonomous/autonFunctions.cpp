@@ -15,6 +15,7 @@ namespace {
     void liftToDegree(double rotation, double runTimeout);
 
     double liftToRotation = 0;
+    double liftToTimeout = 3.0;
 }
 
 namespace auton {
@@ -213,7 +214,7 @@ namespace auton {
         maxVelocityPct = fmin(100, fmax(-100, maxVelocityPct));
 
         // PID
-        PIDControl driveTargetDistancePid(80, 0, 0, errorRange);
+        PIDControl driveTargetDistancePid(10, 0, 0, errorRange);
         PIDControl driveMaintainVelocityPid(2);
         PIDControl rotateTargetAnglePid(0.6);
         // Motion profile
@@ -289,15 +290,17 @@ namespace auton {
 
     /// @brief Set the target rotation when calling liftToDegreeTask().
     /// @param rotation The target angle (in degrees) for the lift motor to spin to.
-    void setLiftToDegreeRotation(double rotation) {
+    /// @param runTimeout Maixmum seconds the lift motor will run for.
+    void setLiftToDegreeRotation(double rotation, double runTimeout) {
         liftToRotation = rotation;
+        liftToTimeout = runTimeout;
     }
 
     /// @brief Spin the lift motor to a rotation in degrees.
     void liftToDegreeTask() {
         if (canControlIntake) {
             task liftTask([] () -> int {
-                liftToDegree(liftToRotation, 3.0);
+                liftToDegree(liftToRotation, liftToTimeout);
                 return 1;
             });
         }
@@ -333,6 +336,12 @@ namespace auton {
     void setAnchorState(bool state) {
         AnchorPneumatic.set(state);
     }
+
+    /// @brief Set the state of the pneumatic for the lift's clamp.
+    /// @param state Release: true, none: false
+    void setLiftClampState(bool state) {
+        LiftClampPneumatic.set(state);
+    }
 }
 
 namespace {
@@ -348,7 +357,7 @@ namespace {
         
         // Spin lift motors
         int spinDirection = (rotation > LiftMotors.position(deg)) - (rotation < LiftMotors.position(deg));
-        double spinVoltage = spinDirection * 9.0;
+        double spinVoltage = spinDirection * 11.0;
         LiftMotors.spin(fwd, spinVoltage, volt);
 
         timer timeout;
