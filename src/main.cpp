@@ -27,8 +27,8 @@
         ButtonUp (Controller2)  --> elevation / climbing (switch)
 
     Driving:
-        ButtonL1                --> intake (hold)
-        ButtonR1                --> wings (switch)
+        ButtonR1                --> intake (hold)
+        ButtonL1                --> wings (switch)
 
     Driving Mode - Arcade drive two stick:
         Axis3                   --> arcade forward (hold)
