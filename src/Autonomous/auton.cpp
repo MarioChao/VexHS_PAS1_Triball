@@ -106,7 +106,7 @@ namespace {
         });
 
         // Score the middle balls
-        driveDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), 100.0, 0.05, 1.5);
+        driveDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), 100.0, 0.05, 1.7);
         setIntakeState(true);
         turnToAngle(-67, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (more left)
         setIntakeState(false);
@@ -149,7 +149,7 @@ namespace {
         });
 
         // Score the middle balls
-        driveDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), 100.0, 0.05, 1.5);
+        driveDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), 100.0, 0.05, 1.7);
         setIntakeState(true);
         turnToAngle(-67, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (more left)
         setIntakeState(false);
