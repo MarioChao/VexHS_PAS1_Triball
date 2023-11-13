@@ -60,12 +60,13 @@ void elevationThread() {
     
     // Wait until 103.5 seconds passed
     timer driverControlTimer;
-    do {
+    while (driverControlTimer.value() <= 103.5) {
         task::sleep(10);
-    } while (driverControlTimer.value() <= 103.5);
+    }
     
     // Lift clamp
     elevationDebounce = true;
+    liftElevating = true;
     LiftClampPneumatic.set(true);
 
     // Lower the lift for the remaining time
