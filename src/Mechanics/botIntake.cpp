@@ -11,7 +11,7 @@ namespace {
 
 void controlIntake() {
     if (canControlIntake) {
-        int intakeDirection = (int) Controller1.ButtonL1.pressing();
+        int intakeDirection = (int) Controller1.ButtonR1.pressing();
         if (intakeDirection == 1) {
             resolveIntake(true);
         } else {
