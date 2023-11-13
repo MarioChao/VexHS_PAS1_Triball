@@ -10,7 +10,7 @@ namespace {
 double wingsDebounce = false;
 
 void keybindWings() {
-    Controller1.ButtonR1.pressed([] () -> void {
+    Controller1.ButtonL1.pressed([] () -> void {
         changeBothWingsState();
     });
 }
