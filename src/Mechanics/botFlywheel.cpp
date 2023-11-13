@@ -66,7 +66,6 @@ void switchFlywheelSpeed() {
         flywheelSpeedDebounce = true;
 
         task::sleep(30);
-        printf("Elev: %d\n", elevationState);
         if (liftState == 1 && elevationState == 0) {
             // Increment speed state
             flywheelSpeedState++;

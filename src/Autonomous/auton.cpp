@@ -13,7 +13,7 @@ namespace {
     void runAutonFarElim();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::NearElim;
+    autonomousType auton_runType = autonomousType::Skills;
     int auton_allianceId;
 }
 
@@ -73,7 +73,7 @@ namespace {
 
         // Push the corner triball out
         driveDistanceTiles(-0.5, 100.0, 0.05, 1.0);
-        turnToAngle(32, halfRobotLengthIn, 3.0, 1.0); // Face the matchload zone
+        turnToAngle(30, halfRobotLengthIn, 3.0, 1.0); // Face the matchload zone
         driveAndTurnDistanceTiles(-sqrt(pow(1.8, 2) + pow(1.8, 2)), 32, 0.7, 100.0, 0.05, 2.0);
         turnToAngle(135, -halfRobotLengthIn * 0.7, 3.0, 1.0); // Face parallel to the matchload zone
         setAnchorState(true);
@@ -82,15 +82,15 @@ namespace {
         setAnchorState(false);
 
         // Push the former-corner and elevation-bar balls
-        turnToAngle(-75, 0.0, 3.0, 1.0); // Back-side face down-right (more right)
-        driveAndTurnDistanceTiles(-2.0, -90, 1.7, 100.0, 0.05, 1.7);
+        turnToAngle(-85, 0.0, 3.0, 1.0); // Back-side face down-right (more right)
+        driveAndTurnDistanceTiles(-1.9, -90, 1.7, 100.0, 0.05, 2.5);
         
         // Go to matchload position
-        driveAndTurnDistanceTiles(2.8, -45, 1.5, 100.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(2.4, -45, 1.7, 100.0, 0.05, 2.5);
         turnToAngle(125, 0.0, 3.0, 1.0); // Face down-right (more right)
         setAnchorState(true);
         task::sleep(100);
-        turnToAngle(90, halfRobotLengthIn * 1.9, 3.0, 1.0);
+        turnToAngle(90, halfRobotLengthIn * 2.8, 3.0, 1.0);
     }
 
     /// @brief Run the 15-seconds far-side AWP autonomous.
@@ -201,10 +201,10 @@ namespace {
         setRotation(132);
 
         // Push the two alliance triballs
-        driveAndTurnDistanceTiles(-2.0, 180, 10.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 180, 11.0, 100.0, 0.05, 1.5);
 
         // Go to matchload position
-        driveAndTurnDistanceTiles(1.2, 140.0, 5.0, 100.0, 0.05, 1.0);
+        driveAndTurnDistanceTiles(1.2, 140.0, 7.5, 100.0, 0.05, 1.0);
         // Prepare for matchload
         setLiftPositionValue(0);
         setLiftToDegreeRotation(300);
@@ -213,13 +213,18 @@ namespace {
         // Matchload positioning
         turnToAngle(125, halfRobotLengthIn, 3.0, 1.0);
         setAnchorState(true);
-        turnToAngle(85, halfRobotLengthIn, 3.0, 1.0);
+        turnToAngle(85, halfRobotLengthIn * 1.3, 3.0, 1.0);
+        setAnchorState(false);
 
         // Matchload 44 balls
         task::sleep(2000);
         timer duration;
-        turnToAngleVelocity(45, 1.0, halfRobotLengthIn, 3.0, 25.0);
-        while (duration.value() < 25.0) {
+        // turnToAngleVelocity(45, 1.0, halfRobotLengthIn, 3.0, 25.0);
+        // while (duration.value() < 25.0) {
+        //     task::sleep(10);
+        // }
+        turnToAngleVelocity(45, 10.0, halfRobotLengthIn, 3.0, 5.0);
+        while (duration.value() < 5.0) {
             task::sleep(10);
         }
 
@@ -227,45 +232,50 @@ namespace {
         setLiftToDegreeRotation(0);
         liftToDegreeTask();
         setFlywheelSpeedRpm(0);
-        setAnchorState(false);
 
         // Push the triballs through path that goes below the red elevation-bar
         turnToAngle(-48, 0.0, 3.0, 1.0);
-        driveAndTurnDistanceTiles(-5.0, -90.0, 3.0, 100.0, 0.05, 3.0);
+        driveAndTurnDistanceTiles(-5.7, -90.0, 4.0, 100.0, 0.05, 3.3);
 
         // Score triballs through bottom-side of the goal
-        driveAndTurnDistanceTiles(-3.0, -180.0, 10.0, 100.0, 0.05, 1.7);
+        driveAndTurnDistanceTiles(-3.0, -180.0, 1.23, 100.0, 0.05, 1.7);
         
         // Score triballs through left-side of the goal
-        driveAndTurnDistanceTiles(3.0, -90, 13.0, 100.0, 0.05, 1.7);
-        turnToAngle(-180, 0.0, 3.0, 1.0);
+        driveAndTurnDistanceTiles(1.3, -90, 3.0, 100.0, 0.05, 2.0);
+        turnToAngle(0, halfRobotLengthIn, 3.0, 1.0);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-1.7, -180.0, 1.0, 100.0, 0.05, 1.5);
-        turnToAngle(-90, -halfRobotLengthIn, 3.0, 1.0);
+        driveAndTurnDistanceTiles(1.4, 0.0, 1.7, 80.0, 0.05, 3.0);
+        turnToAngle(90, halfRobotLengthIn, 3.0, 1.5);
+        driveDistanceTiles(1.5, 100.0, 0.05, 1.2);
         setRightWingState(false);
 
         // Score more triballs through left-side of the goal
-        turnToAngle(-180, -halfRobotLengthIn, 3.0, 1.0);
-        driveAndTurnDistanceTiles(1.5, -225.0, 0.3, 100.0, 0.05, 1.5);
+        turnToAngle(0, halfRobotLengthIn * 1.5, 3.0, 1.5);
+        driveAndTurnDistanceTiles(-0.7, 0, 1.0, 100.0, 0.05, 1.0);
+        driveAndTurnDistanceTiles(-1.8, -60.0, 2.0, 100.0, 0.05, 2.0);
         setWingsState(true);
-        turnToAngle(-90, -halfRobotLengthIn * 3.5, 3.0, 2.5);
+        turnToAngleVelocity(90, 80.0, halfRobotLengthIn * 3.0, 3.0, 3.0);
+        driveAndTurnDistanceTiles(1.5, 90, 1.0, 100.0, 0.05, 0.7);
         setWingsState(false);
 
         // Score triballs through top-side of the goal
-        driveAndTurnDistanceTiles(1.2, -180, 1.0, 100.0, 0.05, 1.5);
-        driveAndTurnDistanceTiles(-3.0, -90, 0.7, 100.0, 0.05, 2.5);
+        driveAndTurnDistanceTiles(-1.2, 0, 0.7, 100.0, 0.05, 1.5);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(1.5, 0, 10.0, 100.0, 0.05, 1.5);
-        setRightWingState(false);
+        driveAndTurnDistanceTiles(3.0, 90, 0.8, 100.0, 0.05, 2.5);
+        setWingsState(true);
+        driveAndTurnDistanceTiles(1.5, 180, 3.0, 100.0, 0.05, 2.0);
+        setWingsState(false);
 
         // Elevation
+        driveDistanceTiles(-0.5, 100.0, 0.05, 0.5);
         // Prepare for elevation
         setLiftToDegreeRotation(450);
         liftToDegreeTask();
         // Drive to elevation bar
-        driveAndTurnDistanceTiles(3.5, -90, 7.0, 100.0, 0.05, 3.0);
+        turnToAngle(315, 0.0, 3.0, 1.5);
+        driveAndTurnDistanceTiles(3.5, 270, 7.0, 100.0, 0.05, 3.0);
         // Clamp on the bar
-        setLiftClampState(true);
+        // setLiftClampState(true);
         setLiftToDegreeRotation(-100, 30.0);
         liftToDegreeTask();
     }

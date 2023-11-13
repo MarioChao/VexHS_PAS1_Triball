@@ -293,13 +293,16 @@ namespace auton {
     /// @param runTimeout Maixmum seconds the lift motor will run for.
     void setLiftToDegreeRotation(double rotation, double runTimeout) {
         liftToRotation = rotation;
-        liftToTimeout = runTimeout;
+        if (runTimeout > 0) {
+            liftToTimeout = runTimeout;
+        }
     }
 
     /// @brief Spin the lift motor to a rotation in degrees.
     void liftToDegreeTask() {
         if (canControlIntake) {
             task liftTask([] () -> int {
+                task::sleep(30);
                 liftToDegree(liftToRotation, liftToTimeout);
                 return 1;
             });
