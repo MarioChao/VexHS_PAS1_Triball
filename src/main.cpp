@@ -68,7 +68,7 @@ competition Competition;
 // Variables
 // Drive info
 double botX, botY, botAngle;
-double motSpeedRpm, motAimSpeedRpm;
+double motSpeedRpm, motAimSpeedRpm = 0;
 
 // Global variables
 int playingVideoId = 0;
@@ -88,6 +88,8 @@ void pre_auton(void) {
         Controller1.rumble(".--.-- -");
         return 1;
     });
+    // Flywheel task
+    task flywheelTask([] () -> int { flywheelThread(); return 1; });
     // Pre-auton
     runPreauton();
     // Stopping brake-types
@@ -101,9 +103,6 @@ void pre_auton(void) {
 
 void autonomous(void) {
     timer benchmark;
-
-    // Tasks
-    task flywheelTask([] () -> int { flywheelThread(); return 1; });
 
     // Reset
     resetLift();

@@ -9,13 +9,14 @@ namespace {
 
     bool flywheelUsingPid = true;
     bool flywheelSpeedDebounce = false;
+    
+    int flywheelSpeedState = -1;
 }
 
-int flywheelSpeedState = -1;
 
 void flywheelThread() {
     // Variables
-    PIDControl flywheelDeltaVelocityPid(0.04, 0.003, 0); // Maintain velocity
+    PIDControl flywheelDeltaVelocityPid(0.08, 0.01, 0); // Maintain velocity
     double oldVoltage, pidValue;
     double newVoltage;
     bool alreadySettled = false;
@@ -41,7 +42,8 @@ void flywheelThread() {
             // Spin the flywheel
             if (fabs(motAimSpeedRpm) < 20 && fabs(motSpeedRpm) < 40) {
                 // Special case: low RPM
-                FlywheelMotor.spin(fwd, motAimSpeedRpm, rpm);
+                // FlywheelMotor.spin(fwd, motAimSpeedRpm, rpm);
+                FlywheelMotor.stop(coast);
             } else {
                 // Spin at the computed voltage
                 FlywheelMotor.spin(fwd, newVoltage, volt);
@@ -70,12 +72,12 @@ void switchFlywheelSpeed() {
             // Spin at different velocities
             switch (flywheelSpeedState) {
                 case 0:
-                    // Spin at lower velocities
-                    setFlywheelSpeed(520);
-                    break;
-                case 1:
                     // Spin at higher velocities
                     setFlywheelSpeed(600);
+                    break;
+                case 1:
+                    // Spin at lower velocities
+                    setFlywheelSpeed(520);
                     break;
             }
         } else {
