@@ -12,10 +12,11 @@ namespace {
     using namespace botinfo;
     using namespace field;
 
-    void liftToDegree(double rotation, double runTimeout);
+    void liftToDegree(double rotation, double runTimeout, bool stopIntake);
 
     double liftToRotation = 0;
     double liftToTimeout = 3.0;
+    bool liftStopIntake = true;
 }
 
 namespace auton {
@@ -173,8 +174,8 @@ namespace auton {
             double rotateVelocityPct = fmin(100, fmax(-100, rotateTargetAnglePid.getValue()));
             if (fabs(rotateVelocityPct) > 30.0) {
                 rotateVelocityPct *= rotationFactor;
-            } else if (fabs(rotateVelocityPct) > 15.0) {
-                rotateVelocityPct *= rotationFactor * (15.0 / 100.0);
+            } else if (fabs(rotateVelocityPct) > 10.0) {
+                rotateVelocityPct *= rotationFactor * (fabs(rotateVelocityPct) / 100.0);
             }
             // printf("Turning.. Now: %.3f, Err: %.3f, Pid: %.3f\n", InertialSensor.rotation(deg), rotateError, rotateTargetAnglePid.getValue());
 
@@ -290,12 +291,14 @@ namespace auton {
 
     /// @brief Set the target rotation when calling liftToDegreeTask().
     /// @param rotation The target angle (in degrees) for the lift motor to spin to.
-    /// @param runTimeout Maixmum seconds the lift motor will run for.
-    void setLiftToDegreeRotation(double rotation, double runTimeout) {
+    /// @param runTimeout Maximum seconds the lift motor will run for.
+    /// @param stopIntake Whether lifting will stop the motion of the intake upon completion.
+    void setLiftToDegreeRotation(double rotation, double runTimeout, bool stopIntake) {
         liftToRotation = rotation;
         if (runTimeout > 0) {
             liftToTimeout = runTimeout;
         }
+        liftStopIntake = stopIntake;
     }
 
     /// @brief Spin the lift motor to a rotation in degrees.
@@ -303,7 +306,7 @@ namespace auton {
         if (canControlIntake) {
             task liftTask([] () -> int {
                 task::sleep(30);
-                liftToDegree(liftToRotation, liftToTimeout);
+                liftToDegree(liftToRotation, liftToTimeout, liftStopIntake);
                 return 1;
             });
         }
@@ -348,7 +351,7 @@ namespace auton {
 }
 
 namespace {
-    void liftToDegree(double rotation, double runTimeout) {
+    void liftToDegree(double rotation, double runTimeout, bool stopIntake) {
         if (!canControlIntake) {
             return;
         }
@@ -373,9 +376,16 @@ namespace {
             }
             task::sleep(20);
         }
-        LiftMotors.stop();
+
+        // Stop motors
         if (spinDirection > 0) {
+            LiftMotor1.stop();
             LiftMotor1.stop(hold);
+            if (stopIntake) {
+                LiftMotor2.stop();
+            }
+        } else {
+            LiftMotors.stop();
         }
 
         canControlIntake = true;

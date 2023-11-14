@@ -14,7 +14,7 @@ namespace auton {
     void setIntakeState(bool state);
 
     void setLiftPositionValue(double rotation);
-    void setLiftToDegreeRotation(double rotation, double runTimeout = -1.0);
+    void setLiftToDegreeRotation(double rotation, double runTimeout = -1.0, bool stopIntake = true);
     void liftToDegreeTask();
 
     void setFlywheelSpeedRpm(double rpm);
