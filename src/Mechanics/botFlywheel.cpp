@@ -4,7 +4,6 @@
 #include "main.h"
 
 namespace {
-    void setFlywheelSpeed(double rpm);
     void resetFlywheelSpeed();
 
     bool flywheelUsingPid = true;
@@ -16,7 +15,7 @@ namespace {
 
 void flywheelThread() {
     // Variables
-    PIDControl flywheelDeltaVelocityPid(0.08, 0.01, 0); // Maintain velocity
+    PIDControl flywheelDeltaVelocityPid(0.04, 0, 0); // Maintain velocity
     double oldVoltage, pidValue;
     double newVoltage;
     bool alreadySettled = false;
@@ -42,9 +41,12 @@ void flywheelThread() {
             // Spin the flywheel
             if (fabs(motAimSpeedRpm) < 20) {
                 // Special case: low RPM
-                // FlywheelMotor.spin(fwd, motAimSpeedRpm, rpm);
                 FlywheelMotor.stop(coast);
                 flywheelDeltaVelocityPid.setErrorI(0);
+            } else if (fabs(motAimSpeedRpm) >= 590) {
+                // Special case: max RPM
+                double spinDirection = (motAimSpeedRpm > 0) - (motAimSpeedRpm < 0);
+                FlywheelMotor.spin(fwd, spinDirection * 12, volt);
             } else {
                 // Spin at the computed voltage
                 FlywheelMotor.spin(fwd, newVoltage, volt);
@@ -90,11 +92,11 @@ void switchFlywheelSpeed() {
         flywheelSpeedDebounce = false;
     }
 }
+void setFlywheelSpeed(double rpm) {
+    motAimSpeedRpm = rpm;
+}
 
 namespace {
-    void setFlywheelSpeed(double rpm) {
-        motAimSpeedRpm = rpm;
-    }
     void resetFlywheelSpeed() {
         flywheelSpeedState = -1; // Inactive state
         setFlywheelSpeed(0);
