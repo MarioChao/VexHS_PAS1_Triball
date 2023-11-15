@@ -14,8 +14,6 @@ namespace {
     void elevationNextState();
     void elevationLiftUpper();
     // void elevationLiftLowerClamp1();
-    // void elevationLiftLowerClamp2();
-    // void elevationLiftLowerClampFinal();
     void elevationLiftLowerHold();
     void elevationLiftRachetClamp();
 
@@ -195,12 +193,6 @@ namespace {
             // case 2:
             //     elevationLiftLowerClamp1();
             //     break;
-            // case 3:
-            //     elevationLiftLowerClamp2();
-            //     break;
-            // case 4:
-            //     elevationLiftLowerClampFinal();
-            //     break;
             default:
                 elevationLiftLowerHold();
                 break;
@@ -212,14 +204,6 @@ namespace {
     }
     // void elevationLiftLowerClamp1() {
     //     changeLiftMotorToDegree(250, 12);
-    //     LiftMotor1.stop(coast);
-    // }
-    // void elevationLiftLowerClamp2() {
-    //     changeLiftMotorToDegree(150, 12);
-    //     LiftMotor1.stop(coast);
-    // }
-    // void elevationLiftLowerClampFinal() {
-    //     changeLiftMotorToDegree(-100, 12, 0);
     //     LiftMotor1.stop(coast);
     // }
     void elevationLiftLowerHold() {
