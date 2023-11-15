@@ -345,7 +345,8 @@ namespace {
 
         // Score triballs through top-side of the goal
         driveAndTurnDistanceTiles(-0.5, 0, 0.4, 100.0, 0.05, 1.5);
-        driveAndTurnDistanceTiles(3.0, -90, 0.5, 100.0, 0.05, 2.5);
+        driveAndTurnDistanceTiles(2.0, 0, 1.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(1.0, -90, 2.0, 100.0, 0.05, 1.5);
         driveAndTurnDistanceTiles(-2.5, 0, 2.0, 100.0, 0.05, 1.5);
 
         // Elevation

@@ -5,6 +5,7 @@
 
 namespace {
     void resetFlywheelSpeed();
+    void switchFlywheelSpeed();
 
     bool flywheelUsingPid = true;
     bool flywheelSpeedDebounce = false;
@@ -59,38 +60,9 @@ void flywheelThread() {
     }
 }
 void keybindFlywheel() {
-    Controller1.ButtonR2.pressed([] () -> void {
+    Controller1.ButtonRight.pressed([] () -> void {
         switchFlywheelSpeed();
     });
-}
-void switchFlywheelSpeed() {
-    if (!flywheelSpeedDebounce) {
-        flywheelSpeedDebounce = true;
-
-        task::sleep(30);
-        if (liftState == 1 && elevationState == 0) {
-            // Increment speed state
-            flywheelSpeedState++;
-            flywheelSpeedState %= 2;
-
-            // Spin at different velocities
-            switch (flywheelSpeedState) {
-                case 0:
-                    // Spin at higher velocities
-                    setFlywheelSpeed(600);
-                    break;
-                case 1:
-                    // Spin at lower velocities
-                    setFlywheelSpeed(520);
-                    break;
-            }
-        } else {
-            resetFlywheelSpeed();
-        }
-        task::sleep(30);
-
-        flywheelSpeedDebounce = false;
-    }
 }
 void setFlywheelSpeed(double rpm) {
     motAimSpeedRpm = rpm;
@@ -100,5 +72,30 @@ namespace {
     void resetFlywheelSpeed() {
         flywheelSpeedState = -1; // Inactive state
         setFlywheelSpeed(0);
+    }
+
+    void switchFlywheelSpeed() {
+        if (!flywheelSpeedDebounce) {
+            flywheelSpeedDebounce = true;
+
+            // Increment speed state
+            flywheelSpeedState++;
+            flywheelSpeedState %= 2;
+
+            // Spin flywheel
+            switch (flywheelSpeedState) {
+                case 0:
+                    // Spin at max velocity
+                    setFlywheelSpeed(600);
+                    break;
+                case 1:
+                    // Reset flywheel speed
+                    resetFlywheelSpeed();
+                    break;
+            }
+            task::sleep(30);
+
+            flywheelSpeedDebounce = false;
+        }
     }
 }

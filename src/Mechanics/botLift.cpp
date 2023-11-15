@@ -5,6 +5,7 @@
 namespace {
     void resetLiftTask();
 
+    void resetLiftState();
     void switchLiftState();
     void changeLiftMotorToDegree(double rotation, double liftVoltage = 9, double rotateTimeout = 3);
 
@@ -16,6 +17,7 @@ namespace {
     // void elevationLiftLowerClamp2();
     // void elevationLiftLowerClampFinal();
     void elevationLiftLowerHold();
+    void elevationLiftRachetClamp();
 
     double rotateESP = 1e-9;
 
@@ -24,6 +26,8 @@ namespace {
 
     bool liftDebounce = false;
     bool elevationDebounce = false;
+
+    bool elevationRachetDebounce = false;
 }
 
 int liftState = 0;
@@ -46,33 +50,14 @@ void keybindLift() {
     Controller1.ButtonUp.pressed([] () -> void {
         switchLiftState();
     });
+    Controller1.ButtonB.pressed([] () -> void {
+        elevationLiftRachetClamp();
+    });
 }
 void controlElevation() {
     bool elevationControlState = (Controller1.ButtonR1.pressing() && Controller1.ButtonR2.pressing()) || (Controller2.ButtonUp.pressing());
     if (elevationControlState) {
         switchElevationState();
-    }
-}
-void elevationThread() {
-    while (!Competition.isDriverControl()) {
-        task::sleep(10);
-    }
-    
-    // Wait until 103.5 seconds passed
-    timer driverControlTimer;
-    while (driverControlTimer.value() <= 103.5) {
-        task::sleep(10);
-    }
-    
-    // Lift clamp
-    elevationDebounce = true;
-    liftElevating = true;
-    LiftClampPneumatic.set(true);
-
-    // Lower the lift for the remaining time
-    while (Competition.isDriverControl()) {
-        LiftMotors.spin(fwd, -12, volt);
-        task::sleep(10);
     }
 }
 
@@ -85,7 +70,7 @@ namespace {
             // Spin the lift upwards a bit
             LiftMotors.resetPosition();
             LiftMotors.spinTo(30, deg, false);
-            task::sleep(100);
+            task::sleep(500);
 
             // Spin the lift down for maximum 1 second
             timer timeout;
@@ -109,6 +94,9 @@ namespace {
         }
     }
 
+    void resetLiftState() {
+        liftState = 0;
+    }
     /// @brief Change the lift's position to high or low.
     void switchLiftState() {
         if (!liftDebounce && liftResetted && !liftElevating) {
@@ -119,9 +107,6 @@ namespace {
 
             // Reset elevation state
             resetElevationState();
-
-            // Activate/deactivate flywheel
-            switchFlywheelSpeed();
 
             // Change lift position
             switch (liftState) {
@@ -200,8 +185,8 @@ namespace {
     void elevationNextState() {
         elevationState++;
 
-        // Deactivate flywheel
-        switchFlywheelSpeed();
+        // Reset lift state
+        resetLiftState();
 
         switch (elevationState) {
             case 1:
@@ -250,5 +235,16 @@ namespace {
         LiftMotor1.stop(hold);
 
         canControlIntake = true;
+    }
+
+    void elevationLiftRachetClamp() {
+        if (!elevationRachetDebounce) {
+            elevationRachetDebounce = true;
+
+            LiftClampPneumatic.set(true);
+            LiftMotors.spin(fwd, -12, volt);
+            task::sleep(1000);
+            LiftMotors.stop();
+        }
     }
 }

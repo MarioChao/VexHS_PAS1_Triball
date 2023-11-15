@@ -19,12 +19,13 @@
 
     Matchload:
         ButtonUp                --> lift (switch)
+        ButtonRight             --> flywheel (switch)
         ButtonY                 --> anchor (switch)
-        ButtonR2                --> flywheel speed (switch)
 
     Endgame:
         ButtonR1 & ButtonR2     --> elevation / climbing (switch)
         ButtonUp (Controller2)  --> elevation / climbing (switch)
+        ButtonB                 --> deploy lift rachet clamp (one-time switch)
 
     Driving:
         ButtonR1                --> intake (hold)
@@ -87,8 +88,6 @@ void pre_auton(void) {
     task rum([] () -> int { Controller1.rumble(".--.-- -"); return 1; });
     // Flywheel task
     task flywheelTask([] () -> int { flywheelThread(); return 1; });
-    // Elevation task
-    task elevationTask([] () -> int { elevationThread(); return 1; });
     // Pre-auton
     runPreauton();
     // Stopping brake-types
@@ -117,6 +116,8 @@ void autonomous(void) {
 /******************* ------------ *******************/
 
 void usercontrol(void) {
+    // Elevation task
+
     // Keybinds
     keybindAnchor();
     keybindDrive();
