@@ -5,6 +5,10 @@ void GuiClass::draw() {
   return;
 }
 
+void GuiClass::check() {
+  return;
+}
+
 void GuiClass::setVisibility(bool visibility) {
   visible = visibility;
 }

@@ -70,6 +70,12 @@ void SliderGui::setCord(int sliderId, double val) {
   updateCord(sliderId);
 }
 
+void SliderGui::check() {
+  if (Brain.Screen.pressing()) {
+    check(Brain.Screen.xPosition(), Brain.Screen.yPosition());
+  }
+}
+
 // Checks and updates sliders based on mouse position
 void SliderGui::check(double mouseX, double mouseY) {
   // Check if mouse is on the slider

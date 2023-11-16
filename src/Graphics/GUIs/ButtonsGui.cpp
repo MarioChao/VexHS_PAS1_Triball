@@ -68,11 +68,18 @@ void ButtonGui::draw() {
   Brain.Screen.printAt(centerX - (int) displayedText.length() * 4, centerY, 0, displayedText.c_str());
 }
 
+void ButtonGui::check() {
+  dbFrames++;
+  if (Brain.Screen.pressing()) {
+    // printf("Pressed: %3ld, %3ld\n", Brain.Screen.xPosition(), Brain.Screen.yPosition());
+    check(Brain.Screen.xPosition(), Brain.Screen.yPosition());
+  }
+}
+
 /// @brief Check for button click, with debounce.
 /// @param clickX The x-position of the cursor.
 /// @param clickY The y-position of the cursor.
 void ButtonGui::check(double clickX, double clickY) {
-  dbFrames++;
   if (!buttonShape -> isTouching(clickX, clickY)) return;
   if (dbFrames < 20 || !usable) {
     dbFrames = 0;

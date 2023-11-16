@@ -29,12 +29,6 @@ namespace {
   void setDockGUIs();
   // Dock states
   void initDocks();
-  // GUI functions
-  void brainGUIsMainDock();
-  void brainGUIsAutonDock();
-  void brainGUIsAutonSubdock1();
-  void brainGUIsAutonSubdock2();
-  void brainGUIsQRCodeDock();
 
   // Getters
   double getRobotX();
@@ -272,13 +266,6 @@ namespace {
       autonSubdock1 -> setEnabled(false);
       autonSubdock2 -> setEnabled(true);
     }));
-    // Draw buttons
-    /*for (ButtonGui *button : mainDockButtons) {
-      button -> draw();
-    }
-    for (ButtonGui *button : autonDockButtons) {
-      button -> draw();
-    }*/
     // -----------------------------------------
     // --- Alliance & Mode Selection Buttons ---
     // -----------------------------------------
@@ -353,10 +340,6 @@ namespace {
     allianceButtons = {nearAWP, nearElim, farAWP, farElim, skillsAuton, skillsDriver, redField, blueField};
     autonSubdock1Buttons = {nearAWP, nearElim, farAWP, farElim};
     autonSubdock2Buttons = {skillsAuton, skillsDriver, redField, blueField};
-    // Draw buttons
-    /*for (ButtonGui *button : autonSubdock1Buttons) {
-      button -> draw();
-    }*/
   }
 
   /// @brief Create the interactable sliders on the screen.
@@ -369,14 +352,7 @@ namespace {
   void createDocks() {
     // Main dock
     mainDock = new DockGui(0, 0, 480, 240, {}, {});
-    mainDock -> addFunction([] {
-      brainGUIsMainDock();
-    });
     mainDock -> addEnabledFunction([] {
-      // Draw buttons
-      /*for (ButtonGui *button : mainDockButtons) {
-        button -> draw();
-      }*/
       qrCodeDock -> setEnabled(false);
       autonDock -> setEnabled(true);
     });
@@ -386,42 +362,21 @@ namespace {
     autonDock -> addFunction([] {
       drawCoordinate(20, 40, 100, 100);
       drawFlywheel(20, 160, 100, 60);
-      brainGUIsAutonDock();
     });
     autonDock -> addEnabledFunction([] {
-      /*for (ButtonGui *button : autonDockButtons) {
-        button -> draw();
-      }*/
       autonSubdock2 -> setEnabled(false);
       autonSubdock1 -> setEnabled(true);
     });
 
     // Auton Sub-dock 1
     autonSubdock1 = new DockGui(150, 40, 210, 180, {}, {});
-    autonSubdock1 -> addFunction([] {
-      brainGUIsAutonSubdock1();
-    });
-    autonSubdock1 -> addEnabledFunction([] {
-      /*for (ButtonGui *button : autonSubdock1Buttons) {
-        button -> draw();
-      }*/
-    });
 
     // Auton Sub-dock 2
     autonSubdock2 = new DockGui(150, 40, 210, 180, {}, {});
-    autonSubdock2 -> addFunction([] {
-      brainGUIsAutonSubdock2();
-    });
-    autonSubdock2 -> addEnabledFunction([] {
-      /*for (ButtonGui *button : autonSubdock2Buttons) {
-        button -> draw();
-      }*/
-    });
 
     // QR-Code Dock
     qrCodeDock = new DockGui(0, 20, 480, 220, {}, {});
     qrCodeDock -> addFunction([] {
-      brainGUIsQRCodeDock();
       drawInfo();
     });
     qrCodeDock -> addEnabledFunction([] {
@@ -475,88 +430,6 @@ namespace {
   void initDocks() {
     autonSubdock2 -> setEnabled(false);
     qrCodeDock -> setEnabled(false);
-  }
-
-  // GUI functions
-
-  /// @brief Main-dock interactions.
-  void brainGUIsMainDock() {
-    double x = Brain.Screen.xPosition();
-    double y = Brain.Screen.yPosition();
-    // Buttons
-    for (ButtonGui *button : mainDockButtons) {
-      button -> check(x, y);
-    }
-    // Sub-docks
-    autonDock -> check();
-    qrCodeDock -> check();
-  }
-
-  /// @brief Auton dock interactions.
-  void brainGUIsAutonDock() {
-    double x = Brain.Screen.xPosition();
-    double y = Brain.Screen.yPosition();
-    // Buttons
-    for (ButtonGui *button : autonDockButtons) {
-      button -> check(x, y);
-    }
-    // Sub-docks
-    autonSubdock1 -> check();
-    autonSubdock2 -> check();
-  }
-
-  /// @brief Auton subdock 1 interactions.
-  void brainGUIsAutonSubdock1() {
-    double x = Brain.Screen.xPosition();
-    double y = Brain.Screen.yPosition();
-    // Buttons
-    if (/*autonDB*/ false) {
-      for (ButtonGui *b : autonSubdock1Buttons) {
-        if (b -> getUsability() != false) {
-          b -> setUsability(false);
-        }
-      }
-    } else {
-      for (ButtonGui *b : autonSubdock1Buttons) {
-        if (b -> getUsability() != true) {
-          b -> setUsability(true);
-        }
-      }
-    }
-    for (ButtonGui *button : autonSubdock1Buttons) {
-      button -> check(x, y);
-    }
-  }
-
-  /// @brief Auton subdock 2 interactions.
-  void brainGUIsAutonSubdock2() {
-    double x = Brain.Screen.xPosition();
-    double y = Brain.Screen.yPosition();
-    if (/*autonDB*/ false) {
-      for (ButtonGui *b : autonSubdock2Buttons) {
-        if (b -> getUsability() != false) {
-          b -> setUsability(false);
-        }
-      }
-    } else {
-      for (ButtonGui *b : autonSubdock2Buttons) {
-        if (b -> getUsability() != true) {
-          b -> setUsability(true);
-        }
-      }
-    }
-    for (ButtonGui *button : autonSubdock2Buttons) {
-      button -> check(x, y);
-    }
-  }
-
-  /// @brief QR-Code dock interactions.
-  void brainGUIsQRCodeDock() {
-    double x = Brain.Screen.xPosition();
-    double y = Brain.Screen.yPosition();
-    // Sliders
-    slider -> check(x, y);
-    // slider -> draw();
   }
 
   // Getters

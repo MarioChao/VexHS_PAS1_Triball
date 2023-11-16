@@ -1,11 +1,13 @@
 #include "Autonomous/auton.h"
 #include "Autonomous/autonFunctions.h"
 #include "Utilities/robotInfo.h"
+#include "Utilities/debugFunctions.h"
 #include "main.h"
 
 namespace {
     using namespace auton;
     using namespace botinfo;
+    using debug::printOnController;
 
     void runAutonNearAWP();
     void runAutonNearElim();
@@ -20,6 +22,25 @@ namespace {
 
 
 void setAutonRunType(int allianceId, autonomousType autonType) {
+    switch (autonType) {
+        case autonomousType::NearAWP:
+            printOnController("Auton: NearAWP");
+            break;
+        case autonomousType::NearElim:
+            printOnController("Auton: NearElim");
+            break;
+        case autonomousType::FarAWP:
+            printOnController("Auton: FarAWP");
+            break;
+        case autonomousType::FarElim:
+            printOnController("Auton: FarElim");
+            break;
+        case autonomousType::Skills:
+            printOnController("Auton: Skills");
+            break;
+        default:
+            break;
+    }
     auton_runType = autonType;
     auton_allianceId = allianceId;
 }

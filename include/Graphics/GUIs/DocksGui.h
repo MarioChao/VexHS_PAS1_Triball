@@ -27,7 +27,7 @@ class DockGui : public GuiClass {
     virtual void draw() override;
     void clearDock();
 
-    void check();
+    virtual void check() override;
 
     void setEnabled(bool enabled);
     bool getEnabled();

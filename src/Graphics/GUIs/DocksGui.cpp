@@ -59,6 +59,10 @@ void DockGui::check() {
     for (void (*func)() : functions) {
       func();
     }
+    // Check guis
+    for (GuiClass *gui : guis) {
+      gui -> check();
+    }
   }
 }
 
@@ -67,7 +71,7 @@ void DockGui::check() {
 void DockGui::setEnabled(bool enabled) {
   this -> enabled = enabled;
   if (enabled) {
-    printf("Enabled dock\n");
+    // printf("Enabled dock\n");
     // On dock enabled
     clearDock();
     // Set gui visibility & draw
@@ -80,7 +84,7 @@ void DockGui::setEnabled(bool enabled) {
       func();
     }
   } else {
-    printf("Disabled dock\n");
+    // printf("Disabled dock\n");
     // On dock disabled
     for (GuiClass *gui : guis) {
       gui -> setVisibility(false);

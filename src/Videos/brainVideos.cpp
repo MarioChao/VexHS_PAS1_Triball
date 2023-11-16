@@ -35,7 +35,7 @@ void drawFrame(int x, int y, int width, int height, int frameId) {
         return;
     }
     // Get frame
-    printf("frame %d\n", frameId);
+    // printf("frame %d\n", frameId);
     std::vector< std::vector<int> > frame = video[frameId];
     // Draw frame at position
     int rgb;
@@ -74,7 +74,7 @@ void switchVideoState() {
         playingVideoId++;
         playingVideoId %= (videoCount + 1);
         if (playingVideoId > 0) {
-            printf("Playing video %d!\n", playingVideoId);
+            // printf("Playing video %d!\n", playingVideoId);
         }
         // Switch video
         switch (playingVideoId) {

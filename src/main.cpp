@@ -84,10 +84,10 @@ void pre_auton(void) {
     vexcodeInit();
 
     // Activites before the competition starts
-    // eeecegg
-    task rum([] () -> int { Controller1.rumble(".--.-- -"); return 1; });
     // Flywheel task
     task flywheelTask([] () -> int { flywheelThread(); return 1; });
+    // Controller task
+    task rum([] () -> int { preautonControllerThread(); return 1; });
     // Pre-auton
     runPreauton();
     // Stopping brake-types

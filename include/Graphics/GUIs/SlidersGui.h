@@ -26,6 +26,7 @@ class SliderGui : public GuiClass {
     void updateCord(int sliderId);
     void setCord(int sliderId, double val);
 
+    virtual void check() override;
     void check(double mouseX, double mouseY);
 };
 

@@ -32,7 +32,7 @@ void flywheelThread() {
             pidValue = flywheelDeltaVelocityPid.getValue();
             // Settled debug
             if (flywheelDeltaVelocityPid.isSettled() && !alreadySettled) {
-                printf("Flywheel motor settled\n");
+                // printf("Flywheel motor settled\n");
                 alreadySettled = true;
             } else if (!flywheelDeltaVelocityPid.isSettled()) {
                 alreadySettled = false;

@@ -39,6 +39,7 @@ class ButtonGui : public GuiClass {
     virtual void draw() override;
     
     // Check
+    virtual void check() override;
     void check(double clickX, double clickY);
 
     // Enable / disable
