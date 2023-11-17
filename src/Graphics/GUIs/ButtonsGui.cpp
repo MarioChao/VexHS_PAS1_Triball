@@ -70,6 +70,7 @@ void ButtonGui::draw() {
 
 void ButtonGui::check() {
   dbFrames++;
+  dbFrames = fmin(dbFrames, 20);
   if (Brain.Screen.pressing()) {
     // printf("Pressed: %3ld, %3ld\n", Brain.Screen.xPosition(), Brain.Screen.yPosition());
     check(Brain.Screen.xPosition(), Brain.Screen.yPosition());

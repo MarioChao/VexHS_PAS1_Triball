@@ -36,8 +36,9 @@ void resolveIntake(bool intakeActivated) {
             // Intake is "stuck" if it's stopped for several frames
             if (intakeStuckFrameCount >= intakeSkipMinFrameCount) {
                 intakeIsStuck = true;
+            } else {
+                intakeStuckFrameCount++;
             }
-            intakeStuckFrameCount++;
         } else {
             // Reset stuck state when intake is no longer stuck
             intakeIsStuck = false;
