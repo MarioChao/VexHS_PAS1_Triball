@@ -32,6 +32,7 @@ void PIDControl::computeFromError(double error) {
     // Settle errors
     if (fabs(error) < settleErrorRange) {
         settledFrames++;
+        settledFrames = fmin(settledFrames, settleMinFrameCount + 1);
     } else {
         settledFrames = 0;
     }
