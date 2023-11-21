@@ -13,7 +13,7 @@ namespace {
     void drive(double initLeftPct, double initRightPct, double initPolarRotatePct, double rotateCenterOffsetIn = 0);
 
     // Drive mode
-    int driveModeId = 0;
+    controlType driveMode = controlType::ArcadeTwoStick;
     bool driveModeDebounce = false;
 
     // Mario drive
@@ -33,15 +33,17 @@ void keybindDrive() {
 }
 
 void controlDrive() {
-    switch (driveModeId) {
-        case 0:
+    switch (driveMode) {
+        case controlType::ArcadeTwoStick:
             controlArcadeTwoStick();
             break;
-        case 1:
+        case controlType::ArcadeSingleStick:
             controlArcadeSingleStick();
             break;
-        case 2:
+        case controlType::Mario:
             controlMario();
+            break;
+        default:
             break;
     }
 }
@@ -53,8 +55,19 @@ namespace {
         if (!driveModeDebounce) {
             driveModeDebounce = true;
 
-            driveModeId++;
-            driveModeId %= 3;
+            switch (driveMode) {
+                case controlType::ArcadeTwoStick:
+                    driveMode = controlType::ArcadeSingleStick;
+                    break;
+                case controlType::ArcadeSingleStick:
+                    driveMode = controlType::Mario;
+                    break;
+                case controlType::Mario:
+                    driveMode = controlType::ArcadeTwoStick;
+                    break;
+                default:
+                    break;
+            }
             task::sleep(100);
 
             driveModeDebounce = false;

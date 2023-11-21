@@ -16,7 +16,7 @@ namespace {
     void runAutonFarElim6Balls();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::None;
+    autonomousType auton_runType = autonomousType::NearElim;
     int auton_allianceId;
 }
 
@@ -87,10 +87,10 @@ namespace {
         });
 
         // Push the middle balls over the barrier
-        driveAndTurnDistanceTiles(2.42, -10.0, 5.6, 100.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(2.42, -10.0, 5.6, 100.0, 0.05, 2.3);
         setLeftWingState(true);
         turnToAngle(91.5, halfRobotLengthIn * 0.5, 3.0, 1.0); // Face the barrier
-        driveAndTurnDistanceTiles(1.72, 90.0, 1.0, 100.0, 0.05, 1.0);
+        driveAndTurnDistanceTiles(1.72, 90.0, 1.0, 100.0, 0.05, 1.4);
         setLeftWingState(false);
 
         // Push the corner triball out
@@ -100,19 +100,19 @@ namespace {
         turnToAngle(135, -halfRobotLengthIn * 0.7, 3.0, 1.0); // Face parallel to the matchload zone
         setAnchorState(true);
         task::sleep(100);
-        turnToAngle(55, -halfRobotLengthIn * 1.5, 3.0, 1.0); // Anchor push the triball
+        turnToAngle(75, -halfRobotLengthIn * 1.5, 3.0, 1.0); // Anchor push the triball
         setAnchorState(false);
 
         // Push the former-corner and elevation-bar balls
         turnToAngle(-75, 0.0, 3.0, 1.0); // Back-side face down-right (more right)
-        driveAndTurnDistanceTiles(-1.6, -90, 2.0, 100.0, 0.05, 2.5);
+        driveAndTurnDistanceTiles(-1.75, -90, 2.0, 100.0, 0.05, 2.5);
         
         // Go to matchload position
-        driveAndTurnDistanceTiles(2.6, -45, 2.5, 100.0, 0.05, 2.5);
-        turnToAngle(125, 0.0, 3.0, 1.0); // Face down-right (more right)
+        driveAndTurnDistanceTiles(2.5, -45, 2.4, 100.0, 0.05, 2.5);
+        turnToAngle(110, 0.0, 3.0, 1.0); // Face down-right (more right)
         setAnchorState(true);
         task::sleep(100);
-        turnToAngle(90, halfRobotLengthIn * 2.8, 3.0, 1.0);
+        turnToAngle(90, halfRobotLengthIn * 3.0, 3.0, 1.0);
     }
 
     /// @brief Run the 15-seconds far-side AWP autonomous.
@@ -171,27 +171,28 @@ namespace {
         });
 
         // Score the middle balls
-        driveAndTurnDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), -36, 10.0, 100.0, 0.05, 2.5);
+        driveAndTurnDistanceTiles(sqrt(pow(2.35, 2) + pow(2.35, 2)), -36, 10.0, 100.0, 0.05, 2.3);
         // Intake middle ball
         setIntakeState(true);
-        turnToAngle(-65, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (more left)
-        setIntakeState(false);
+        turnToAngle(-65, -halfRobotLengthIn, 3.0, 0.7); // Face up-left (more left)
         // Score the balls
         turnToAngle(90, 0, 3.0, 1.0); // Face the goal
+        setIntakeState(false);
         setWingsState(true);
-        driveAndTurnDistanceTiles(2.5, 90, 2.0, 100.0, 0.05, 1.2);
+        driveAndTurnDistanceTiles(2.5, 90, 2.0, 100.0, 0.05, 1.5);
         setWingsState(false);
-        // Lift to prepare out-take
-        setLiftPositionValue(0);
-        setLiftToDegreeRotation(300, 2.0, false);
-        liftToDegreeTask();
 
         // Intake a triball from middle
         driveDistanceTiles(-0.5, 100.0, 0.05, 0.5);
         turnToAngle(234, 0, 3.0, 1.0); // Face the triball
+        // Lift to prepare out-take
+        setLiftPositionValue(0);
+        setLiftToDegreeRotation(300, 2.0, false);
+        liftToDegreeTask();
+        // Intake ball
         setIntakeState(true);
-        driveAndTurnDistanceTiles(sqrt(pow(1.32, 2) + pow(1.32, 2)), 234, 1.0, 100.0, 0.05, 1.5);
-        turnToAngle(260, halfRobotLengthIn, 3.0, 1.0); // Face the down-left (more left)
+        driveAndTurnDistanceTiles(sqrt(pow(1.32, 2) + pow(1.32, 2)), 234, 1.0, 100.0, 0.05, 1.3);
+        turnToAngle(260, halfRobotLengthIn, 3.0, 0.7); // Face the down-left (more left)
 
         // Go to match load zone
         turnToAngle(310, -halfRobotLengthIn * 1.5, 3.0, 1.0); // Face the matchload zone
@@ -208,15 +209,16 @@ namespace {
         // Anchor swing the ball
         setAnchorState(true);
         task::sleep(100);
-        turnToAngle(290, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (swing the ball out)
+        turnToAngle(345, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (swing the ball out)
         setAnchorState(false);
+        turnToAngle(375, 0.0, 1.0, 0.5); // Unstuck the anchor
 
         // Push the preload, former-corner, and released triballs into the goal
         // Push with back
-        turnToAngle(215, 0, 3.0, 1.0);
+        turnToAngle(210, 0, 3.0, 1.0);
         driveAndTurnDistanceTiles(-2.5, 180, 2.0, 100.0, 0.05, 0.7);
-        driveAndTurnDistanceTiles(1.0, 195, 1.7, 100.0, 0.05, 1.0);
-        driveAndTurnDistanceTiles(-2.0, 180, 1.1, 100.0, 0.05, 0.7);
+        driveAndTurnDistanceTiles(1.0, 205, 1.9, 100.0, 0.05, 1.0);
+        driveAndTurnDistanceTiles(-2.0, 180, 2.0, 100.0, 0.05, 0.7);
 
         // Drive a little back
         driveDistanceTiles(0.3, 100.0, 0.05, 1.0);

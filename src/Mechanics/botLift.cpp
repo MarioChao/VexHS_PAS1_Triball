@@ -70,7 +70,7 @@ namespace {
             LiftMotors.spinTo(30, deg, false);
             task::sleep(500);
 
-            // Spin the lift down for maximum 1 second
+            // Let the lift drop down
             timer timeout;
             timeout.reset();
             LiftMotors.spin(reverse, 50, pct);
@@ -85,6 +85,7 @@ namespace {
 
             // Reset lift's position
             LiftMotors.resetPosition();
+            LiftMotor1.resetPosition();
 
             // Completion
             liftResetted = true;
@@ -115,7 +116,7 @@ namespace {
                     break;
                 case 1:
                     // Lift
-                    changeLiftMotorToDegree(590);
+                    changeLiftMotorToDegree(580);
                     LiftMotor1.stop(hold);
                     break;
             }
