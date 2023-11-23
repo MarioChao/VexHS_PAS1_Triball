@@ -128,13 +128,15 @@ namespace {
         });
 
         // Score the middle balls
-        driveDistanceTiles(sqrt(pow(2.33, 2) + pow(2.33, 2)), 100.0, 0.05, 1.7);
+        driveAndTurnDistanceTiles(sqrt(pow(2.35, 2) + pow(2.35, 2)), -36, 10.0, 100.0, 0.05, 2.3);
+        // Intake middle ball
         setIntakeState(true);
-        turnToAngle(-67, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (more left)
-        setIntakeState(false);
+        turnToAngle(-65, -halfRobotLengthIn, 3.0, 0.7); // Face up-left (more left)
+        // Score the balls
         turnToAngle(90, 0, 3.0, 1.0); // Face the goal
+        setIntakeState(false);
         setWingsState(true);
-        driveAndTurnDistanceTiles(2.5, 90, 1.0, 100.0, 0.05, 0.7);
+        driveAndTurnDistanceTiles(2.5, 90, 2.0, 100.0, 0.05, 1.5);
         setWingsState(false);
 
         // Go to matchload zone
