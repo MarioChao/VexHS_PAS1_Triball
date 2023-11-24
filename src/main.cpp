@@ -116,8 +116,6 @@ void autonomous(void) {
 /******************* ------------ *******************/
 
 void usercontrol(void) {
-    // Elevation task
-
     // Keybinds
     keybindAnchor();
     keybindDrive();
