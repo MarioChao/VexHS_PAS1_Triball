@@ -277,28 +277,28 @@ namespace {
       }
     };
     // Near AWP
-    ButtonGui *nearAWP = new ButtonGui(200, 80, 100, 80, 20, color(0, 255, 255), white, 2, "Near AWP", white, [] {
+    ButtonGui *nearAWP = new ButtonGui(200, 80, 100, 80, 20, color(0, 200, 200), white, 2, "Near AWP", white, [] {
       allianceDisable(0);
       allianceButtons[0] -> enable();
       // Modify settings near-side AWP auton
       setAutonRunType(1, autonomousType::NearAWP);
     });
     // Near Eliminate
-    ButtonGui *nearElim = new ButtonGui(310, 80, 100, 80, 20, color(0, 255, 255), white, 2, "Near Elim.", white, [] {
+    ButtonGui *nearElim = new ButtonGui(310, 80, 100, 80, 20, color(0, 200, 200), white, 2, "Near Elim.", white, [] {
       allianceDisable(1);
       allianceButtons[1] -> enable();
       // Modify settings near-side eliminate auton
       setAutonRunType(1, autonomousType::NearElim);
     });
     // Far AWP
-    ButtonGui *farAWP = new ButtonGui(200, 180, 100, 80, 20, color(255, 255, 0), white, 2, "Far AWP", white, [] {
+    ButtonGui *farAWP = new ButtonGui(200, 180, 100, 80, 20, color(200, 200, 0), white, 2, "Far AWP", white, [] {
       allianceDisable(2);
       allianceButtons[2] -> enable();
       // Modify settings far-side AWP auton
       setAutonRunType(1, autonomousType::FarAWP);
     });
     // Far Eliminate
-    ButtonGui *farElim = new ButtonGui(310, 180, 100, 80, 20, color(255, 255, 0), white, 2, "Far Elim.", white, [] {
+    ButtonGui *farElim = new ButtonGui(310, 180, 100, 80, 20, color(200, 200, 0), white, 2, "Far Elim.", white, [] {
       allianceDisable(3);
       allianceButtons[3] -> enable();
       // Modify settings far-side eliminate auton
@@ -311,7 +311,7 @@ namespace {
       allianceDisable(4);
       allianceButtons[4] -> enable();
       // Modify settings for auton skills
-      setAutonRunType(0, Skills);
+      setAutonRunType(0, autonomousType::Skills);
     });
     // Skills Driver
     ButtonGui *skillsDriver = new ButtonGui(200, 180, 100, 80, 20, color(200, 0, 200), white, 1, "Drive Skills", white, [] {
@@ -320,7 +320,7 @@ namespace {
       allianceDisable(5);
       allianceButtons[5] -> enable();
       // Modify settings for driver skills
-      setAutonRunType(0, None);
+      setAutonRunType(0, autonomousType::None);
     });
     // Red field
     ButtonGui *redField = new ButtonGui(310, 80, 100, 80, 20, color(0, 0, 255), white, 2, "Blue Field", white, [] {

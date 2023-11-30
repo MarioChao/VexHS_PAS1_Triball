@@ -39,6 +39,7 @@ void setAutonRunType(int allianceId, autonomousType autonType) {
             printOnController("Auton: Skills");
             break;
         default:
+            printOnController("Auton: None");
             break;
     }
     auton_runType = autonType;
@@ -221,85 +222,6 @@ namespace {
         driveAndTurnDistanceTiles(-2.5, 180, 2.0, 100.0, 0.05, 0.7);
         driveAndTurnDistanceTiles(1.0, 205, 1.9, 100.0, 0.05, 1.0);
         driveAndTurnDistanceTiles(-2.0, 180, 2.0, 100.0, 0.05, 0.7);
-
-        // Drive a little back
-        driveDistanceTiles(0.3, 100.0, 0.05, 1.0);
-    }
-
-    /// @brief Run the 15-seconds far-side Elimination 6 balls autonomous.
-    void runAutonFarElim6Balls() {
-        setRotation(-36);
-
-        // Expand right wing to push preload triball
-        setRightWingState(true);
-        task retractWing([] () -> int {
-            task::sleep(150);
-            setRightWingState(false);
-            return 1;
-        });
-
-        // Score the middle balls
-        driveDistanceTiles(sqrt(pow(2.32, 2) + pow(2.32, 2)), 100.0, 0.05, 2.0);
-        // Prepare out-take while intaking
-        setLiftPositionValue(0);
-        setLiftToDegreeRotation(300);
-        liftToDegreeTask();
-        // Intake middle ball
-        setIntakeState(true);
-        turnToAngle(-67, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (more left)
-        setIntakeState(false);
-        // Score the balls
-        turnToAngle(90, 0, 3.0, 1.0); // Face the goal
-        setWingsState(true);
-        driveAndTurnDistanceTiles(2.5, 90, 1.0, 100.0, 0.05, 1.0);
-        setWingsState(false);
-
-        // Intake a triball from middle
-        driveDistanceTiles(-0.3, 100.0, 0.05, 0.5);
-        setIntakeState(true);
-        turnToAngle(232, 0, 3.0, 1.0); // Face the triball
-        driveAndTurnDistanceTiles(sqrt(pow(1.32, 2) + pow(1.32, 2)), 232, 1.0, 100.0, 0.05, 1.0);
-        turnToAngle(260, halfRobotLengthIn * 1.5, 3.0, 1.0); // Face the down-left (more left)
-        setIntakeState(false);
-
-        // Go to match load zone & release ball
-        driveDistanceTiles(-0.3, 100.0, 0.05, 0.5);
-        turnToAngle(125, 0, 3.0, 1.0); // Face the matchload zone
-        // Outtake
-        setLiftToDegreeRotation(-15, 1.0);
-        liftToDegreeTask();
-        // Move toward match load zone
-        driveAndTurnDistanceTiles(sqrt(pow(1.4, 2) + pow(1.4, 2)), 125, 1.0, 100.0, 0.05, 1.5);
-
-        // Intake elevation-bar ball
-        turnToAngle(260, 0.0, 3.0, 1.0);
-        setIntakeState(true);
-        driveAndTurnDistanceTiles(1.3, 270, 2.0, 100.0, 0.05, 1.5);
-
-        // Go to match load zone
-        driveAndTurnDistanceTiles(-1.5, 260, 0.7, 100.0, 0.05, 1.5);
-
-        // Push the corner triball out
-        turnToAngle(395, 0, 3.0, 1.0); // Face under-parallel to the matchload zone
-        // turnToAngle(405, 0, 3.0, 1.0); // Face parallel to the matchload zone
-        setAnchorState(true);
-        task::sleep(50);
-        turnToAngle(315, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (swing the ball out)
-        setAnchorState(false);
-        turnToAngle(370, -halfRobotLengthIn, 3.0, 1.0); // Face up-right (more right)
-
-        // Push the preload, former-corner, released, and loaded triballs into the goal
-        // setRightWingState(true);
-        // task::sleep(100);
-        driveAndTurnDistanceTiles(2.5, 360, 0.7, 100.0, 0.05, 0.7);
-        // setRightWingState(false);
-
-        // Push with back
-        driveAndTurnDistanceTiles(-1.0, 360, 1.0, 100.0, 0.05, 0.5);
-        turnToAngle(185, 0.0, 3.0, 1.0);
-        driveAndTurnDistanceTiles(-2.0, 180, 1.0, 100.0, 0.05, 0.7);
-        driveAndTurnDistanceTiles(1.0, 185, 1.0, 100.0, 0.05, 0.5);
-        driveAndTurnDistanceTiles(-2.0, 180, 1.0, 100.0, 0.05, 0.7);
 
         // Drive a little back
         driveDistanceTiles(0.3, 100.0, 0.05, 1.0);
