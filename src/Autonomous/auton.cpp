@@ -290,18 +290,18 @@ namespace {
 
         // Score more triballs through left-side of the goal
         turnToAngle(0, halfRobotLengthIn * 2.4, 3.0, 1.5);
-        driveAndTurnDistanceTiles(2.5, 0, 1.0, 100.0, 0.05, 2.0);
-        turnToAngle(135, halfRobotLengthIn * 0.75, 3.0, 1.0);
+        driveAndTurnDistanceTiles(2.3, 0, 1.0, 100.0, 0.05, 2.0);
+        turnToAngle(135, 0, 3.0, 1.5);
         setWingsState(true);
         driveAndTurnDistanceTiles(2.5, 90, 2.0, 100.0, 0.05, 2.0);
         setWingsState(false);
 
         // Score triballs through top-side of the goal
-        driveAndTurnDistanceTiles(-0.5, 0, 0.7, 100.0, 0.05, 2.0);
-        driveAndTurnDistanceTiles(2.0, 10, 1.5, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-0.5, 5, 0.7, 100.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(2.0, 20, 1.5, 100.0, 0.05, 1.5);
         driveAndTurnDistanceTiles(1.0, -90, 1.5, 100.0, 0.05, 1.5);
         driveAndTurnDistanceTiles(-1.5, -45, 2.0, 100.0, 0.05, 2.0);
-        driveAndTurnDistanceTiles(-2.0, -90, 2.0, 100.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(-2.0, -90, 3.0, 100.0, 0.05, 2.0);
 
         // Elevation
         driveDistanceTiles(0.5, 100.0, 0.05, 0.5);
