@@ -279,8 +279,8 @@ namespace auton {
     }
 
     /// @brief Set the state of the intake.
-    /// @param state Activated: true, off: false.
-    void setIntakeState(bool state) {
+    /// @param state Intaking: 1, off: 0, outtaking: -1.
+    void setIntakeState(int state) {
         resolveIntake(state);
     }
 
@@ -360,7 +360,7 @@ namespace {
         canControlIntake = false;
 
         // Synchronize the two motor positions
-        LiftMotor2.setPosition(LiftMotor1.position(deg), deg);
+        IntakeMotor.setPosition(LiftMotor1.position(deg), deg);
         
         // Spin lift motors
         int spinDirection = (rotation > LiftMotors.position(deg)) - (rotation < LiftMotors.position(deg));
@@ -383,7 +383,7 @@ namespace {
             LiftMotor1.stop();
             LiftMotor1.stop(hold);
             if (stopIntake) {
-                LiftMotor2.stop();
+                IntakeMotor.stop();
             }
         } else {
             LiftMotors.stop();

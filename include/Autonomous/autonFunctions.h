@@ -11,7 +11,7 @@ namespace auton {
     void driveAndTurnDistanceWithInches(double distanceInches, double targetRotation, double rotationFactor = 1.0, double maxVelocityPct = 100, double errorRange = 0.3, double runTimeout = 3);
     void driveAndTurnDistanceWithInchesMotionProfile(double distanceInches, double targetRotation, double maxVelocityPct = 100, double errorRange = 0.3, double runTimeout = 3);
 
-    void setIntakeState(bool state);
+    void setIntakeState(int state);
 
     void setLiftPositionValue(double rotation);
     void setLiftToDegreeRotation(double rotation, double runTimeout = -1.0, bool stopIntake = true);

@@ -10,7 +10,7 @@ extern motor_group LeftMotors;
 extern motor_group RightMotors;
 extern motor_group LeftRightMotors;
 extern motor LiftMotor1;
-extern motor LiftMotor2;
+extern motor IntakeMotor;
 extern motor_group LiftMotors;
 extern motor FlywheelMotor;
 

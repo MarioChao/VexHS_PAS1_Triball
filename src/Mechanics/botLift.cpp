@@ -35,7 +35,7 @@ int elevationState = 0;
 void preautonLift() {
     // Brake-types
     LiftMotor1.setStopping(coast);
-    LiftMotor2.setStopping(coast);
+    IntakeMotor.setStopping(coast);
 }
 void resetLift() {
     // Runs a task to reset the lift
@@ -134,7 +134,7 @@ namespace {
         canControlIntake = false;
 
         // Synchronize the two motor positions
-        LiftMotor2.setPosition(LiftMotor1.position(deg), deg);
+        IntakeMotor.setPosition(LiftMotor1.position(deg), deg);
         // Calculate voltage with direction
         int spinDirection = (rotation > LiftMotors.position(deg)) - (rotation < LiftMotors.position(deg));
         double actualVoltage = fabs(liftVoltage) * spinDirection;

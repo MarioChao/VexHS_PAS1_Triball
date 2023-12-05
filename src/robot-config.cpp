@@ -19,8 +19,8 @@ motor RightMotorC(PORT8, ratio18_1);
 motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC);
 motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, RightMotorA, RightMotorB, RightMotorC);
 motor LiftMotor1(PORT9, ratio36_1);
-motor LiftMotor2(PORT20, ratio36_1);
-motor_group LiftMotors(LiftMotor1, LiftMotor2);
+motor IntakeMotor(PORT20, ratio36_1);
+motor_group LiftMotors(LiftMotor1, IntakeMotor);
 motor FlywheelMotor(PORT10, ratio6_1, true);
 
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);

@@ -31,4 +31,28 @@ namespace {
             wingsDebounce = false;
         }
     }
+    void changeLeftWingState() {
+        if (!wingsDebounce) {
+            wingsDebounce = true;
+
+            int oldValue = LeftWingPneumatic.value();
+            int newValue = oldValue ^ 1;
+            LeftWingPneumatic.set(newValue);
+            task::sleep(50);
+
+            wingsDebounce = false;
+        }
+    }
+    void changeRightWingState() {
+        if (!wingsDebounce) {
+            wingsDebounce = true;
+
+            int oldValue = RightWingPneumatic.value();
+            int newValue = oldValue ^ 1;
+            RightWingPneumatic.set(newValue);
+            task::sleep(50);
+
+            wingsDebounce = false;
+        }
+    }
 }

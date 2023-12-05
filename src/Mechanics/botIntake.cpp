@@ -20,16 +20,21 @@ void controlIntake() {
     }
 }
 
-void resolveIntake(bool intakeActivated) {
-    if (intakeActivated) {
+void resolveIntake(int intakeActivationState) {
+    // Make sure intakeActivationState is within [-1, 1]
+    intakeActivationState = (intakeActivationState > 0) - (intakeActivationState < 0);
+    double spinVelocityPct = intakeActivationState * 80;
+
+    // Resolve intake
+    if (intakeActivationState) {
         // Stop condition: intake is considered "stuck"
         if (intakeIsStuck) {
-            LiftMotor2.stop();
+            IntakeMotor.stop();
             return;
         }
 
         // Spin the intake
-        LiftMotor2.spin(fwd, 80, pct);
+        IntakeMotor.spin(fwd, spinVelocityPct, pct);
         
         // Update stuck state
         if (intakeIsStopped()) {
@@ -46,7 +51,7 @@ void resolveIntake(bool intakeActivated) {
         }
     } else {
         // Stop the intake
-        LiftMotor2.stop();
+        IntakeMotor.stop();
         // Reset stuck state
         intakeIsStuck = false;
         intakeStuckFrameCount = 0;
@@ -55,6 +60,6 @@ void resolveIntake(bool intakeActivated) {
 
 namespace {
     bool intakeIsStopped() {
-        return LiftMotor2.velocity(pct) < 20;
+        return fabs(IntakeMotor.velocity(pct)) < 20;
     }
 }
