@@ -1,7 +1,9 @@
 #include "Mechanics/botAnchor.h"
 #include "main.h"
 
-void changeAnchorState();
+namespace {
+    void changeAnchorState();
+}
 
 double anchorDebounce = false;
 
@@ -11,15 +13,17 @@ void keybindAnchor() {
     });
 }
 
-void changeAnchorState() {
-    if (!anchorDebounce) {
-        anchorDebounce =  true;
+namespace {
+    void changeAnchorState() {
+        if (!anchorDebounce) {
+            anchorDebounce =  true;
 
-        int oldValue = AnchorPneumatic.value();
-        int newValue = oldValue ^ 1;
-        AnchorPneumatic.set(newValue);
-        task::sleep(50);
+            int oldValue = AnchorPneumatic.value();
+            int newValue = oldValue ^ 1;
+            AnchorPneumatic.set(newValue);
+            task::sleep(50);
 
-        anchorDebounce = false;
+            anchorDebounce = false;
+        }
     }
 }
