@@ -5,7 +5,7 @@
 
 namespace {
     void drawFrame(int x, int y, int width, int height, int frameId);
-    void switchVideoState();
+    void switchVideoState(bool increment = true);
 
     std::vector< std::vector< std::vector<int> > > video;
 
@@ -22,6 +22,7 @@ void keybindVideos() {
 
 void brainVideosThread() {
     frameId = 0;
+    switchVideoState(false);
     while (true) {
         if (playingVideoId > 0 && frameId >= 0) {
             drawFrame(0, 0, 480, 240, frameId);
@@ -68,14 +69,16 @@ namespace {
     }
 
     bool videoDebounce = false;
-    void switchVideoState() {
+    void switchVideoState(bool increment) {
         if (!videoDebounce) {
             videoDebounce = true;
 
             frameId = -10;
             // Increment video id
-            playingVideoId++;
-            playingVideoId %= (videoCount + 1);
+            if (increment) {
+                playingVideoId++;
+                playingVideoId %= (videoCount + 1);
+            }
             if (playingVideoId > 0) {
                 // printf("Playing video %d!\n", playingVideoId);
             }
