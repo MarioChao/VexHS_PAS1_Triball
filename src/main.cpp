@@ -61,6 +61,8 @@
 #include "Mechanics/botLift.h"
 #include "Mechanics/botWings.h"
 
+#include "Utilities/fieldInfo.h"
+
 #include "Videos/brainVideos.h"
 
 // Competition instance (global)
@@ -68,7 +70,7 @@ competition Competition;
 
 // Variables
 // Drive info
-double botX, botY, botAngle;
+double botX = 5 * field::tileLengthIn * 2.54, botY = 0.5 * field::tileLengthIn * 2.54, botAngle = 180;
 double motSpeedRpm, motAimSpeedRpm = 0;
 
 // Global variables
