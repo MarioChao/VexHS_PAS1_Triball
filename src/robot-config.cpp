@@ -19,7 +19,7 @@ motor RightMotorC(PORT17, ratio6_1);
 motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC);
 motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, RightMotorA, RightMotorB, RightMotorC);
 motor IntakeMotor(PORT13, ratio6_1);
-motor FlywheelMotor(PORT14, ratio6_1, true);
+motor FlywheelMotor(PORT14, ratio6_1);
 
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);

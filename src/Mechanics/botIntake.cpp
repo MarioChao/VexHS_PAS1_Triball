@@ -11,9 +11,11 @@ namespace {
 
 void controlIntake() {
     if (canControlIntake) {
-        int intakeDirection = (int) Controller1.ButtonR1.pressing();
+        int intakeDirection = (int) Controller1.ButtonR1.pressing() - (int) Controller1.ButtonR2.pressing();
         if (intakeDirection == 1) {
             resolveIntake(true);
+        } else if (intakeDirection == -1) {
+            resolveIntake(-1);
         } else {
             resolveIntake(false);
         }
@@ -23,7 +25,7 @@ void controlIntake() {
 void resolveIntake(int intakeActivationState) {
     // Make sure intakeActivationState is within [-1, 1]
     intakeActivationState = (intakeActivationState > 0) - (intakeActivationState < 0);
-    double spinVelocityPct = intakeActivationState * 80;
+    double spinVelocityPct = intakeActivationState * 100;
 
     // Resolve intake
     if (intakeActivationState) {

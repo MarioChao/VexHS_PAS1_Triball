@@ -41,6 +41,7 @@ namespace {
   void drawInfo();
   void drawQRCodes();
   void drawQRCode(double x, double y, double width, vector<pair<int, int>> QRCode, color bgCol, color qrCol);
+  void drawTemperature();
   
   // Variables
   // Flywheel
@@ -49,10 +50,10 @@ namespace {
   double fw_prevAimY = -1, fw_newAimY;
 
   // Guis
-  vector<GuiClass*> mainDockGuis, autonDockGuis, autonSubdock1Guis, autonSubdock2Guis, qrCodeDockGuis;
+  vector<GuiClass*> mainDockGuis, autonDockGuis, autonSubdock1Guis, autonSubdock2Guis, qrCodeDockGuis, motTempDockGuis;
   vector<ButtonGui*> mainDockButtons, autonDockButtons, allianceButtons, autonSubdock1Buttons, autonSubdock2Buttons;
   SliderGui *slider;
-  DockGui *mainDock, *autonDock, *autonSubdock1, *autonSubdock2, *qrCodeDock;
+  DockGui *mainDock, *autonDock, *autonSubdock1, *autonSubdock2, *qrCodeDock, *motTempDock;
 
   // Colors
   color ownColor, oppColor;
@@ -246,12 +247,21 @@ namespace {
       mainDockButtons[0] -> enable();
       autonDock -> setEnabled(true);
       qrCodeDock -> setEnabled(false);
+      motTempDock -> setEnabled(false);
     }));
     mainDockButtons.push_back(new ButtonGui(new Rectangle(120, 10, 80, 20, color(200, 0, 0), color(50, 50, 50), 2), "Extra", white, [] {
       mainDockDisable(1);
       mainDockButtons[1] -> enable();
       autonDock -> setEnabled(false);
       qrCodeDock -> setEnabled(true);
+      motTempDock -> setEnabled(false);
+    }));
+    mainDockButtons.push_back(new ButtonGui(new Rectangle(200, 10, 80, 20, color(180, 180, 0), color(50, 50, 50), 2), "Tempera", white, [] {
+      mainDockDisable(2);
+      mainDockButtons[2] -> enable();
+      autonDock -> setEnabled(false);
+      qrCodeDock -> setEnabled(false);
+      motTempDock -> setEnabled(true);
     }));
     autonDockButtons = {};
     autonDockButtons.push_back(new ButtonGui(new Rectangle(420, 80, 100, 80, color(0, 200, 200), color(50, 50, 50), 2), "Norm. Autons", white, [] {
@@ -382,6 +392,12 @@ namespace {
     qrCodeDock -> addEnabledFunction([] {
       drawQRCodes();
     });
+
+    // Temperature Dock
+    motTempDock = new DockGui(0, 20, 480, 220, {}, {});
+    motTempDock -> addFunction([] {
+      drawTemperature();
+    });
   }
 
   /// @brief Set the GUI variables corresponding to each dock.
@@ -393,6 +409,7 @@ namespace {
     }
     mainDockGuis.push_back(autonDock);
     mainDockGuis.push_back(qrCodeDock);
+    mainDockGuis.push_back(motTempDock);
     // Auton Dock
     autonDockGuis = {};
     for (GuiClass *gui : autonDockButtons) {
@@ -423,6 +440,7 @@ namespace {
     
     // Set Dock button states
     mainDockButtons[1] -> disable();
+    mainDockButtons[2] -> disable();
     autonDockButtons[1] -> disable();
   }
 
@@ -430,6 +448,7 @@ namespace {
   void initDocks() {
     autonSubdock2 -> setEnabled(false);
     qrCodeDock -> setEnabled(false);
+    motTempDock -> setEnabled(false);
   }
 
   // Getters
@@ -542,5 +561,43 @@ namespace {
       int j = cord.second * (width / 33.0) + (width / 66.0);
       Brain.Screen.drawCircle(x + i, y + j, width / 66.0);
     }
+  }
+  void drawTemperature() {
+    Brain.Screen.setPenColor(color::white);
+    Brain.Screen.setFillColor(color::transparent);
+    Brain.Screen.setFont(fontType::mono20);
+
+    // Base motors
+    double leftAPct = LeftMotorA.temperature();
+    double leftBPct = LeftMotorB.temperature();
+    double leftCPct = LeftMotorC.temperature();
+    double rightAPct = RightMotorA.temperature();
+    double rightBPct = RightMotorB.temperature();
+    double rightCPct = RightMotorC.temperature();
+    Brain.Screen.printAt(10, 40, 1, "L1: %s%%, L2: %s%%, L3: %s%%", leadTrailZero(3, 3, leftAPct).c_str(), leadTrailZero(3, 3, leftBPct).c_str(), leadTrailZero(3, 3, leftCPct).c_str());
+    Brain.Screen.printAt(10, 65, 1, "R1: %s%%, R2: %s%%, R3: %s%%", leadTrailZero(3, 3, rightAPct).c_str(), leadTrailZero(3, 3, rightBPct).c_str(), leadTrailZero(3, 3, rightCPct).c_str());
+
+    // Intake motor
+    double intakePct = IntakeMotor.temperature();
+    Brain.Screen.printAt(10, 90, 1, "Intake: %s%%", leadTrailZero(3, 3, intakePct).c_str());
+
+    // Flywheel motor
+    double flywheelPct = FlywheelMotor.temperature();
+    Brain.Screen.printAt(250, 95, 1, "Flywheel: %s%%", leadTrailZero(3, 3, flywheelPct).c_str());
+
+    // Celsius temperatures
+    double leftAC = LeftMotorA.temperature(celsius);
+    double leftBC = LeftMotorB.temperature(celsius);
+    double leftCC = LeftMotorC.temperature(celsius);
+    double rightAC = RightMotorA.temperature(celsius);
+    double rightBC = RightMotorB.temperature(celsius);
+    double rightCC = RightMotorC.temperature(celsius);
+    double intakeC = IntakeMotor.temperature(celsius);
+    double flywheelC = FlywheelMotor.temperature(celsius);
+    Brain.Screen.printAt(10, 140, 1, "L1: %s°C, L2: %s°C, L3: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, leftCC).c_str());
+    Brain.Screen.printAt(10, 165, 1, "R1: %s°C, R2: %s°C, R3: %s°C", leadTrailZero(3, 3, rightAC).c_str(), leadTrailZero(3, 3, rightBC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
+    Brain.Screen.printAt(10, 190, 1, "Intake: %s°C", leadTrailZero(3, 3, intakeC).c_str());
+    Brain.Screen.printAt(250, 190, 1, "Flywheel: %s°C", leadTrailZero(3, 3, flywheelC).c_str());
+
   }
 }

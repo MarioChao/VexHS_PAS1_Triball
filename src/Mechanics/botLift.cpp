@@ -18,7 +18,7 @@ void resetLift() {
     });
 }
 void keybindLift() {
-    Controller1.ButtonUp.pressed([] () -> void {
+    Controller1.ButtonB.pressed([] () -> void {
         switchLiftState();
     });
 }

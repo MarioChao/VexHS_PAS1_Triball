@@ -5,12 +5,10 @@
 
 namespace {
     void resetFlywheelSpeed();
-    void switchFlywheelSpeed();
+    void switchFlywheelSpeed(double rpm);
 
     bool flywheelUsingPid = true;
     bool flywheelSpeedDebounce = false;
-    
-    int flywheelSpeedState = -1;
 }
 
 
@@ -60,8 +58,11 @@ void flywheelThread() {
     }
 }
 void keybindFlywheel() {
-    Controller1.ButtonRight.pressed([] () -> void {
-        switchFlywheelSpeed();
+    Controller1.ButtonUp.pressed([] () -> void {
+        switchFlywheelSpeed(600);
+    });
+    Controller1.ButtonDown.pressed([] () -> void {
+        switchFlywheelSpeed(-600);
     });
 }
 void setFlywheelSpeed(double rpm) {
@@ -70,32 +71,14 @@ void setFlywheelSpeed(double rpm) {
 
 namespace {
     void resetFlywheelSpeed() {
-        flywheelSpeedState = -1; // Inactive state
         setFlywheelSpeed(0);
     }
-
-    void switchFlywheelSpeed() {
-        if (!flywheelSpeedDebounce) {
-            flywheelSpeedDebounce = true;
-
-            // Increment speed state
-            flywheelSpeedState++;
-            flywheelSpeedState %= 2;
-
-            // Spin flywheel
-            switch (flywheelSpeedState) {
-                case 0:
-                    // Spin at max velocity
-                    setFlywheelSpeed(600);
-                    break;
-                case 1:
-                    // Reset flywheel speed
-                    resetFlywheelSpeed();
-                    break;
-            }
-            task::sleep(30);
-
-            flywheelSpeedDebounce = false;
+    void switchFlywheelSpeed(double rpm) {
+        if (motAimSpeedRpm == rpm) {
+            // Deactivate
+            setFlywheelSpeed(0);
+        } else {
+            setFlywheelSpeed(rpm);
         }
     }
 }

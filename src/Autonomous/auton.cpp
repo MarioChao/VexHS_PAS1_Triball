@@ -9,13 +9,15 @@ namespace {
     using namespace botinfo;
     using debug::printOnController;
 
+    void autonTest();
+
     void runAutonNearAWP();
     void runAutonNearElim();
     void runAutonFarAWP();
     void runAutonFarElim();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::NearElim;
+    autonomousType auton_runType = autonomousType::FarAWP;
     int auton_allianceId;
 }
 
@@ -46,6 +48,8 @@ void setAutonRunType(int allianceId, autonomousType autonType) {
 }
 
 void runAutonomous() {
+    autonTest();
+    return;
     switch (auton_runType) {
         case autonomousType::NearAWP:
             runAutonNearAWP();
@@ -68,6 +72,24 @@ void runAutonomous() {
 }
 
 namespace {
+    void autonTest() {
+        setRotation(0.0);
+        turnToAngle(90);
+        task::sleep(200);
+        turnToAngle(-90);
+        task::sleep(200);
+        turnToAngle(180);
+        task::sleep(200);
+        turnToAngle(-180);
+        task::sleep(200);
+        turnToAngle(0);
+        task::sleep(200);
+        driveDistanceTiles(3);
+        task::sleep(200);
+        driveDistanceTiles(-3);
+        task::sleep(200);
+    }
+
     /// @brief Run the 15-seconds near-side AWP autonomous.
     void runAutonNearAWP() {
         // For PASVEX's Robot
@@ -276,20 +298,20 @@ namespace {
         turnToAngle(125, halfRobotLengthIn, 3.0, 1.0);
         setAnchorState(true);
         turnToAngle(85, halfRobotLengthIn * 1.3, 3.0, 1.0);
-        driveDistanceTiles(-0.3, 60.0, 0.05, 0.7);
+        driveDistanceTiles(-0.3, 45.0, 0.05, 0.7);
         setAnchorState(false);
 
         // Matchload 44 balls
         task::sleep(2000);
         timer duration;
-        turnToAngleVelocity(65, 1.0, halfRobotLengthIn * 2.0, 3.0, 25.0);
-        while (duration.value() < 25.0) {
-            task::sleep(10);
-        }
-        // turnToAngleVelocity(45, 10.0, halfRobotLengthIn * 2.0, 3.0, 5.0);
-        // while (duration.value() < 5.0) {
+        // turnToAngleVelocity(65, 1.0, halfRobotLengthIn * 2.0, 3.0, 25.0);
+        // while (duration.value() < 25.0) {
         //     task::sleep(10);
         // }
+        turnToAngleVelocity(45, 10.0, halfRobotLengthIn * 2.0, 3.0, 5.0);
+        while (duration.value() < 5.0) {
+            task::sleep(10);
+        }
         // turnToAngleVelocity(45, 1, halfRobotLengthIn * 2.0, 3.0, 60.0);
         // while (duration.value() < 60.0) {
         //     task::sleep(10);

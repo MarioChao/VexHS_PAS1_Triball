@@ -46,7 +46,7 @@ namespace auton {
         // L_vel = L_dist / time
         // R_vel = R_dist / time = L_vel * (R_dist / L_dist)
         PIDControl rotateTargetAnglePid(0, 0, 0, errorRange); // Reach goal
-        PIDControl averageTargetDistancePid(33, 0.02); // Reach goal
+        PIDControl averageTargetDistancePid(33, 0.0); // Reach goal
         timer timeout;
         while (!rotateTargetAnglePid.isSettled() && timeout.value() < runTimeout) {
             // Compute rotate error
@@ -148,7 +148,7 @@ namespace auton {
         maxVelocityPct = fmin(100, fmax(-100, maxVelocityPct));
 
         // PID
-        PIDControl driveTargetDistancePid(80, 0, 0, errorRange);
+        PIDControl driveTargetDistancePid(50, 0, 0, errorRange);
         PIDControl rotateTargetAnglePid(0.6);
 
         timer timeout;

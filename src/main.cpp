@@ -15,18 +15,19 @@
 /******************* -------- *******************/
 /*
     Cosmetic:
-        ButtonDown              --> animation (switch)
+        ButtonLeft              --> animation (switch)
 
     Match-load:
-        ButtonUp                --> lift (switch)
-        ButtonRight             --> flywheel (switch)
+        ButtonUp                --> flywheel forward (switch)
+        ButtonDown              --> flywheel reverse (switch)
         ButtonY                 --> anchor (switch)
 
     Endgame:
-        ButtonUp                --> elevation / climbing (switch)
+        ButtonB                 --> lift / elevation / climbing (switch)
 
     Driving:
         ButtonR1                --> intake (hold)
+        ButtonR2                --> intake (hold)
         ButtonL1                --> wings (switch)
 
     Driving Mode - Arcade drive two stick:
