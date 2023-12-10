@@ -9,15 +9,13 @@ extern controller Controller2;
 extern motor_group LeftMotors;
 extern motor_group RightMotors;
 extern motor_group LeftRightMotors;
-extern motor LiftMotor1;
 extern motor IntakeMotor;
-extern motor_group LiftMotors;
 extern motor FlywheelMotor;
 
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
 extern pneumatics AnchorPneumatic;
-extern pneumatics LiftClampPneumatic;
+extern pneumatics LiftPneumatic;
 
 extern inertial InertialSensor;
 

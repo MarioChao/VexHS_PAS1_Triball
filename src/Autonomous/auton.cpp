@@ -226,10 +226,6 @@ namespace {
         // Intake a triball from middle
         driveDistanceTiles(-0.5, 100.0, 0.05, 0.5);
         turnToAngle(234, 0, 3.0, 1.0); // Face the triball
-        // Lift to prepare out-take
-        setLiftPositionValue(0);
-        setLiftToDegreeRotation(300, 2.0, false);
-        liftToDegreeTask();
         // Intake ball
         setIntakeState(true);
         driveAndTurnDistanceTiles(sqrt(pow(1.32, 2) + pow(1.32, 2)), 234, 1.0, 100.0, 0.05, 1.3);
@@ -243,16 +239,15 @@ namespace {
 
         // Push the corner triball out
         turnToAngle(405, -halfRobotLengthIn * 0.3, 4.0, 1.0); // Face parallel to the matchload zone
-        setIntakeState(false);
-        // Lower lift to outtake
-        setLiftToDegreeRotation(-15, 3.0);
-        liftToDegreeTask();
+        // Outtake
+        setIntakeState(-1);
         // Anchor swing the ball
         setAnchorState(true);
         task::sleep(100);
         turnToAngle(345, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (swing the ball out)
         setAnchorState(false);
         turnToAngle(375, 0.0, 1.0, 0.5); // Unstuck the anchor
+        setIntakeState(false);
 
         // Push the preload, former-corner, and released triballs into the goal
         // Push with back
@@ -275,9 +270,7 @@ namespace {
         // Go to matchload position
         driveAndTurnDistanceTiles(1.2, 140.0, 7.5, 100.0, 0.05, 1.0);
         // Prepare for matchload
-        setLiftPositionValue(0);
-        setLiftToDegreeRotation(125);
-        liftToDegreeTask();
+        setLiftState(true);
         setFlywheelSpeedRpm(600);
         // Matchload positioning
         turnToAngle(125, halfRobotLengthIn, 3.0, 1.0);
@@ -303,8 +296,6 @@ namespace {
         // }
 
         // Finish matchload
-        setLiftToDegreeRotation(0);
-        liftToDegreeTask();
         setFlywheelSpeedRpm(0);
 
         // Push the triballs through path that goes below the red elevation-bar
@@ -344,15 +335,12 @@ namespace {
         // Elevation
         driveDistanceTiles(0.5, 100.0, 0.05, 0.5);
         // Prepare for elevation
-        setLiftToDegreeRotation(450);
-        liftToDegreeTask();
+        setLiftState(true);
         // Drive to elevation bar
         turnToAngle(-45, 0.0, 3.0, 1.5);
         driveAndTurnDistanceTiles(3.6, -90, 3.0, 100.0, 0.05, 3.0);
         // Clamp on the bar
         task::sleep(100);
-        // setLiftClampState(true);
-        setLiftToDegreeRotation(-100, 30.0);
-        liftToDegreeTask();
+        setLiftState(false);
     }
 }

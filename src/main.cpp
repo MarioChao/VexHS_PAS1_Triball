@@ -17,15 +17,13 @@
     Cosmetic:
         ButtonDown              --> animation (switch)
 
-    Matchload:
+    Match-load:
         ButtonUp                --> lift (switch)
         ButtonRight             --> flywheel (switch)
         ButtonY                 --> anchor (switch)
 
     Endgame:
-        ButtonR1 & ButtonR2     --> elevation / climbing (switch)
-        ButtonUp (Controller2)  --> elevation / climbing (switch)
-        ButtonB                 --> deploy lift rachet clamp (one-time switch)
+        ButtonUp                --> elevation / climbing (switch)
 
     Driving:
         ButtonR1                --> intake (hold)
@@ -93,7 +91,6 @@ void pre_auton(void) {
     // Pre-auton
     runPreauton();
     // Stopping brake-types
-    preautonLift();
     preautonDrive();
 }
 
@@ -135,8 +132,6 @@ void usercontrol(void) {
         controlDrive();
         // Intake
         controlIntake();
-        // Elevation
-        controlElevation();
 
         // Short delay
         task::sleep(20);

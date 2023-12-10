@@ -12,12 +12,6 @@ namespace {
     using namespace angle;
     using namespace botinfo;
     using namespace field;
-
-    void liftToDegree(double rotation, double runTimeout, bool stopIntake);
-
-    double liftToRotation = 0;
-    double liftToTimeout = 3.0;
-    bool liftStopIntake = true;
 }
 
 namespace auton {
@@ -284,35 +278,6 @@ namespace auton {
         resolveIntake(state);
     }
 
-    /// @brief Set the lift motor's encoder reading to a specified value.
-    /// @param rotation The angle (in degrees) of the current lift orientation.
-    void setLiftPositionValue(double rotation) {
-        LiftMotors.setPosition(rotation, deg);
-    }
-
-    /// @brief Set the target rotation when calling liftToDegreeTask().
-    /// @param rotation The target angle (in degrees) for the lift motor to spin to.
-    /// @param runTimeout Maximum seconds the lift motor will run for.
-    /// @param stopIntake Whether lifting will stop the motion of the intake upon completion.
-    void setLiftToDegreeRotation(double rotation, double runTimeout, bool stopIntake) {
-        liftToRotation = rotation;
-        if (runTimeout > 0) {
-            liftToTimeout = runTimeout;
-        }
-        liftStopIntake = stopIntake;
-    }
-
-    /// @brief Spin the lift motor to a rotation in degrees.
-    void liftToDegreeTask() {
-        if (canControlIntake) {
-            task liftTask([] () -> int {
-                task::sleep(30);
-                liftToDegree(liftToRotation, liftToTimeout, liftStopIntake);
-                return 1;
-            });
-        }
-    }
-
     /// @brief Set the flywheel's spinning speed to a specified revolutions per minute.
     /// @param rpm The velocity of the flywheel motor in rpm.
     void setFlywheelSpeedRpm(double rpm) {
@@ -344,51 +309,9 @@ namespace auton {
         AnchorPneumatic.set(state);
     }
 
-    /// @brief Set the state of the pneumatic for the lift's clamp.
-    /// @param state Release: true, none: false
-    void setLiftClampState(bool state) {
-        LiftClampPneumatic.set(state);
-    }
-}
-
-namespace {
-    void liftToDegree(double rotation, double runTimeout, bool stopIntake) {
-        if (!canControlIntake) {
-            return;
-        }
-
-        canControlIntake = false;
-
-        // Synchronize the two motor positions
-        IntakeMotor.setPosition(LiftMotor1.position(deg), deg);
-        
-        // Spin lift motors
-        int spinDirection = (rotation > LiftMotors.position(deg)) - (rotation < LiftMotors.position(deg));
-        double spinVoltage = spinDirection * 11.0;
-        LiftMotors.spin(fwd, spinVoltage, volt);
-
-        timer timeout;
-        bool reachedGoal = false;
-        while (!reachedGoal && timeout.value() < runTimeout) {
-            if (spinDirection > 0 && LiftMotor1.position(deg) >= rotation) {
-                reachedGoal = true;
-            } else if (spinDirection < 0 && LiftMotor1.position(deg) <= rotation) {
-                reachedGoal = true;
-            }
-            task::sleep(20);
-        }
-
-        // Stop motors
-        if (spinDirection > 0) {
-            LiftMotor1.stop();
-            LiftMotor1.stop(hold);
-            if (stopIntake) {
-                IntakeMotor.stop();
-            }
-        } else {
-            LiftMotors.stop();
-        }
-
-        canControlIntake = true;
-    }
+    /// @brief Set the state of the lift's pneumatic.
+    /// @param state Lifted: true, lowered: false
+    void setLiftState(bool state) {
+        LiftPneumatic.set(!state);
+    }    
 }
