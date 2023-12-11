@@ -101,17 +101,17 @@ namespace auton {
 
     /// @brief Drive straight in the direction of the robot for a specified tile distance.
     /// @param distanceTiles Distance in units of tiles.
-    /// @param maxVelocityPct Maximum velocity of the drive.
+    /// @param maxVelocityPct Maximum velocity of the drive. (can > 100)
     /// @param errorRange The allowed tile errors from the target distance.
     /// @param runTimeout Maximum seconds the function will run for.
     void driveDistanceTiles(double distanceTiles, double maxVelocityPct, double errorRange, double runTimeout) {
-        driveAndTurnDistanceTiles(distanceTiles, InertialSensor.rotation(), 1.0, maxVelocityPct, errorRange, runTimeout);
+        driveAndTurnDistanceTiles(distanceTiles, InertialSensor.rotation(), maxVelocityPct, 100.0, errorRange, runTimeout);
     }
 
     /// @brief Drive the robot for a specified tile distance and rotate it to a specified rotation in degrees.
     /// @param distanceTiles Distance in units of tiles.
     /// @param targetRotation The target angle to face in degrees.
-    /// @param maxVelocityPct Maximum velocity of the drive.
+    /// @param maxVelocityPct Maximum velocity of the drive. (can > 100)
     /// @param errorRange The allowed tile errors from the target distance.
     /// @param runTimeout Maximum seconds the function will run for.
     void driveAndTurnDistanceTilesMotionProfile(double distanceTiles, double targetRotation, double maxVelocityPct, double errorRange, double runTimeout) {
@@ -121,22 +121,22 @@ namespace auton {
     /// @brief Drive the robot for a specified tile distance and rotate it to a specified rotation in degrees.
     /// @param distanceTiles Distance in units of tiles.
     /// @param targetRotation The target angle to face in degrees.
-    /// @param rotationFactor How much the robot will rotate first rather than driving distance.
-    /// @param maxVelocityPct Maximum velocity of the drive.
+    /// @param maxVelocityPct Maximum velocity of the drive. (can > 100)
+    /// @param maxTurnVelocityPct Maximum rotational velocity of the drive. (can > 100)
     /// @param errorRange The allowed tile errors from the target distance.
     /// @param runTimeout Maximum seconds the function will run for.
-    void driveAndTurnDistanceTiles(double distanceTiles, double targetRotation, double rotationFactor, double maxVelocityPct, double errorRange, double runTimeout) {
-        driveAndTurnDistanceWithInches(distanceTiles * tileLengthIn, targetRotation, rotationFactor, maxVelocityPct, errorRange * tileLengthIn, runTimeout);
+    void driveAndTurnDistanceTiles(double distanceTiles, double targetRotation, double maxVelocityPct, double maxTurnVelocityPct, double errorRange, double runTimeout) {
+        driveAndTurnDistanceWithInches(distanceTiles * tileLengthIn, targetRotation, maxVelocityPct, maxTurnVelocityPct, errorRange * tileLengthIn, runTimeout);
     }
 
     /// @brief Drive the robot for a specified distance in inches and rotate it to a specified rotation in degrees.
     /// @param distanceInches Distance in units of inches.
     /// @param targetRotation The target angle to face in degrees.
-    /// @param rotationFactor How much the robot will rotate first rather than driving distance.
-    /// @param maxVelocityPct Maximum velocity of the drive.
+    /// @param maxVelocityPct Maximum velocity of the drive. (can > 100)
+    /// @param maxTurnVelocityPct Maximum rotational velocity of the drive. (can > 100)
     /// @param errorRange The allowed inch errors from the target distance.
     /// @param runTimeout Maximum seconds the function will run for.
-    void driveAndTurnDistanceWithInches(double distanceInches, double targetRotation, double rotationFactor, double maxVelocityPct, double errorRange, double runTimeout) {
+    void driveAndTurnDistanceWithInches(double distanceInches, double targetRotation, double maxVelocityPct, double maxTurnVelocityPct, double errorRange, double runTimeout) {
         // Test
         // driveAndTurnDistanceInchesMotionProfile(distanceInches, targetRotation, maxVelocityPct, errorRange, runTimeout);
         // return;
@@ -145,7 +145,6 @@ namespace auton {
         double motorTargetDistanceRev = distanceInches / driveWheelCircumIn * (driveWheelMotorGearRatio);
         double leftMotorInitRev = LeftMotors.position(rev);
         double rightMotorInitRev = RightMotors.position(rev);
-        maxVelocityPct = fmin(100, fmax(-100, maxVelocityPct));
 
         // PID
         PIDControl driveTargetDistancePid(50, 0, 0, errorRange);
@@ -161,17 +160,12 @@ namespace auton {
             // Compute motor velocity pid-value from error
             double distanceError = (motorTargetDistanceRev - averageTravelRev);
             driveTargetDistancePid.computeFromError(distanceError);
-            double velocityPct = fmin(100, fmax(-100, driveTargetDistancePid.getValue()));
+            double velocityPct = fmin(maxVelocityPct, fmax(-maxVelocityPct, driveTargetDistancePid.getValue()));
 
             // Compute heading pid-value from error
             double rotateError = (targetRotation - InertialSensor.rotation());
             rotateTargetAnglePid.computeFromError(rotateError);
-            double rotateVelocityPct = fmin(100, fmax(-100, rotateTargetAnglePid.getValue()));
-            if (fabs(rotateVelocityPct) > 30.0) {
-                rotateVelocityPct *= rotationFactor;
-            } else if (fabs(rotateVelocityPct) > 10.0) {
-                rotateVelocityPct *= rotationFactor * (fabs(rotateVelocityPct) / 100.0);
-            }
+            double rotateVelocityPct = fmin(maxTurnVelocityPct, fmax(-maxTurnVelocityPct, rotateTargetAnglePid.getValue()));
             // printf("Turning.. Now: %.3f, Err: %.3f, Pid: %.3f\n", InertialSensor.rotation(deg), rotateError, rotateTargetAnglePid.getValue());
 
             // Compute final motor velocities
@@ -179,7 +173,7 @@ namespace auton {
             double rightVelocityPct = velocityPct - rotateVelocityPct;
             
             // Scale percentages if overshoot
-            double scaleFactor = maxVelocityPct / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));
+            double scaleFactor = 100.0 / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));
             leftVelocityPct *= scaleFactor;
             rightVelocityPct *= scaleFactor;
 
@@ -207,7 +201,6 @@ namespace auton {
         double motorTargetDistanceRev = distanceInches / driveWheelCircumIn * (driveWheelMotorGearRatio);
         double leftMotorInitRev = LeftMotors.position(rev);
         double rightMotorInitRev = RightMotors.position(rev);
-        maxVelocityPct = fmin(100, fmax(-100, maxVelocityPct));
 
         // PID
         PIDControl driveTargetDistancePid(10, 0, 0, errorRange);
@@ -241,7 +234,7 @@ namespace auton {
             // driveMaintainVelocityPid.computeFromError(velocityError);
             // double velocityPct = fmin(100, fmax(-100, averageTravelVelocityPct + driveMaintainVelocityPid.getValue()));
             double velocityPct = driveSpeedMotionProfile.getVelocity() + driveTargetDistancePid.getValue();
-            velocityPct = fmin(100, fmax(-100, velocityPct));
+            velocityPct = fmin(maxVelocityPct, fmax(-maxVelocityPct, velocityPct));
 
             // Compute heading pid-value from error
             double rotateError = (targetRotation - InertialSensor.rotation());
@@ -254,7 +247,7 @@ namespace auton {
             double rightVelocityPct = velocityPct - rotateVelocityPct;
             
             // Scale percentages if overshoot
-            double scaleFactor = maxVelocityPct / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));
+            double scaleFactor = 100.0 / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));
             leftVelocityPct *= scaleFactor;
             rightVelocityPct *= scaleFactor;
             printf("MPVel: %.3f, AvgVel: %.3f, FinVel: %.3f\n", driveSpeedMotionProfile.getVelocity(), averageTravelVelocityPct, velocityPct);
