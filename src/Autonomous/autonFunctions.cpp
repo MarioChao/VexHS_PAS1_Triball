@@ -305,6 +305,7 @@ namespace auton {
     /// @brief Set the state of the lift's pneumatic.
     /// @param state Lifted: true, lowered: false
     void setLiftState(bool state) {
-        LiftPneumatic.set(!state);
+        LiftPneumatic1.set(!state);
+        LiftPneumatic2.set(!state);
     }    
 }

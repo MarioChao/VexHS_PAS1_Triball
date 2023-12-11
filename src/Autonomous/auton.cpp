@@ -292,7 +292,7 @@ namespace {
         // Go to matchload position
         driveAndTurnDistanceTiles(1.2, 140.0, 100.0, 750.0, 0.05, 1.0);
         // Prepare for matchload
-        setLiftState(true);
+        // setLiftState(true);
         setFlywheelSpeedRpm(600);
         // Matchload positioning
         turnToAngle(125, halfRobotLengthIn, 3.0, 1.0);

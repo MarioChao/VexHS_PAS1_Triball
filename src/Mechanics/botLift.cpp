@@ -6,8 +6,11 @@ namespace {
     void resetLiftTask();
 
     void switchLiftState();
+    void setLiftState(bool value);
 
     bool liftDebounce = false;
+
+    int liftState = 0;
 }
 
 void resetLift() {
@@ -29,7 +32,7 @@ namespace {
         if (!liftDebounce) {
             liftDebounce = true;
             
-            LiftPneumatic.set(1);
+            setLiftState(true);
 
             liftDebounce = false;
         }
@@ -40,12 +43,15 @@ namespace {
         if (!liftDebounce) {
             liftDebounce = true;
 
-            int oldValue = LiftPneumatic.value();
-            int newValue = oldValue ^ 1;
-            LiftPneumatic.set(newValue);
+            setLiftState(liftState ^ 1);
             task::sleep(10);
 
             liftDebounce = false;
         }
+    }
+    void setLiftState(bool value) {
+        liftState = value;
+        LiftPneumatic1.set(liftState);
+        LiftPneumatic2.set(liftState);
     }
 }

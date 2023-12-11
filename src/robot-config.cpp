@@ -24,7 +24,8 @@ motor FlywheelMotor(PORT14, ratio6_1);
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);
 pneumatics AnchorPneumatic(Brain.ThreeWirePort.C);
-pneumatics LiftPneumatic(Brain.ThreeWirePort.F);
+pneumatics LiftPneumatic1(Brain.ThreeWirePort.B);
+pneumatics LiftPneumatic2(Brain.ThreeWirePort.F);
 
 inertial InertialSensor(PORT12);
 
