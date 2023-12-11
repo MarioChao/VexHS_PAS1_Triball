@@ -3,9 +3,10 @@
 
 namespace {
     void changeAnchorState();
+    
+    bool anchorDebounce = false;
 }
 
-double anchorDebounce = false;
 
 void keybindAnchor() {
     Controller1.ButtonY.pressed([] () -> void {
@@ -16,7 +17,7 @@ void keybindAnchor() {
 namespace {
     void changeAnchorState() {
         if (!anchorDebounce) {
-            anchorDebounce =  true;
+            anchorDebounce = true;
 
             int oldValue = AnchorPneumatic.value();
             int newValue = oldValue ^ 1;

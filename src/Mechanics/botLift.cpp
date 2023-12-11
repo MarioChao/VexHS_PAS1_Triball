@@ -1,12 +1,11 @@
 #include "Mechanics/botLift.h"
-#include "Mechanics/botFlywheel.h"
+#include "Mechanics/botIntake.h"
 #include "main.h"
 
 namespace {
     void resetLiftTask();
 
     void switchLiftState();
-    void setLiftState(bool value);
 
     bool liftDebounce = false;
 
@@ -25,6 +24,11 @@ void keybindLift() {
         switchLiftState();
     });
 }
+void setLiftState(bool value) {
+    liftState = value;
+    LiftPneumatic1.set(liftState);
+    LiftPneumatic2.set(liftState);
+}
 
 namespace {
     /// @brief Reset lift's position. Used by calling resetLift().
@@ -32,7 +36,7 @@ namespace {
         if (!liftDebounce) {
             liftDebounce = true;
             
-            setLiftState(true);
+            // Reset lift code here...
 
             liftDebounce = false;
         }
@@ -48,10 +52,5 @@ namespace {
 
             liftDebounce = false;
         }
-    }
-    void setLiftState(bool value) {
-        liftState = value;
-        LiftPneumatic1.set(liftState);
-        LiftPneumatic2.set(liftState);
     }
 }

@@ -8,7 +8,7 @@ namespace botinfo {
 
     double driveWheelRadiusIn = 2.75 / 2;
     double driveWheelCircumIn = 2 * M_PI * driveWheelRadiusIn;
-    double driveWheelMotorGearRatio = (36.0 / 48.0);
+    double driveWheelMotorGearRatio = (48.0 / 36.0);
 
     // Velocity from pct to rev/s
     // 100% = 600/60 rev/s

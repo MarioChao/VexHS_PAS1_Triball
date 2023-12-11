@@ -41,48 +41,28 @@ namespace auton {
         double leftRotateRadiusIn = halfRobotLengthIn + rotateCenterOffsetIn;
         double rightRotateRadiusIn = halfRobotLengthIn - rotateCenterOffsetIn;
         double averageRotateRadiusIn = (leftRotateRadiusIn + rightRotateRadiusIn) / 2;
+
+        // Velocity factors
+        double leftVelocityFactor = leftRotateRadiusIn / averageRotateRadiusIn;
+        double rightVelocityFactor = -rightRotateRadiusIn / averageRotateRadiusIn;
         
         // PID
         // L_vel = L_dist / time
         // R_vel = R_dist / time = L_vel * (R_dist / L_dist)
-        PIDControl rotateTargetAnglePid(0, 0, 0, errorRange); // Reach goal
-        PIDControl averageTargetDistancePid(33, 0.0); // Reach goal
+        PIDControl rotateTargetAnglePid(0.5, 0, 0, errorRange); // Reach goal
         timer timeout;
         while (!rotateTargetAnglePid.isSettled() && timeout.value() < runTimeout) {
             // Compute rotate error
             double rotateError = rotation - InertialSensor.rotation();
             rotateTargetAnglePid.computeFromError(rotateError);
 
-            // Compute linear error travel distances
-            // L = L_rad * θ = M * (L_rad / M_rad)
-            // R = R_rad * θ = M * (R_rad / M_rad)
-            double leftRotateErrorDistanceIn = leftRotateRadiusIn * (rotateError / 360.0);
-            double rightRotateErrorDistanceIn = -rightRotateRadiusIn * (rotateError / 360.0);
-            double averageRotateErrorDistanceIn = averageRotateRadiusIn * (rotateError / 360.0);
-
-            // Compute motor rotate error in revolutions
-            // Gear rev = θ / (2π) = d / (2πr)
-            double leftRotateErrorRev = leftRotateErrorDistanceIn / driveWheelCircumIn * (driveWheelMotorGearRatio);
-            double rightRotateErrorRev = rightRotateErrorDistanceIn / driveWheelCircumIn * (driveWheelMotorGearRatio);
-            double averageRotateErrorRev = averageRotateErrorDistanceIn / driveWheelCircumIn * (driveWheelMotorGearRatio);
-
-            // Compute average motor velocity pid-value from error
-            // ω = rev / t
-            double averageMotorVelocityPct = (LeftMotors.velocity(pct) + RightMotors.velocity(pct)) / 2;
-            double averageDistanceError = averageRotateErrorDistanceIn;
-            averageTargetDistancePid.computeFromError(averageDistanceError);
-            averageMotorVelocityPct = averageTargetDistancePid.getValue();
-
             // Compute motor rotate velocities
-            // t = rev / ω
-            // L_ω = L_rev / t
-            // R_ω = R_rev / t
-            double deltaTime = averageRotateErrorRev / averageMotorVelocityPct;
-            double leftMotorVelocityPct = leftRotateErrorRev / deltaTime;
-            double rightMotorVelocityPct = rightRotateErrorRev / deltaTime;
+            double averageMotorVelocityPct = fmin(maxVelocityPct, fmax(-maxVelocityPct, rotateTargetAnglePid.getValue()));
+            double leftMotorVelocityPct = leftVelocityFactor * averageMotorVelocityPct;
+            double rightMotorVelocityPct = rightVelocityFactor * averageMotorVelocityPct;
 
             // Scale percentages if overshoot
-            double scaleFactor = maxVelocityPct / fmax(100.0, fmax(fabs(leftMotorVelocityPct), fabs(rightMotorVelocityPct)));
+            double scaleFactor = 100.0 / fmax(100.0, fmax(fabs(leftMotorVelocityPct), fabs(rightMotorVelocityPct)));
             leftMotorVelocityPct *= scaleFactor;
             rightMotorVelocityPct *= scaleFactor;
 
@@ -147,7 +127,7 @@ namespace auton {
         double rightMotorInitRev = RightMotors.position(rev);
 
         // PID
-        PIDControl driveTargetDistancePid(50, 0, 0, errorRange);
+        PIDControl driveTargetDistancePid(25, 0, 0, errorRange);
         PIDControl rotateTargetAnglePid(0.6);
 
         timer timeout;
@@ -268,7 +248,7 @@ namespace auton {
     /// @brief Set the state of the intake.
     /// @param state Intaking: 1, off: 0, outtaking: -1.
     void setIntakeState(int state) {
-        resolveIntake(state);
+        setIntakeResolveState(state);
     }
 
     /// @brief Set the flywheel's spinning speed to a specified revolutions per minute.

@@ -2,3 +2,4 @@
 
 void resetLift();
 void keybindLift();
+void setLiftState(bool value);

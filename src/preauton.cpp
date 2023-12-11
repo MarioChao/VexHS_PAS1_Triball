@@ -1,5 +1,6 @@
 #include "preauton.h"
 #include "Graphics/BrainScreen.h"
+#include "Mechanics/botLift.h"
 #include "Utilities/debugFunctions.h"
 #include "Videos/brainVideos.h"
 #include "main.h"
@@ -8,6 +9,8 @@ namespace {
     void initComponents();
     void bufferScreen();
 }
+
+bool initComponentFinished = false;
 
 void preautonControllerThread() {
     debug::printOnController("No auton selected!");
@@ -32,6 +35,10 @@ namespace {
             task::sleep(30);
         }
         printf("Calibrated!\n");
+        // Pneumatic state
+        setLiftState(true);
+        
+        initComponentFinished = true;
     }
 
     void bufferScreen() {

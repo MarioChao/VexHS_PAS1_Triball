@@ -8,6 +8,7 @@ enum autonomousType {
     FarAWP,
     FarElim,
     Skills,
+    Test,
     None
 };
 

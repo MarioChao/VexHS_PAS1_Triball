@@ -10,7 +10,6 @@ namespace {
     bool flywheelSpeedDebounce = false;
 }
 
-
 void flywheelThread() {
     // Variables
     PIDControl flywheelDeltaVelocityPid(0.04, 0, 0); // Maintain velocity

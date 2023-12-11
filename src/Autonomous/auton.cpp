@@ -2,6 +2,7 @@
 #include "Autonomous/autonFunctions.h"
 #include "Utilities/robotInfo.h"
 #include "Utilities/debugFunctions.h"
+#include "preauton.h"
 #include "main.h"
 
 namespace {
@@ -12,12 +13,13 @@ namespace {
     void autonTest();
 
     void runAutonNearAWP();
+    void runAutonNearAWPBackside();
     void runAutonNearElim();
     void runAutonFarAWP();
     void runAutonFarElim();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::FarAWP;
+    autonomousType auton_runType = autonomousType::None;
     int auton_allianceId;
 }
 
@@ -48,11 +50,10 @@ void setAutonRunType(int allianceId, autonomousType autonType) {
 }
 
 void runAutonomous() {
-    autonTest();
-    return;
     switch (auton_runType) {
         case autonomousType::NearAWP:
-            runAutonNearAWP();
+            // runAutonNearAWP();
+            runAutonNearAWPBackside();
             break;
         case autonomousType::NearElim:
             runAutonNearElim();
@@ -66,6 +67,8 @@ void runAutonomous() {
         case autonomousType::Skills:
             runAutonSkills();
             break;
+        case autonomousType::Test:
+            autonTest();
         default:
             break;
     }
@@ -74,6 +77,7 @@ void runAutonomous() {
 namespace {
     void autonTest() {
         setRotation(0.0);
+        // driveAndTurnDistanceTiles(3.0, 90.0, 100.0, 100.0, 0.05, 3.0);
         turnToAngle(90);
         task::sleep(200);
         turnToAngle(-90);
@@ -84,10 +88,10 @@ namespace {
         task::sleep(200);
         turnToAngle(0);
         task::sleep(200);
-        driveDistanceTiles(3);
-        task::sleep(200);
-        driveDistanceTiles(-3);
-        task::sleep(200);
+        // driveDistanceTiles(3);
+        // task::sleep(200);
+        // driveDistanceTiles(-3);
+        // task::sleep(200);
     }
 
     /// @brief Run the 15-seconds near-side AWP autonomous.
@@ -96,32 +100,70 @@ namespace {
         setRotation(0.0);
         
         // Intake middle ball
-        driveAndTurnDistanceTiles(2.0, 0.0, 100.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(2.3, 15.0, 800.0, 100.0, 0.05, 1.5);
         setIntakeState(1);
-        turnToAngle(45.0, halfRobotLengthIn, 3.0, 1.5);
+        turnToAngle(30.0, halfRobotLengthIn, 5.0, 1.5);
 
-        // Push ball over the middle barrier
-        turnToAngle(90.0, -halfRobotLengthIn, 3.0, 1.5);
+        // Push middle ball over the middle barrier
+        turnToAngle(90.0, -halfRobotLengthIn * 0.5, 5.0, 1.0);
+        turnToAngle(270.0, 0.0, 5.0, 1.5);
         setIntakeState(0);
-        setLeftWingState(true);
-        driveAndTurnDistanceTiles(1.3, 90.0, 100.0, 100.0, 0.05, 1.5);
-        setLeftWingState(false);
-        // Outtake loaded ball
-        setIntakeState(-1);
-        task::sleep(200);
-        setIntakeState(0);
+        setRightWingState(true);
+        driveAndTurnDistanceTiles(-1.5, 270.0, 100.0, 100.0, 0.05, 1.3);
+        setRightWingState(false);
 
         // Drive to match load zone
-        driveAndTurnDistanceTiles(-0.3, 90.0, 100.0, 100.0, 0.05, 1.5);
-        driveAndTurnDistanceTiles(-3.5, 45.0, 100.0, 800.0, 0.05, 2.0);
-        // Face downward-parallel to the match load bar
-        turnToAngle(135.0, -halfRobotLengthIn, 3.0, 1.5);
+        driveAndTurnDistanceTiles(0.3, 270.0, 100.0, 100.0, 0.05, 1.5);
+        turnToAngle(215.0, 0.0, 5.0, 1.5);
+        driveAndTurnDistanceTiles(2.1, 215.0, 100.0, 100.0, 0.05, 2.0);
+        // Face upward-parallel to the match load bar
+        turnToAngle(315.0, halfRobotLengthIn, 5.0, 1.5);
         // Swing the ball out
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(1.0, 90.0, 100.0, 200.0, 0.05, 1.5);
+        setLeftWingState(true);
+        driveAndTurnDistanceTiles(-1.0, 270.0, 100.0, 400.0, 0.05, 1.5);
+        setLeftWingState(false);
         
         // Push the preload and former-corner ball over to the offensive zone
-        driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 100.0, 0.05, 1.5);
+
+        // Touch the elevation bar
+        setRightWingState(true);
+        driveAndTurnDistanceTiles(-0.25, 270.0, 50.0, 100.0, 0.05, 1.5);
+        turnToAngle(275.0, 0.0, 5.0, 1.5);
+        // Robot is touching the elevation bar
+
+    }
+
+    void runAutonNearAWPBackside() {
+        // For PASVEX's Robot
+        setRotation(180.0);
+        
+        // Push middle balls over the middle barrier
+        driveAndTurnDistanceTiles(-1.8, 195.0, 800.0, 100.0, 0.05, 1.5);
+        setRightWingState(true);
+        turnToAngle(270.0, -halfRobotLengthIn, 5.0, 1.0);
+        setRightWingState(true);
+        driveAndTurnDistanceTiles(-1.5, 270.0, 100.0, 100.0, 0.05, 1.3);
+        setRightWingState(false);
+
+        // Drive to match load zone
+        driveAndTurnDistanceTiles(0.3, 270.0, 100.0, 100.0, 0.05, 1.5);
+        turnToAngle(215.0, 0.0, 5.0, 1.5);
+        driveAndTurnDistanceTiles(2.1, 215.0, 100.0, 100.0, 0.05, 2.0);
+        // Face upward-parallel to the match load bar
+        turnToAngle(315.0, halfRobotLengthIn, 5.0, 1.5);
+        // Swing the ball out
+        setLeftWingState(true);
+        driveAndTurnDistanceTiles(-1.0, 270.0, 100.0, 400.0, 0.05, 1.5);
+        setLeftWingState(false);
+        
+        // Push the preload and former-corner ball over to the offensive zone
+        driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 100.0, 0.05, 1.5);
+
+        // Touch the elevation bar
+        setRightWingState(true);
+        driveAndTurnDistanceTiles(-0.25, 270.0, 50.0, 100.0, 0.05, 1.5);
+        turnToAngle(275.0, 0.0, 5.0, 1.5);
         // Robot is touching the elevation bar
 
     }
@@ -173,50 +215,54 @@ namespace {
         
         // Intake ball below elevation bar
         setIntakeState(1);
-        driveAndTurnDistanceTiles(0.3, -90.0, 100.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(0.4, -90.0, 100.0, 100.0, 0.05, 1.5);
 
         // Go to match load zone while pushing preload ball
-        driveAndTurnDistanceTiles(-2.0, -135.0, 100.0, 200.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(-2.2, -135.0, 80.0, 8.0, 0.05, 2.0);
         // Swing the corner ball out
         setLeftWingState(true);
-        driveAndTurnDistanceTiles(-1.0, -180.0, 100.0, 300.0, 0.05, 1.5);
+        turnToAngle(-180.0, halfRobotLengthIn, 5.0, 1.0);
         // Turn around
         setLeftWingState(false);
-        turnToAngleVelocity(-345.0, 70.0, 0.0, 3.0, 1.5);
+        turnToAngle(-335.0, 0.0, 5.0, 1.5);
+        setIntakeState(0);
         // Push three balls through the bottom-side of the goal
-        driveAndTurnDistanceTiles(1.5, -360.0, 100.0, 300.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(1.5, -360.0, 100.0, 300.0, 0.05, 1.0);
 
-        // Face down-middle ball
+        // Face center-down ball
         driveAndTurnDistanceTiles(-1.0, -270.0, 100.0, 100.0, 0.05, 1.5);
-        turnToAngle(-70.0, 0.0, 3.0, 1.5);
+        turnToAngle(-70.0, 0.0, 5.0, 1.5);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.3, -80.0, 100.0, 200.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(1.7, -80.0, 100.0, 200.0, 0.05, 1.5);
         // Face goal
-        turnToAngle(75.0, 0.0, 3.0, 1.5);
-        // Outtake ball
+        turnToAngle(75.0, 0.0, 5.0, 1.5);
+        // Out-take ball
         setIntakeState(-1);
         task::sleep(200);
         setIntakeState(0);
 
-        // Face middle ball
-        turnToAngle(30.0, 0.0, 3.0, 1.5);
+        // Face center-middle ball
+        turnToAngle(30.0, 0.0, 5.0, 1.5);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.0, -60.0, 100.0, 300.0, 0.05, 1.5);
-        // Face goal
-        turnToAngle(90.0, 0.0, 3.0, 1.5);
-        // Push three balls through left-side of the goal
-        setIntakeState(0);
+        driveAndTurnDistanceTiles(1.3, -60.0, 100.0, 300.0, 0.05, 1.5);
+        // Push two balls through left-side of the goal
+        turnToAngle(-90.0, 0.0, 5.0, 1.5);
         setWingsState(true);
-        driveAndTurnDistanceTiles(2.0, 90.0, 100.0, 100.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-2.0, -90.0, 100.0, 100.0, 0.05, 1.3);
+        // Push loaded ball into the goal
+        setIntakeState(0);
+        setWingsState(false);
+        driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, 0.05, 1.5);
+        turnToAngle(90.0, 0.0, 5.0, 1.5);
+        driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, 0.05, 1.0);
         
         // Face the elevation bar
-        setWingsState(false);
-        driveAndTurnDistanceTiles(-1.5, -135.0, 100.0, 100.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(-1.5, 20.0, 100.0, 100.0, 0.05, 2.0);
         // Drive and touch the bar using wings
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(2.0, -180.0, 100.0, 100.0, 0.05, 2.0);
+        setLeftWingState(true);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 150.0, 100.0, 0.05, 2.0);
         // Robot is touching the elevation bar
 
     }
@@ -287,31 +333,28 @@ namespace {
         setRotation(132);
 
         // Push the two alliance triballs
-        driveAndTurnDistanceTiles(-2.2, 180, 100.0, 750.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-2.2, 180, 100.0, 1200.0, 0.05, 1.5);
 
         // Go to matchload position
-        driveAndTurnDistanceTiles(1.2, 140.0, 100.0, 750.0, 0.05, 1.0);
+        task::sleep(300);
+        driveAndTurnDistanceTiles(1.2, 140.0, 60.0, 900.0, 0.05, 1.5);
         // Prepare for matchload
-        // setLiftState(true);
         setFlywheelSpeedRpm(600);
-        // Matchload positioning
-        turnToAngle(125, halfRobotLengthIn, 3.0, 1.0);
-        setAnchorState(true);
-        turnToAngle(85, halfRobotLengthIn * 1.3, 3.0, 1.0);
-        driveDistanceTiles(-0.3, 45.0, 0.05, 0.7);
-        setAnchorState(false);
+        // Match load positioning
+        turnToAngle(60, 0.0, 5.0, 1.5);
+        driveAndTurnDistanceTiles(-0.5, 60, 100.0, 800.0, 0.05, 1.0);
 
-        // Matchload 44 balls
+        // Match load 44 balls
         task::sleep(2000);
         timer duration;
         // turnToAngleVelocity(65, 1.0, halfRobotLengthIn * 2.0, 3.0, 25.0);
-        // while (duration.value() < 25.0) {
-        //     task::sleep(10);
-        // }
-        turnToAngleVelocity(45, 10.0, halfRobotLengthIn * 2.0, 3.0, 5.0);
-        while (duration.value() < 5.0) {
+        while (duration.value() < 25.0) {
             task::sleep(10);
         }
+        // turnToAngleVelocity(45, 10.0, halfRobotLengthIn * 2.0, 3.0, 5.0);
+        // while (duration.value() < 5.0) {
+        //     task::sleep(10);
+        // }
         // turnToAngleVelocity(45, 1, halfRobotLengthIn * 2.0, 3.0, 60.0);
         // while (duration.value() < 60.0) {
         //     task::sleep(10);
@@ -321,41 +364,41 @@ namespace {
         setFlywheelSpeedRpm(0);
 
         // Push the triballs through path that goes below the red elevation-bar
-        turnToAngle(-48, 0.0, 3.0, 1.0);
-        driveAndTurnDistanceTiles(-5.5, -90.0, 100.0, 300.0, 0.05, 3.3);
+        turnToAngle(-60, 0.0, 3.0, 1.0);
+        driveAndTurnDistanceTiles(-4.0, -90.0, 100.0, 300.0, 0.05, 3.3);
 
         // Score triballs through bottom-side of the goal
         turnToAngle(-115, 0, 3.0, 1.0);
-        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 100.0, 0.05, 2.2);
-        driveAndTurnDistanceTiles(1.0, -135, 100.0, 500.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 400.0, 0.05, 2.2);
+        driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, 0.05, 1.5);
         driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, 0.05, 1.7);
         
         // Score triballs through left-side of the goal
-        driveAndTurnDistanceTiles(0.5, -180.0, 100.0, 100.0, 0.05, 1.0);
-        turnToAngle(-80, halfRobotLengthIn * 0.5, 3.0, 1.5);
-        driveAndTurnDistanceTiles(2.2, -90, 100.0, 300.0, 0.05, 2.0);
-        turnToAngle(45, halfRobotLengthIn, 3.0, 1.5);
+        driveAndTurnDistanceTiles(0.3, -180.0, 100.0, 100.0, 0.05, 1.5);
+        turnToAngle(-70, halfRobotLengthIn * 0.5, 3.0, 1.5);
+        driveAndTurnDistanceTiles(2.0, -90, 100.0, 300.0, 0.05, 1.5);
+        turnToAngle(-135, 0, 3.0, 1.5);
         setWingsState(true);
-        driveAndTurnDistanceTiles(2.5, 90.0, 100.0, 400.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(-2.5, -90.0, 100.0, 300.0, 0.05, 1.5);
         setWingsState(false);
 
         // Score more triballs through left-side of the goal
-        turnToAngle(0, halfRobotLengthIn * 2.4, 3.0, 1.5);
-        driveAndTurnDistanceTiles(2.3, 0, 100.0, 100.0, 0.05, 2.0);
-        turnToAngle(135, 0, 3.0, 1.5);
+        driveAndTurnDistanceTiles(1.5, -180, 800.0, 50.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-2.4, -180, 100.0, 100.0, 0.05, 1.5);
+        turnToAngle(-35, 0, 3.0, 1.5);
         setWingsState(true);
-        driveAndTurnDistanceTiles(2.5, 90, 100.0, 200.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(-2.5, -90, 100.0, 150.0, 0.05, 1.5);
         setWingsState(false);
 
         // Score triballs through top-side of the goal
-        driveAndTurnDistanceTiles(-0.5, 5, 100.0, 70.0, 0.05, 2.0);
-        driveAndTurnDistanceTiles(2.0, 20, 100.0, 150.0, 0.05, 1.5);
-        driveAndTurnDistanceTiles(1.0, -90, 100.0, 150.0, 0.05, 1.5);
-        driveAndTurnDistanceTiles(-1.5, -45, 100.0, 200.0, 0.05, 2.0);
-        driveAndTurnDistanceTiles(-2.0, -90, 100.0, 300.0, 0.05, 2.0);
+        driveAndTurnDistanceTiles(0.5, 5.0, 100.0, 70.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(1.5, 20.0, 100.0, 150.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(1.0, -90.0, 100.0, 200.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-1.5, -45.0, 100.0, 400.0, 0.05, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 100.0, 500.0, 0.05, 1.5);
 
         // Elevation
-        driveDistanceTiles(0.5, 100.0, 0.05, 0.5);
+        driveAndTurnDistanceTiles(0.5, 0.0, 100.0, 100.0, 0.05, 1.5);
         // Prepare for elevation
         setLiftState(true);
         // Drive to elevation bar

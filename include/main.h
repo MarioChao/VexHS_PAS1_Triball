@@ -12,4 +12,3 @@ extern double motSpeedRpm, motAimSpeedRpm;
 
 // Global variables
 extern int playingVideoId;
-extern bool canControlIntake;

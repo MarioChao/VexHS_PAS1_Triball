@@ -74,7 +74,6 @@ double motSpeedRpm, motAimSpeedRpm = 0;
 
 // Global variables
 int playingVideoId = 0;
-bool canControlIntake = true;
 
 /******************* -------------- *******************/
 /*                   Pre-Autonomous                   */
@@ -87,6 +86,8 @@ void pre_auton(void) {
     // Activites before the competition starts
     // Flywheel task
     task flywheelTask([] () -> int { flywheelThread(); return 1; });
+    // Intake task
+    task intakeTask([] () -> int { intakeThread(); return 1; });
     // Controller task
     task rum([] () -> int { preautonControllerThread(); return 1; });
     // Pre-auton
@@ -100,6 +101,7 @@ void pre_auton(void) {
 /******************* ---------- *******************/
 
 void autonomous(void) {
+    // Start autonomous
     timer benchmark;
 
     // Reset
@@ -111,11 +113,23 @@ void autonomous(void) {
     printf("Time spent: %.3f s\n", benchmark.value());
 }
 
+void userRunAutonomous() {
+    // Wait until sensors are initialized
+    task::sleep(100);
+    while (!initComponentFinished) {
+        task::sleep(10);
+    }
+
+    autonomous();
+}
+
 /******************* ------------ *******************/
 /*                   User Control                   */
 /******************* ------------ *******************/
 
 void usercontrol(void) {
+    // userRunAutonomous();
+
     // Keybinds
     keybindAnchor();
     keybindDrive();
