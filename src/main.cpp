@@ -114,8 +114,8 @@ void autonomous(void) {
 
 void userRunAutonomous() {
     // Wait until sensors are initialized
-    task::sleep(100);
-    while (!initComponentFinished) {
+    task::sleep(500);
+    while (!isPreautonFinished()) {
         task::sleep(10);
     }
 

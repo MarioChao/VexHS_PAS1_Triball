@@ -57,10 +57,10 @@ void flywheelThread() {
 }
 void keybindFlywheel() {
     Controller1.ButtonUp.pressed([] () -> void {
-        switchFlywheelSpeed(600);
+        switchFlywheelSpeed(550);
     });
     Controller1.ButtonDown.pressed([] () -> void {
-        switchFlywheelSpeed(-600);
+        switchFlywheelSpeed(-550);
     });
 }
 void setFlywheelSpeed(double rpm) {

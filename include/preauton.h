@@ -2,5 +2,4 @@
 
 void preautonControllerThread();
 void runPreauton();
-
-extern bool initComponentFinished;
+bool isPreautonFinished();

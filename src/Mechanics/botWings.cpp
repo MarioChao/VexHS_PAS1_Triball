@@ -20,12 +20,10 @@ namespace {
         if (!wingsDebounce) {
             wingsDebounce = true;
 
-            int oldValue1 = LeftWingPneumatic.value();
-            int oldValue2 = RightWingPneumatic.value();
-            int newValue1 = oldValue1 ^ 1;
-            int newValue2 = oldValue2 ^ 1;
-            LeftWingPneumatic.set(newValue1);
-            RightWingPneumatic.set(newValue2);
+            int oldValue = LeftWingPneumatic.value();
+            int newValue = oldValue ^ 1;
+            LeftWingPneumatic.set(newValue);
+            RightWingPneumatic.set(newValue);
             task::sleep(50);
 
             wingsDebounce = false;

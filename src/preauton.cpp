@@ -8,9 +8,10 @@
 namespace {
     void initComponents();
     void bufferScreen();
+    
+    bool initComponentFinished = false;
 }
 
-bool initComponentFinished = false;
 
 void preautonControllerThread() {
     debug::printOnController("No auton selected!");
@@ -26,9 +27,14 @@ void runPreauton() {
     // Initialize components
     initComponents();
 }
+bool isPreautonFinished() {
+    return initComponentFinished;
+}
 
 namespace {
     void initComponents() {
+        initComponentFinished = false;
+
         // Calibrate inertial sensor
         InertialSensor.startCalibration();
         while (InertialSensor.isCalibrating()) {

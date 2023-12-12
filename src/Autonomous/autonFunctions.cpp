@@ -49,7 +49,7 @@ namespace auton {
         // PID
         // L_vel = L_dist / time
         // R_vel = R_dist / time = L_vel * (R_dist / L_dist)
-        PIDControl rotateTargetAnglePid(0.5, 0, 0, errorRange); // Reach goal
+        PIDControl rotateTargetAnglePid(0.5375, 0, 0, errorRange); // Reach goal
         timer timeout;
         while (!rotateTargetAnglePid.isSettled() && timeout.value() < runTimeout) {
             // Compute rotate error
