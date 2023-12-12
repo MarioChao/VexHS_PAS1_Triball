@@ -19,7 +19,5 @@ namespace auton {
     void setRightWingState(bool state);
     void setWingsState(bool state);
 
-    void setAnchorState(bool state);
-
     void setLiftState(bool state);
 }

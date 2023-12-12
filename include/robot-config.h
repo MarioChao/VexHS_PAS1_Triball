@@ -20,7 +20,6 @@ extern motor FlywheelMotor;
 
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
-extern pneumatics AnchorPneumatic;
 extern pneumatics LiftPneumatic1;
 extern pneumatics LiftPneumatic2;
 

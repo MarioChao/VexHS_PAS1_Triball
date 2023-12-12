@@ -21,10 +21,9 @@ motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, RightMotorA, Rig
 motor IntakeMotor(PORT13, ratio6_1);
 motor FlywheelMotor(PORT14, ratio6_1);
 
-pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
-pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);
-pneumatics AnchorPneumatic(Brain.ThreeWirePort.C);
-pneumatics LiftPneumatic1(Brain.ThreeWirePort.B);
+pneumatics LeftWingPneumatic(Brain.ThreeWirePort.B);
+pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);
+pneumatics LiftPneumatic1(Brain.ThreeWirePort.E);
 pneumatics LiftPneumatic2(Brain.ThreeWirePort.F);
 
 inertial InertialSensor(PORT12);

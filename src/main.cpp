@@ -53,7 +53,6 @@
 #include "preauton.h"
 #include "Autonomous/auton.h"
 
-#include "Mechanics/botAnchor.h"
 #include "Mechanics/botDrive.h"
 #include "Mechanics/botFlywheel.h"
 #include "Mechanics/botIntake.h"
@@ -131,7 +130,6 @@ void usercontrol(void) {
     // userRunAutonomous();
 
     // Keybinds
-    keybindAnchor();
     keybindDrive();
     keybindFlywheel();
     keybindLift();

@@ -276,12 +276,6 @@ namespace auton {
         setRightWingState(state);
     }
 
-    /// @brief Set the state of the anchor's pneumatic.
-    /// @param state Deployed: true, retracted: false
-    void setAnchorState(bool state) {
-        AnchorPneumatic.set(state);
-    }
-
     /// @brief Set the state of the lift's pneumatic.
     /// @param state Lifted: true, lowered: false
     void setLiftState(bool state) {

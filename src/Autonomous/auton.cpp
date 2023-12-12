@@ -192,10 +192,10 @@ namespace {
         turnToAngle(33, halfRobotLengthIn, 3.0, 1.0); // Face the matchload zone
         driveAndTurnDistanceTiles(-sqrt(pow(1.9, 2) + pow(1.9, 2)), 33, 100.0, 70.0, 0.05, 2.5);
         turnToAngle(135, -halfRobotLengthIn * 0.7, 3.0, 1.0); // Face parallel to the matchload zone
-        setAnchorState(true);
+        // setAnchorState(true);
         task::sleep(100);
         turnToAngle(75, -halfRobotLengthIn * 1.5, 3.0, 1.0); // Anchor push the triball
-        setAnchorState(false);
+        // setAnchorState(false);
 
         // Push the former-corner and elevation-bar balls
         turnToAngle(-75, 0.0, 3.0, 1.0); // Back-side face down-right (more right)
@@ -204,7 +204,7 @@ namespace {
         // Go to matchload position
         driveAndTurnDistanceTiles(2.5, -45, 100.0, 240.0, 0.05, 2.5);
         turnToAngle(110, 0.0, 3.0, 1.0); // Face down-right (more right)
-        setAnchorState(true);
+        // setAnchorState(true);
         task::sleep(100);
         turnToAngle(90, halfRobotLengthIn * 3.0, 3.0, 1.0);
     }
@@ -252,10 +252,10 @@ namespace {
         setWingsState(true);
         driveAndTurnDistanceTiles(-2.0, -90.0, 100.0, 100.0, 0.05, 1.3);
         // Push loaded ball into the goal
-        setIntakeState(0);
         setWingsState(false);
         driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, 0.05, 1.5);
         turnToAngle(90.0, 0.0, 5.0, 1.5);
+        setIntakeState(0);
         driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, 0.05, 1.0);
         
         // Face the elevation bar
@@ -310,10 +310,10 @@ namespace {
         // Outtake
         setIntakeState(-1);
         // Anchor swing the ball
-        setAnchorState(true);
+        // setAnchorState(true);
         task::sleep(100);
         turnToAngle(345, -halfRobotLengthIn, 3.0, 1.0); // Face up-left (swing the ball out)
-        setAnchorState(false);
+        // setAnchorState(false);
         turnToAngle(375, 0.0, 1.0, 0.5); // Unstuck the anchor
         setIntakeState(false);
 
