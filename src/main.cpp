@@ -114,7 +114,7 @@ void autonomous(void) {
 
 void userRunAutonomous() {
     // Wait until sensors are initialized
-    task::sleep(500);
+    task::sleep(1500);
     while (!isPreautonFinished()) {
         task::sleep(10);
     }
@@ -127,7 +127,7 @@ void userRunAutonomous() {
 /******************* ------------ *******************/
 
 void usercontrol(void) {
-    // userRunAutonomous();
+    userRunAutonomous();
 
     // Keybinds
     keybindDrive();

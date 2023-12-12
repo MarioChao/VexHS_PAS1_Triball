@@ -37,6 +37,7 @@ namespace {
 
         // Calibrate inertial sensor
         InertialSensor.startCalibration();
+        task::sleep(30);
         while (InertialSensor.isCalibrating()) {
             task::sleep(30);
         }
