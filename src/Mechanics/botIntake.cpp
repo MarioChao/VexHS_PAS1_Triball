@@ -5,24 +5,35 @@ namespace {
     void resolveIntake();
     bool intakeIsStopped();
 
+    double intakeVelocityPct = 100.0;
     int intakeResolveState = 0;
 
     double intakeSkipMinFrameCount = 5;
     double intakeStuckFrameCount = 0;
     bool intakeIsStuck = false;
+    
+    bool canControlIntake = true;
 }
 
-bool canControlIntake = true;
 
+void resetIntake() {
+    intakeVelocityPct = 50.0;
+    setIntakeResolveState(-1);
+    task::sleep(100);
+    setIntakeResolveState(0);
+    intakeVelocityPct = 100.0;
+}
 void intakeThread() {
     // Intake loop
+    intakeVelocityPct = 100.0;
     while (true) {
         resolveIntake();
         task::sleep(20);
     }
 }
 void controlIntake() {
-    if (canControlIntake) {
+    if (isIntakeControllable()) {
+        intakeVelocityPct = 100.0;
         int intakeDirection = (int) Controller1.ButtonR1.pressing() - (int) Controller1.ButtonR2.pressing();
         setIntakeResolveState(intakeDirection);
     }
@@ -30,13 +41,16 @@ void controlIntake() {
 void setIntakeResolveState(int intakeActivationState) {
     intakeResolveState = intakeActivationState;
 }
+bool isIntakeControllable() {
+    return canControlIntake;
+}
 
 namespace {
     /// @brief Set the intake On (intake or outtake) or Off, stopping it if the motor is stuck. Intake state is modified by setIntakeResolveState(int).
     void resolveIntake() {
         // Make sure intakeResolveState is within [-1, 1]
         intakeResolveState = (intakeResolveState > 0) - (intakeResolveState < 0);
-        double spinVelocityPct = intakeResolveState * 100;
+        double spinVelocityPct = intakeResolveState * intakeVelocityPct;
 
         // Resolve intake
         if (intakeResolveState) {

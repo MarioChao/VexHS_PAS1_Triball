@@ -104,7 +104,7 @@ void autonomous(void) {
     timer benchmark;
 
     // Reset
-    resetLift();
+    resetIntake();
 
     // Autonomous user code
     runAutonomous();
@@ -127,7 +127,7 @@ void userRunAutonomous() {
 /******************* ------------ *******************/
 
 void usercontrol(void) {
-    userRunAutonomous();
+    // userRunAutonomous();
 
     // Keybinds
     keybindDrive();
@@ -137,7 +137,7 @@ void usercontrol(void) {
     keybindVideos();
 
     // Reset
-    resetLift();
+    resetIntake();
 
     while (1) {
         // Joystick feedback

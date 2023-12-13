@@ -42,8 +42,6 @@ namespace {
             task::sleep(30);
         }
         printf("Calibrated!\n");
-        // Pneumatic state
-        setLiftState(true);
         
         initComponentFinished = true;
     }
