@@ -4,6 +4,7 @@
 namespace {
     void resolveIntake();
     bool intakeIsStopped();
+    void resetIntakeStuckState();
 
     double intakeVelocityPct = 100.0;
     int intakeResolveState = 0;
@@ -17,11 +18,9 @@ namespace {
 
 
 void resetIntake() {
-    intakeVelocityPct = 50.0;
-    setIntakeResolveState(-1);
-    task::sleep(100);
+    setIntakeResolveState(1);
+    task::sleep(150);
     setIntakeResolveState(0);
-    intakeVelocityPct = 100.0;
 }
 void intakeThread() {
     // Intake loop
@@ -40,6 +39,7 @@ void controlIntake() {
 }
 void setIntakeResolveState(int intakeActivationState) {
     intakeResolveState = intakeActivationState;
+    resetIntakeStuckState();
 }
 bool isIntakeControllable() {
     return canControlIntake;
@@ -73,18 +73,20 @@ namespace {
                 intakeStuckFrameCount = fmin(intakeStuckFrameCount, intakeSkipMinFrameCount + 1);
             } else {
                 // Reset stuck state when intake is no longer stuck
-                intakeIsStuck = false;
-                intakeStuckFrameCount = 0;
+                resetIntakeStuckState();
             }
         } else {
             // Stop the intake
             IntakeMotor.stop();
             // Reset stuck state
-            intakeIsStuck = false;
-            intakeStuckFrameCount = 0;
+            resetIntakeStuckState();
         }
     }
     bool intakeIsStopped() {
         return fabs(IntakeMotor.velocity(pct)) < 20;
+    }
+    void resetIntakeStuckState() {
+        intakeIsStuck = false;
+        intakeStuckFrameCount = 0;
     }
 }

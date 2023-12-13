@@ -128,7 +128,7 @@ namespace auton {
 
         // PID
         PIDControl driveTargetDistancePid(25, 0, 0, errorRange);
-        PIDControl rotateTargetAnglePid(0.6);
+        PIDControl rotateTargetAnglePid(0.6, 0, 0, defaultTurnAngleErrorRange);
 
         timer timeout;
         while ((!driveTargetDistancePid.isSettled() || !rotateTargetAnglePid.isSettled()) && timeout.value() < runTimeout) {
@@ -146,7 +146,6 @@ namespace auton {
             double rotateError = (targetRotation - InertialSensor.rotation());
             rotateTargetAnglePid.computeFromError(rotateError);
             double rotateVelocityPct = fmin(maxTurnVelocityPct, fmax(-maxTurnVelocityPct, rotateTargetAnglePid.getValue()));
-            // printf("Turning.. Now: %.3f, Err: %.3f, Pid: %.3f\n", InertialSensor.rotation(deg), rotateError, rotateTargetAnglePid.getValue());
 
             // Compute final motor velocities
             double leftVelocityPct = velocityPct + rotateVelocityPct;
@@ -156,6 +155,7 @@ namespace auton {
             double scaleFactor = 100.0 / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));
             leftVelocityPct *= scaleFactor;
             rightVelocityPct *= scaleFactor;
+            // printf("Turning Err: %.3f, Pid: %.3f, Val: %.3f, VelL: %.3f, VelR: %.3f\n", rotateError, rotateTargetAnglePid.getValue(), rotateVelocityPct, leftVelocityPct, rightVelocityPct);
 
             // Spin motors
             LeftMotors.spin(fwd, leftVelocityPct, pct);
@@ -185,7 +185,7 @@ namespace auton {
         // PID
         PIDControl driveTargetDistancePid(10, 0, 0, errorRange);
         PIDControl driveMaintainVelocityPid(2);
-        PIDControl rotateTargetAnglePid(0.6);
+        PIDControl rotateTargetAnglePid(0.6, 0, 0, defaultTurnAngleErrorRange);
         // Motion profile
         MotionProfile driveSpeedMotionProfile;
         driveSpeedMotionProfile.setModeAcceleration(90, 90, maxVelocityPct);
