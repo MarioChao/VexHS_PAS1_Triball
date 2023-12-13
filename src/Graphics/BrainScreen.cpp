@@ -372,6 +372,7 @@ namespace {
     autonDock -> addFunction([] {
       drawCoordinate(20, 40, 100, 100);
       drawFlywheel(20, 160, 100, 60);
+      // drawFlywheel(20, 40, 300, 160);
     });
     autonDock -> addEnabledFunction([] {
       autonSubdock2 -> setEnabled(false);

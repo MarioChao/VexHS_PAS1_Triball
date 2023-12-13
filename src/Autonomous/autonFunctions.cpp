@@ -73,7 +73,7 @@ namespace auton {
             // printf("Turning.. Now: %.3f, Err: %.3f\n", InertialSensor.rotation(deg), rotateError);
             task::sleep(20);
         }
-        printf("Stopped turning.\n");
+        // printf("Stopped turning.\n");
 
         // Stop
         LeftRightMotors.stop(brake);
@@ -164,7 +164,7 @@ namespace auton {
             // printf("Moving..\n");
             task::sleep(20);
         }
-        printf("Stopped moving.\n");
+        // printf("Stopped moving.\n");
 
         // Stop
         LeftRightMotors.stop(brake);
@@ -239,7 +239,7 @@ namespace auton {
             // printf("Moving..\n");
             task::sleep(20);
         }
-        printf("Stopped moving.\n");
+        // printf("Stopped moving.\n");
 
         // Stop
         LeftRightMotors.stop(brake);
@@ -279,7 +279,7 @@ namespace auton {
     /// @brief Set the state of the lift's pneumatic.
     /// @param state Lifted: true, lowered: false
     void setLiftState(bool state) {
-        LiftPneumatic1.set(!state);
-        LiftPneumatic2.set(!state);
+        LiftPneumatic1.set(state);
+        LiftPneumatic2.set(state);
     }    
 }

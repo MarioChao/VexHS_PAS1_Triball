@@ -87,7 +87,7 @@ namespace {
         turnToAngle(-180);
         task::sleep(200);
         turnToAngle(0);
-        task::sleep(200);
+        // task::sleep(200);
         // driveDistanceTiles(3);
         // task::sleep(200);
         // driveDistanceTiles(-3);
@@ -333,7 +333,7 @@ namespace {
         setRotation(135);
 
         // Prepare for matchload
-        setFlywheelSpeedRpm(600);
+        setFlywheelSpeedRpm(460);
         // Push the two alliance triballs
         driveAndTurnDistanceTiles(-2.0, 180, 80.0, 500.0, defaultMoveTilesErrorRange, 1.4);
 
@@ -343,7 +343,7 @@ namespace {
         // Match load positioning
         turnToAngle(60, 0.0, defaultTurnAngleErrorRange, 1.0);
         driveAndTurnDistanceTiles(-0.5, 60, 25.0, 200.0, defaultMoveTilesErrorRange, 1.0);
-        turnToAngleVelocity(75.0, 60.0, 0.0, defaultTurnAngleErrorRange, 1.5);
+        turnToAngleVelocity(74.0, 60.0, 0.0, defaultTurnAngleErrorRange, 1.5);
 
         // Match load 44 balls
         task::sleep(2000);
@@ -363,11 +363,11 @@ namespace {
 
         // Push the triballs through path that goes below the red elevation-bar
         turnToAngle(-60, 0.0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-4.1, -88.0, 100.0, 300.0, defaultMoveTilesErrorRange, 3.3);
+        driveAndTurnDistanceTiles(-4.2, -88.0, 100.0, 300.0, defaultMoveTilesErrorRange, 3.3);
 
         // Score triballs through bottom-side of the goal
         turnToAngle(-115, 0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 250.0, defaultMoveTilesErrorRange, 1.2);
+        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 150.0, defaultMoveTilesErrorRange, 1.2);
         // driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
         // driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.2);
         
@@ -382,17 +382,17 @@ namespace {
 
         // Score more triballs through left-side of the goal
         driveAndTurnDistanceTiles(1.5, -180, 1100.0, 50.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-2.7, -180, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        turnToAngle(-35, 0, defaultTurnAngleErrorRange, 1.5);
         setWingsState(true);
+        driveAndTurnDistanceTiles(-2.7, -180, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        turnToAngle(-35, 0, defaultTurnAngleErrorRange, 1.5);
         driveAndTurnDistanceTiles(-2.5, -90, 100.0, 60.0, defaultMoveTilesErrorRange, 1.5);
         setWingsState(false);
 
         // Score triballs through top-side of the goal
         driveAndTurnDistanceTiles(0.5, 20.0, 100.0, 70.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.0, -90.0, 500.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-1.5, -45.0, 100.0, 600.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-2.0, 0.0, 100.0, 600.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.0, -90.0, 300.0, 90.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.5, -40.0, 90.0, 600.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 90.0, 600.0, defaultMoveTilesErrorRange, 1.5);
 
         // Elevation
         driveAndTurnDistanceTiles(0.5, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
