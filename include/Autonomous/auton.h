@@ -25,6 +25,10 @@ void showAutonRunType();
 /// @return The type of autonomous currently selected.
 autonomousType getAutonRunType();
 
+/// @brief Return whether autonomous code should run when user control begins.
+/// @return Whether auton will run when user control begins.
+bool isUserRunningAuton();
+
 /// @brief Run the autonomous set by setAutonRunType().
 void runAutonomous();
 

@@ -136,6 +136,8 @@ void usercontrol(void) {
     // Skills intro
     if (getAutonRunType() == autonomousType::DrivingSkills) {
         autonSkillsIntro();
+    } else if (isUserRunningAuton()) {
+        userRunAutonomous();
     }
 
     // Keybinds

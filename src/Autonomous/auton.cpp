@@ -19,7 +19,8 @@ namespace {
     void runAutonFarElim();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::None;
+    bool userRunningAutonomous = false;
+    autonomousType auton_runType = autonomousType::FarAWP;
     int auton_allianceId;
 }
 
@@ -66,7 +67,12 @@ autonomousType getAutonRunType() {
     return auton_runType;
 }
 
+bool isUserRunningAuton() {
+    return userRunningAutonomous;
+}
+
 void runAutonomous() {
+    userRunningAutonomous = false;
     switch (auton_runType) {
         case autonomousType::NearAWP:
             // runAutonNearAWP();
@@ -181,29 +187,30 @@ namespace {
         setRotation(180.0);
         
         // Push middle balls over the middle barrier
-        driveAndTurnDistanceTiles(-1.8, 195.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.82, 195.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
         setRightWingState(true);
-        turnToAngle(270.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.0);
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(-1.5, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
-        setRightWingState(false);
+        turnToAngleVelocity(270.0, 60.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.3);
+        driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 200.0, defaultMoveTilesErrorRange, 1.3);
+        setRightWingState(false, 0.3);
 
         // Drive to match load zone
         driveAndTurnDistanceTiles(0.3, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
-        turnToAngle(215.0, 0.0, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.1, 235.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        turnToAngle(215.0, -halfRobotLengthIn, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.13, 235.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
         // Face upward-parallel to the match load bar
         turnToAngle(315.0, halfRobotLengthIn * 1.25, defaultTurnAngleErrorRange, 1.5);
         // Swing the ball out
         setLeftWingState(true);
-        driveAndTurnDistanceTiles(-0.7, 290.0, 80.0, 400.0, defaultMoveTilesErrorRange, 1.5);
+        turnToAngle(300, 0.0, defaultTurnAngleErrorRange, 105);
+        driveAndTurnDistanceTiles(-0.7, 290.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.5);
+        turnToAngle(310, 0.0, defaultTurnAngleErrorRange, 1.0);
         setLeftWingState(false);
         
         // Prepare to push balls over to the offensive zone
-        turnToAngle(285, 0.0, defaultTurnAngleErrorRange, 0.7);
-        driveAndTurnDistanceTiles(-0.5, 270.0, 40.0, 30.0, defaultMoveTilesErrorRange, 1.7);
-        turnToAngle(250.0, halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 0.7);
-        turnToAngle(270.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 0.7);
+        task::sleep(300);
+        driveAndTurnDistanceTiles(-0.5, 270.0, 30.0, 8.0, defaultMoveTilesErrorRange, 1.7);
+        turnToAngle(250.0, halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
+        turnToAngle(270.0, -halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
 
         // Idle until 12th second of autonomous
         while (autontimer.value() < 12.0) {
@@ -215,8 +222,8 @@ namespace {
 
         // Touch the elevation bar
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-1.0, 260.0, 30.0, 100.0, defaultMoveTilesErrorRange, 2.5);
-        turnToAngle(290.0, 0.0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-0.8, 250.0, 20.0, 100.0, defaultMoveTilesErrorRange, 2.5);
+        turnToAngle(300.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.5);
         // Robot is touching the elevation bar
 
     }
@@ -305,8 +312,8 @@ namespace {
         setWingsState(true);
         driveAndTurnDistanceTiles(-2.0, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.75);
         // Push loaded ball into the goal
-        setWingsState(false);
-        driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        setWingsState(false, 0.2);
+        driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
         turnToAngle(90.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         setIntakeState(0);
         driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);

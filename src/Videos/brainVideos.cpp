@@ -1,6 +1,7 @@
 #include "Videos/brainVideos.h"
 #include "Videos/VideoInfos/yoruNiKakeru.h"
 #include "Videos/VideoInfos/badApple.h"
+#include "Videos/VideoInfos/teamLogo.h"
 #include "main.h"
 
 namespace {
@@ -9,7 +10,7 @@ namespace {
 
     std::vector< std::vector< std::vector<int> > > video;
 
-    int videoCount = 2;
+    int videoCount = 1;
     double frameDelayMs;
     int frameId;
 }
@@ -85,9 +86,12 @@ namespace {
             // Switch video
             switch (playingVideoId) {
                 case 1:
-                    yoruNiKakeru.loadVideo(&video, &frameDelayMs);
+                    teamLogo.loadVideo(&video, &frameDelayMs);
                     break;
                 case 2:
+                    yoruNiKakeru.loadVideo(&video, &frameDelayMs);
+                    break;
+                case 3:
                     badApple.loadVideo(&video, &frameDelayMs);
                     break;
                 case 0:
