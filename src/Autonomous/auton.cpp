@@ -77,21 +77,9 @@ void runAutonomous() {
 namespace {
     void autonTest() {
         setRotation(0.0);
-        // driveAndTurnDistanceTiles(3.0, 90.0, 100.0, 100.0, 0.05, 3.0);
-        turnToAngle(90);
-        task::sleep(200);
-        turnToAngle(-90);
-        task::sleep(200);
-        turnToAngle(180);
-        task::sleep(200);
-        turnToAngle(-180);
-        task::sleep(200);
-        turnToAngle(0);
-        // task::sleep(200);
-        // driveDistanceTiles(3);
-        // task::sleep(200);
-        // driveDistanceTiles(-3);
-        // task::sleep(200);
+        driveAndTurnDistanceTiles(0.5, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        turnToAngle(-40, 0.0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(3.6, -90, 150.0, 120.0, defaultMoveTilesErrorRange, 3.0);
     }
 
     /// @brief Run the 15-seconds near-side AWP autonomous.
@@ -335,7 +323,7 @@ namespace {
         // Prepare for matchload
         setFlywheelSpeedRpm(460);
         // Push the two alliance triballs
-        driveAndTurnDistanceTiles(-2.0, 180, 80.0, 500.0, defaultMoveTilesErrorRange, 1.4);
+        driveAndTurnDistanceTiles(-2.0, 180, 75.0, 500.0, defaultMoveTilesErrorRange, 1.4);
 
         // Go to matchload position
         task::sleep(200);
@@ -363,44 +351,46 @@ namespace {
 
         // Push the triballs through path that goes below the red elevation-bar
         turnToAngle(-60, 0.0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-4.2, -88.0, 100.0, 300.0, defaultMoveTilesErrorRange, 3.3);
+        driveAndTurnDistanceTiles(-4.2, -80.0, 100.0, 300.0, defaultMoveTilesErrorRange, 3.3);
 
         // Score triballs through bottom-side of the goal
-        turnToAngle(-115, 0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 150.0, defaultMoveTilesErrorRange, 1.2);
+        turnToAngle(-105, 0, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 90.0, defaultMoveTilesErrorRange, 1.2);
         // driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
         // driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.2);
         
         // Score triballs through left-side of the goal
+        task::sleep(500);
         driveAndTurnDistanceTiles(0.3, -180.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
         turnToAngle(-70, halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.0, -90, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
-        turnToAngle(-135, 0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.0, -90, 90.0, 300.0, defaultMoveTilesErrorRange, 1.5);
+        turnToAngle(-180, 0, defaultTurnAngleErrorRange, 1.5);
         setWingsState(true);
-        driveAndTurnDistanceTiles(-2.5, -90.0, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.5, -90.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.5);
         setWingsState(false);
 
         // Score more triballs through left-side of the goal
-        driveAndTurnDistanceTiles(1.5, -180, 1100.0, 50.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.7, -180, 1000.0, 30.0, defaultMoveTilesErrorRange, 1.5);
         setWingsState(true);
-        driveAndTurnDistanceTiles(-2.7, -180, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
-        turnToAngle(-35, 0, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-2.5, -90, 100.0, 60.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.3, -180, 60.0, 100.0, defaultMoveTilesErrorRange, 3.0);
+        turnToAngleVelocity(0, 60.0, 0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.5, -90, 100.0, 700.0, defaultMoveTilesErrorRange, 1.5);
         setWingsState(false);
 
         // Score triballs through top-side of the goal
-        driveAndTurnDistanceTiles(0.5, 20.0, 100.0, 70.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.0, -90.0, 300.0, 90.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-1.5, -40.0, 90.0, 600.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-2.0, 0.0, 90.0, 600.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.7, 30.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.5, -90.0, 300.0, 80.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.3, -40.0, 80.0, 600.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 60.0, 600.0, defaultMoveTilesErrorRange, 1.5);
 
         // Elevation
+        task::sleep(500);
         driveAndTurnDistanceTiles(0.5, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
         // Prepare for elevation
         setLiftState(true);
         // Drive to elevation bar
-        turnToAngle(-45, 0.0, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(3.6, -90, 100.0, 200.0, defaultMoveTilesErrorRange, 3.0);
+        turnToAngle(-40, 0.0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(3.6, -90, 150.0, 120.0, defaultMoveTilesErrorRange, 3.0);
         // Clamp on the bar
         task::sleep(100);
         setLiftState(false);
