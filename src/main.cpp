@@ -138,6 +138,7 @@ void usercontrol(void) {
 
     // Reset
     resetIntake();
+    setWingsState(false);
 
     while (1) {
         // Joystick feedback

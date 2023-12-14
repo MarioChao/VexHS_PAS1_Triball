@@ -19,9 +19,9 @@ namespace auton {
 
     void setFlywheelSpeedRpm(double rpm);
 
-    void setLeftWingState(bool state);
-    void setRightWingState(bool state);
-    void setWingsState(bool state);
+    void setLeftWingState(bool state, double delaySec = 0);
+    void setRightWingState(bool state, double delaySec = 0);
+    void setWingsState(bool state, double delaySec = 0);
 
     void setLiftState(bool state);
 }

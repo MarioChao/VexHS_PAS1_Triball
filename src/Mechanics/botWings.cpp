@@ -14,6 +14,10 @@ void keybindWings() {
         changeBothWingsState();
     });
 }
+void setWingsState(bool state) {
+    LeftWingPneumatic.set(state);
+    RightWingPneumatic.set(state);
+}
 
 namespace {
     void changeBothWingsState() {
@@ -22,8 +26,7 @@ namespace {
 
             int oldValue = LeftWingPneumatic.value();
             int newValue = oldValue ^ 1;
-            LeftWingPneumatic.set(newValue);
-            RightWingPneumatic.set(newValue);
+            setWingsState(newValue);
             task::sleep(50);
 
             wingsDebounce = false;

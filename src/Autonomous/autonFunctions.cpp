@@ -12,6 +12,11 @@ namespace {
     using namespace angle;
     using namespace botinfo;
     using namespace field;
+
+    double setLeftWing_DelaySec;
+    double setRightWing_DelaySec;
+    bool setLeftWing_LeftWingState;
+    bool setRightWing_RightWingState;
 }
 
 namespace auton {
@@ -259,21 +264,40 @@ namespace auton {
 
     /// @brief Set the state of Left Wing's pneumatic.
     /// @param state Expanded: true, retracted: false.
-    void setLeftWingState(bool state) {
-        LeftWingPneumatic.set(state);
+    /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
+    void setLeftWingState(bool state, double delaySec) {
+        setLeftWing_LeftWingState = state;
+        setLeftWing_DelaySec = delaySec;
+        task setPneumaticState([] () -> int {
+            if (setLeftWing_DelaySec > 1e-9) {
+                task::sleep(setLeftWing_DelaySec * 1000);
+            }
+            LeftWingPneumatic.set(setLeftWing_LeftWingState);
+            return 1;
+        });
     }
 
     /// @brief Set the state of Right Wing's pneumatic.
     /// @param state Expanded: true, retracted: false.
-    void setRightWingState(bool state) {
-        RightWingPneumatic.set(state);
+    /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
+    void setRightWingState(bool state, double delaySec) {
+        setRightWing_RightWingState = state;
+        setRightWing_DelaySec = delaySec;        
+        task setPneumaticState([] () -> int {
+            if (setRightWing_DelaySec > 1e-9) {
+                task::sleep(setRightWing_DelaySec * 1000);
+            }
+            RightWingPneumatic.set(setRightWing_RightWingState);
+            return 1;
+        });
     }
 
     /// @brief Set the state of Left and Right Wing's pneumatic.
     /// @param state Expanded: true, retracted: false.
-    void setWingsState(bool state) {
-        setLeftWingState(state);
-        setRightWingState(state);
+    /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
+    void setWingsState(bool state, double delaySec) {
+        setLeftWingState(state, delaySec);
+        setRightWingState(state, delaySec);
     }
 
     /// @brief Set the state of the lift's pneumatic.
