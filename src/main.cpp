@@ -89,10 +89,14 @@ void pre_auton(void) {
     task intakeTask([] () -> int { intakeThread(); return 1; });
     // Controller task
     task rum([] () -> int { preautonControllerThread(); return 1; });
-    // Pre-auton
-    runPreauton();
+    // Show auton state
+    showAutonRunType();
     // Stopping brake-types
     preautonDrive();
+
+    // Initialize sensors & components
+    // Pre-auton
+    runPreauton();
 }
 
 /******************* ---------- *******************/
@@ -112,6 +116,7 @@ void autonomous(void) {
     printf("Time spent: %.3f s\n", benchmark.value());
 }
 
+/// @brief A function for testing autonomous directly in usercontrol.
 void userRunAutonomous() {
     // Wait until sensors are initialized
     task::sleep(1500);
@@ -119,6 +124,7 @@ void userRunAutonomous() {
         task::sleep(10);
     }
 
+    // userRunAutonomous();
     autonomous();
 }
 
@@ -127,7 +133,10 @@ void userRunAutonomous() {
 /******************* ------------ *******************/
 
 void usercontrol(void) {
-    // userRunAutonomous();
+    // Skills intro
+    if (getAutonRunType() == autonomousType::DrivingSkills) {
+        autonSkillsIntro();
+    }
 
     // Keybinds
     keybindDrive();

@@ -1,7 +1,7 @@
 {
 	"project": {
-		"name": "VexHS_PAS1_Triball",
-		"slot": 2,
+		"name": "PAS1_KillerMode",
+		"slot": 1,
 		"description": "Over Under V5 C++ Project",
 		"platform": "V5",
 		"creationDate": "Mon, 06 Nov 2023 07:48:50 GMT",

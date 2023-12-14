@@ -19,34 +19,51 @@ namespace {
     void runAutonFarElim();
     void runAutonSkills();
 
-    autonomousType auton_runType = autonomousType::NearAWP;
+    autonomousType auton_runType = autonomousType::None;
     int auton_allianceId;
 }
-
 
 void setAutonRunType(int allianceId, autonomousType autonType) {
     switch (autonType) {
         case autonomousType::NearAWP:
             printOnController("Auton: NearAWP");
+            printf("Nearaw\n");
             break;
         case autonomousType::NearElim:
             printOnController("Auton: NearElim");
+            printf("Nearel\n");
             break;
         case autonomousType::FarAWP:
             printOnController("Auton: FarAWP");
+            printf("Faraw\n");
             break;
         case autonomousType::FarElim:
             printOnController("Auton: FarElim");
+            printf("Farel\n");
             break;
-        case autonomousType::Skills:
+        case autonomousType::AutonSkills:
             printOnController("Auton: Skills");
+            printf("AuSk\n");
+            break;
+        case autonomousType::DrivingSkills:
+            printOnController("Driving Skills");
+            printf("DrSk\n");
             break;
         default:
             printOnController("Auton: None");
+            printf("None\n");
             break;
     }
     auton_runType = autonType;
     auton_allianceId = allianceId;
+}
+
+void showAutonRunType() {
+    setAutonRunType(auton_allianceId, auton_runType);
+}
+
+autonomousType getAutonRunType() {
+    return auton_runType;
 }
 
 void runAutonomous() {
@@ -64,7 +81,7 @@ void runAutonomous() {
         case autonomousType::FarElim:
             runAutonFarElim();
             break;
-        case autonomousType::Skills:
+        case autonomousType::AutonSkills:
             runAutonSkills();
             break;
         case autonomousType::Test:
@@ -72,6 +89,42 @@ void runAutonomous() {
         default:
             break;
     }
+}
+
+void autonSkillsIntro() {
+    setRotation(135);
+
+    // Prepare for matchload
+    setFlywheelSpeedRpm(460);
+    // Push the two alliance triballs
+    driveAndTurnDistanceTiles(-2.0, 180, 75.0, 500.0, defaultMoveTilesErrorRange, 1.4);
+
+    // Go to matchload position
+    task::sleep(200);
+    driveAndTurnDistanceTiles(1.2, 140.0, 60.0, 900.0, defaultMoveTilesErrorRange, 1.5);
+    // Match load positioning
+    turnToAngle(60, 0.0, defaultTurnAngleErrorRange, 1.0);
+    driveAndTurnDistanceTiles(-0.5, 60, 25.0, 200.0, defaultMoveTilesErrorRange, 1.0);
+    turnToAngleVelocity(74.0, 60.0, 0.0, defaultTurnAngleErrorRange, 1.5);
+
+    // Match load 44 balls
+    task::sleep(2000);
+    timer duration;
+    while (duration.value() < 25.0) {
+        task::sleep(10);
+    }
+    // while (duration.value() < 5.0) {
+    //     task::sleep(10);
+    // }
+    // while (duration.value() < 60.0) {
+    //     task::sleep(10);
+    // }
+
+    // Finish matchload
+    setFlywheelSpeedRpm(0);
+    
+    // Back-side face the elevation bar
+    turnToAngle(-60, 0.0, defaultTurnAngleErrorRange, 1.0);
 }
 
 namespace {
@@ -330,39 +383,9 @@ namespace {
 
     /// @brief Run the skills autonomous.
     void runAutonSkills() {
-        setRotation(135);
-
-        // Prepare for matchload
-        setFlywheelSpeedRpm(460);
-        // Push the two alliance triballs
-        driveAndTurnDistanceTiles(-2.0, 180, 75.0, 500.0, defaultMoveTilesErrorRange, 1.4);
-
-        // Go to matchload position
-        task::sleep(200);
-        driveAndTurnDistanceTiles(1.2, 140.0, 60.0, 900.0, defaultMoveTilesErrorRange, 1.5);
-        // Match load positioning
-        turnToAngle(60, 0.0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-0.5, 60, 25.0, 200.0, defaultMoveTilesErrorRange, 1.0);
-        turnToAngleVelocity(74.0, 60.0, 0.0, defaultTurnAngleErrorRange, 1.5);
-
-        // Match load 44 balls
-        task::sleep(2000);
-        timer duration;
-        while (duration.value() < 25.0) {
-            task::sleep(10);
-        }
-        // while (duration.value() < 5.0) {
-        //     task::sleep(10);
-        // }
-        // while (duration.value() < 60.0) {
-        //     task::sleep(10);
-        // }
-
-        // Finish matchload
-        setFlywheelSpeedRpm(0);
+        autonSkillsIntro();
 
         // Push the triballs through path that goes below the red elevation-bar
-        turnToAngle(-60, 0.0, defaultTurnAngleErrorRange, 1.0);
         driveAndTurnDistanceTiles(-3.0, -80.0, 100.0, 300.0, defaultMoveTilesErrorRange, 2.2);
         setRightWingState(true);
         driveAndTurnDistanceTiles(-1.2, -80.0, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);

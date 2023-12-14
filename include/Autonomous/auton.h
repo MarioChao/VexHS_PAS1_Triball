@@ -7,7 +7,8 @@ enum autonomousType {
     NearElim,
     FarAWP,
     FarElim,
-    Skills,
+    AutonSkills,
+    DrivingSkills,
     Test,
     None
 };
@@ -17,5 +18,15 @@ enum autonomousType {
 /// @param autonType The type of autonomus to run.
 void setAutonRunType(int allianceId, autonomousType autonType);
 
+/// @brief Show the current autonomous run type on the controller.
+void showAutonRunType();
+
+/// @brief Get the type of autonomous that is selected.
+/// @return The type of autonomous currently selected.
+autonomousType getAutonRunType();
+
 /// @brief Run the autonomous set by setAutonRunType().
 void runAutonomous();
+
+/// @brief Run the intro of the autonomous skills. Can be used for driving skills.
+void autonSkillsIntro();
