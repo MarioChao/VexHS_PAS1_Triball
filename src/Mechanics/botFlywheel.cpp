@@ -12,7 +12,7 @@ namespace {
     double flywheelBangToleranceRpm = 50.0;
     double flywheelTermVoltageCoefficient = 0.975;
     double flywheelToleranceDVolt = 5.0;
-    bool usingCustomTuning = true;
+    bool usingCustomTuning = false;
     bool flywheelSpeedDebounce = false;
 }
 

@@ -120,7 +120,7 @@ void autonSkillsIntro() {
         task::sleep(10);
     }
     setFlywheelSpeedRpm(480);
-    while (duration.value() < 25.0) {
+    while (duration.value() < 23.0) {
         task::sleep(10);
     }
 
@@ -291,26 +291,26 @@ namespace {
         turnToAngle(-330.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         setIntakeState(0);
         // Push three balls through the bottom-side of the goal
-        driveAndTurnDistanceTiles(2.0, -370.0, 70.0, 700.0, defaultMoveTilesErrorRange, 0.7);
+        driveAndTurnDistanceTiles(2.0, -370.0, 70.0, 700.0, defaultMoveTilesErrorRange, 0.5);
 
         // Face center-down ball
         driveAndTurnDistanceTiles(-1.0, -270.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.9);
         turnToAngle(-60.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(2.0, -70.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.2);
+        driveAndTurnDistanceTiles(2.0, -70.0, 90.0, 200.0, defaultMoveTilesErrorRange, 1.2);
         // Face goal
-        turnToAngle(50.0, 0.0, defaultTurnAngleErrorRange, 1.0);
+        turnToAngle(50.0, 0.0, defaultTurnAngleErrorRange, 0.8);
         // Out-take ball
         setIntakeState(-1);
-        task::sleep(300);
+        task::sleep(250);
         setIntakeState(0);
 
         // Face center-middle ball
         turnToAngle(-10.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.2, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.1, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 1.4);
         // Push two balls through left-side of the goal
         turnToAngle(-80.0, 0.0, defaultTurnAngleErrorRange, 0.6);
         setWingsState(true);
@@ -406,8 +406,10 @@ namespace {
         turnToAngle(-100, 0, defaultTurnAngleErrorRange, 1.0);
         setRightWingState(false, 0.3);
         driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 70.0, defaultMoveTilesErrorRange, 1.2);
-        // driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
-        // driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.2);
+
+        // Push again through bottom-side of the goal
+        driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.2);
         
         // Score triballs through left-side of the goal
         task::sleep(500);
