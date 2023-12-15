@@ -20,7 +20,7 @@ namespace {
     void runAutonSkills();
 
     bool userRunningAutonomous = false;
-    autonomousType auton_runType = autonomousType::FarAWP;
+    autonomousType auton_runType = autonomousType::AutonSkills;
     int auton_allianceId;
 }
 
@@ -110,18 +110,21 @@ void autonSkillsIntro() {
     driveAndTurnDistanceTiles(1.2, 140.0, 60.0, 900.0, defaultMoveTilesErrorRange, 1.5);
     // Match load positioning
     turnToAngle(60, 0.0, defaultTurnAngleErrorRange, 1.0);
-    driveAndTurnDistanceTiles(-0.5, 60, 25.0, 200.0, defaultMoveTilesErrorRange, 1.0);
+    driveAndTurnDistanceTiles(-0.5, 60, 25.0, 200.0, defaultMoveTilesErrorRange, 0.7);
     turnToAngleVelocity(74.0, 60.0, 0.0, defaultTurnAngleErrorRange, 1.5);
 
     // Match load 44 balls
     task::sleep(2000);
     timer duration;
+    while (duration.value() < 10.0) {
+        task::sleep(10);
+    }
+    setFlywheelSpeedRpm(480);
     while (duration.value() < 25.0) {
         task::sleep(10);
     }
-    // while (duration.value() < 5.0) {
-    //     task::sleep(10);
-    // }
+
+    // For practicing match-loading
     // while (duration.value() < 60.0) {
     //     task::sleep(10);
     // }
@@ -402,7 +405,7 @@ namespace {
         // Score triballs through bottom-side of the goal
         turnToAngle(-100, 0, defaultTurnAngleErrorRange, 1.0);
         setRightWingState(false, 0.3);
-        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 90.0, defaultMoveTilesErrorRange, 1.2);
+        driveAndTurnDistanceTiles(-3.0, -180.0, 100.0, 70.0, defaultMoveTilesErrorRange, 1.2);
         // driveAndTurnDistanceTiles(1.0, -155, 100.0, 300.0, defaultMoveTilesErrorRange, 1.5);
         // driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 700.0, defaultMoveTilesErrorRange, 1.2);
         
@@ -419,17 +422,17 @@ namespace {
         // Score more triballs through left-side of the goal
         driveAndTurnDistanceTiles(1.7, -180, 1000.0, 30.0, defaultMoveTilesErrorRange, 1.5);
         setLeftWingState(true);
-        driveAndTurnDistanceTiles(-2.3, -180, 60.0, 100.0, defaultMoveTilesErrorRange, 3.0);
-        turnToAngleVelocity(0, 60.0, 0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.2, -180, 60.0, 100.0, defaultMoveTilesErrorRange, 3.0);
+        turnToAngleVelocity(-20, 60.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.5);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-2.5, -90, 100.0, 700.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.5, -90, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
 
         // Score triballs through top-side of the goal
         driveAndTurnDistanceTiles(1.7, 23.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.5);
         setWingsState(false);
         driveAndTurnDistanceTiles(1.5, -90.0, 300.0, 80.0, defaultMoveTilesErrorRange, 1.5);
         driveAndTurnDistanceTiles(-1.3, -40.0, 80.0, 300.0, defaultMoveTilesErrorRange, 1.5);
-        driveAndTurnDistanceTiles(-2.0, 0.0, 60.0, 600.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 70.0, 600.0, defaultMoveTilesErrorRange, 1.5);
 
         // Elevation
         task::sleep(500);

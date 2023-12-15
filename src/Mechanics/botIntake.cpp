@@ -19,7 +19,7 @@ namespace {
 
 void resetIntake() {
     setIntakeResolveState(1);
-    task::sleep(150);
+    task::sleep(250);
     setIntakeResolveState(0);
 }
 void intakeThread() {
