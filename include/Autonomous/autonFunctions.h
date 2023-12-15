@@ -15,7 +15,7 @@ namespace auton {
     void driveAndTurnDistanceWithInches(double distanceInches, double targetRotation, double maxVelocityPct = 100, double maxTurnVelocityPct = 100, double errorRange = 0.3, double runTimeout = 3);
     void driveAndTurnDistanceWithInchesMotionProfile(double distanceInches, double targetRotation, double maxVelocityPct = 100, double errorRange = 0.3, double runTimeout = 3);
 
-    void setIntakeState(int state);
+    void setIntakeState(int state, double velocityPct = 100.0);
 
     void setFlywheelSpeedRpm(double rpm);
 

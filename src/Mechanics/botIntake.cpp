@@ -9,7 +9,7 @@ namespace {
     double intakeVelocityPct = 100.0;
     int intakeResolveState = 0;
 
-    double intakeSkipMinFrameCount = 5;
+    double intakeSkipMinFrameCount = 15;
     double intakeStuckFrameCount = 0;
     bool intakeIsStuck = false;
     
@@ -18,8 +18,10 @@ namespace {
 
 
 void resetIntake() {
+    intakeSkipMinFrameCount = 100;
     setIntakeResolveState(1);
     task::sleep(250);
+    intakeSkipMinFrameCount = 15;
     setIntakeResolveState(0);
 }
 void intakeThread() {
@@ -37,8 +39,9 @@ void controlIntake() {
         setIntakeResolveState(intakeDirection);
     }
 }
-void setIntakeResolveState(int intakeActivationState) {
+void setIntakeResolveState(int intakeActivationState, double newIntakeVelocityPct) {
     intakeResolveState = intakeActivationState;
+    intakeVelocityPct = newIntakeVelocityPct;
     resetIntakeStuckState();
 }
 bool isIntakeControllable() {

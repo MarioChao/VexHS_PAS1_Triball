@@ -15,8 +15,10 @@ namespace {
 
     double setLeftWing_DelaySec;
     double setRightWing_DelaySec;
+    double setWings_DelaySec;
     bool setLeftWing_LeftWingState;
     bool setRightWing_RightWingState;
+    bool setWings_WingsState;
 }
 
 namespace auton {
@@ -252,8 +254,8 @@ namespace auton {
 
     /// @brief Set the state of the intake.
     /// @param state Intaking: 1, off: 0, outtaking: -1.
-    void setIntakeState(int state) {
-        setIntakeResolveState(state);
+    void setIntakeState(int state, double velocityPct) {
+        setIntakeResolveState(state, velocityPct);
     }
 
     /// @brief Set the flywheel's spinning speed to a specified revolutions per minute.
@@ -282,7 +284,7 @@ namespace auton {
     /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
     void setRightWingState(bool state, double delaySec) {
         setRightWing_RightWingState = state;
-        setRightWing_DelaySec = delaySec;        
+        setRightWing_DelaySec = delaySec;
         task setPneumaticState([] () -> int {
             if (setRightWing_DelaySec > 1e-9) {
                 task::sleep(setRightWing_DelaySec * 1000);
@@ -296,8 +298,16 @@ namespace auton {
     /// @param state Expanded: true, retracted: false.
     /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
     void setWingsState(bool state, double delaySec) {
-        setLeftWingState(state, delaySec);
-        setRightWingState(state, delaySec);
+        setWings_WingsState = state;
+        setWings_DelaySec = delaySec;
+        task setPneumaticsState([] () -> int {
+            if (setWings_DelaySec > 1e-9) {
+                task::sleep(setWings_DelaySec * 1000);
+            }
+            LeftWingPneumatic.set(setWings_WingsState);
+            RightWingPneumatic.set(setWings_WingsState);
+            return 1;
+        });
     }
 
     /// @brief Set the state of the lift's pneumatic.

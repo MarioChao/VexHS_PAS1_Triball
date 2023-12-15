@@ -20,7 +20,7 @@ namespace {
     void runAutonSkills();
 
     bool userRunningAutonomous = false;
-    autonomousType auton_runType = autonomousType::AutonSkills;
+    autonomousType auton_runType = autonomousType::None;
     int auton_allianceId;
 }
 
@@ -72,6 +72,7 @@ bool isUserRunningAuton() {
 }
 
 void runAutonomous() {
+    printf("Auton time!\n");
     userRunningAutonomous = false;
     switch (auton_runType) {
         case autonomousType::NearAWP:
@@ -139,9 +140,12 @@ void autonSkillsIntro() {
 namespace {
     void autonTest() {
         setRotation(0.0);
-        driveAndTurnDistanceTiles(0.5, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        turnToAngle(-40, 0.0, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(3.6, -90, 150.0, 120.0, defaultMoveTilesErrorRange, 3.0);
+        driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
     }
 
     /// @brief Run the 15-seconds near-side AWP autonomous.
@@ -281,17 +285,19 @@ namespace {
         driveAndTurnDistanceTiles(0.4, -85.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.6);
 
         // Go to match load zone while pushing preload ball
-        driveAndTurnDistanceTiles(-1.8, -150.0, 70.0, 7.0, defaultMoveTilesErrorRange, 1.6);
+        driveAndTurnDistanceTiles(-1.7, -150.0, 70.0, 7.0, defaultMoveTilesErrorRange, 1.6);
         // Swing the corner ball out
         setLeftWingState(true);
-        task::sleep(200);
-        driveAndTurnDistanceTiles(-0.6, -160.0, 100.0, 70.0, defaultMoveTilesErrorRange, 0.7);
+        task::sleep(20);
+        setLeftWingState(false, 0.5);
+        driveAndTurnDistanceTiles(-0.7, -160.0, 100.0, 70.0, defaultMoveTilesErrorRange, 0.7);
         // Turn around
-        setLeftWingState(false);
         turnToAngle(-330.0, 0.0, defaultTurnAngleErrorRange, 1.0);
-        setIntakeState(0);
         // Push three balls through the bottom-side of the goal
-        driveAndTurnDistanceTiles(2.0, -370.0, 70.0, 700.0, defaultMoveTilesErrorRange, 0.5);
+        setIntakeState(-1);
+        task::sleep(200);
+        driveAndTurnDistanceTiles(2.0, -380.0, 100.0, 1000.0, defaultMoveTilesErrorRange, 0.6);
+        setIntakeState(0);
 
         // Face center-down ball
         driveAndTurnDistanceTiles(-1.0, -270.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.9);
@@ -300,7 +306,7 @@ namespace {
         setIntakeState(1);
         driveAndTurnDistanceTiles(2.0, -70.0, 90.0, 200.0, defaultMoveTilesErrorRange, 1.2);
         // Face goal
-        turnToAngle(50.0, 0.0, defaultTurnAngleErrorRange, 0.8);
+        turnToAngle(55.0, 0.0, defaultTurnAngleErrorRange, 0.8);
         // Out-take ball
         setIntakeState(-1);
         task::sleep(250);
@@ -310,7 +316,7 @@ namespace {
         turnToAngle(-10.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.1, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 1.4);
+        driveAndTurnDistanceTiles(1.0, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 5.0);
         // Push two balls through left-side of the goal
         turnToAngle(-80.0, 0.0, defaultTurnAngleErrorRange, 0.6);
         setWingsState(true);
@@ -324,10 +330,10 @@ namespace {
         setIntakeState(0);
         
         // Face the elevation bar
-        driveAndTurnDistanceTiles(-2.3, 10.0, 150.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-2.0, 10.0, 120.0, 100.0, defaultMoveTilesErrorRange, 1.5);
         // Drive and touch the bar using wings
         setLeftWingState(true);
-        driveAndTurnDistanceTiles(-0.5, -25.0, 70.0, 70.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 0.0, 70.0, 70.0, defaultMoveTilesErrorRange, 1.5);
         // Robot is touching the elevation bar
 
     }
