@@ -288,14 +288,14 @@ namespace {
         turnToAngle(-330.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         setIntakeState(0);
         // Push three balls through the bottom-side of the goal
-        driveAndTurnDistanceTiles(2.0, -360.0, 90.0, 700.0, defaultMoveTilesErrorRange, 0.6);
+        driveAndTurnDistanceTiles(2.0, -370.0, 70.0, 700.0, defaultMoveTilesErrorRange, 0.7);
 
         // Face center-down ball
         driveAndTurnDistanceTiles(-1.0, -270.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.9);
         turnToAngle(-60.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.93, -70.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.2);
+        driveAndTurnDistanceTiles(2.0, -70.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.2);
         // Face goal
         turnToAngle(50.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         // Out-take ball
@@ -307,7 +307,7 @@ namespace {
         turnToAngle(-10.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.2, -30.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.0);
+        driveAndTurnDistanceTiles(1.2, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 1.5);
         // Push two balls through left-side of the goal
         turnToAngle(-80.0, 0.0, defaultTurnAngleErrorRange, 0.6);
         setWingsState(true);
