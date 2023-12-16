@@ -2,5 +2,5 @@
 
 namespace autonvals {
     const double defaultMoveTilesErrorRange = 0.10;
-    const double defaultTurnAngleErrorRange = 7.5;
+    const double defaultTurnAngleErrorRange = 5;
 }
