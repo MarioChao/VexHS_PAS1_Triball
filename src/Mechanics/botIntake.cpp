@@ -9,8 +9,9 @@ namespace {
     double intakeVelocityPct = 100.0;
     int intakeResolveState = 0;
 
-    double intakeSkipMinFrameCount = 15;
+    double intakeSkipMinFrameCount = 150;
     double intakeStuckFrameCount = 0;
+    bool intakeFrameResetted = false;
     bool intakeIsStuck = false;
     
     bool canControlIntake = true;
@@ -18,11 +19,8 @@ namespace {
 
 
 void resetIntake() {
-    intakeSkipMinFrameCount = 100;
     setIntakeResolveState(1);
-    task::sleep(250);
-    intakeSkipMinFrameCount = 15;
-    setIntakeResolveState(0);
+    task::sleep(300);
 }
 void intakeThread() {
     // Intake loop
@@ -54,6 +52,13 @@ namespace {
         // Make sure intakeResolveState is within [-1, 1]
         intakeResolveState = (intakeResolveState > 0) - (intakeResolveState < 0);
         double spinVelocityPct = intakeResolveState * intakeVelocityPct;
+
+        // Make sure intake state reset is resolved
+        if (intakeFrameResetted) {
+            intakeFrameResetted = false;
+            intakeIsStuck = false;
+            intakeStuckFrameCount = 0;
+        }
 
         // Resolve intake
         if (intakeResolveState) {
@@ -91,5 +96,6 @@ namespace {
     void resetIntakeStuckState() {
         intakeIsStuck = false;
         intakeStuckFrameCount = 0;
+        intakeFrameResetted = true;
     }
 }

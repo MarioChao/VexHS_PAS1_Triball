@@ -294,11 +294,11 @@ namespace {
       setAutonRunType(1, autonomousType::NearAWP);
     });
     // Near Eliminate
-    ButtonGui *nearElim = new ButtonGui(310, 80, 100, 80, 20, color(0, 200, 200), white, 2, "Near Elim.", white, [] {
+    ButtonGui *nearSafe = new ButtonGui(310, 80, 100, 80, 20, color(0, 200, 200), white, 2, "Near Safe", white, [] {
       allianceDisable(1);
       allianceButtons[1] -> enable();
       // Modify settings near-side eliminate auton
-      setAutonRunType(1, autonomousType::NearElim);
+      setAutonRunType(1, autonomousType::NearAWPSafe);
     });
     // Far AWP
     ButtonGui *farAWP = new ButtonGui(200, 180, 100, 80, 20, color(200, 200, 0), white, 2, "Far AWP", white, [] {
@@ -347,8 +347,8 @@ namespace {
       allianceButtons[7] -> enable();
     });
     // Buttons
-    allianceButtons = {nearAWP, nearElim, farAWP, farElim, skillsAuton, skillsDriver, redField, blueField};
-    autonSubdock1Buttons = {nearAWP, nearElim, farAWP, farElim};
+    allianceButtons = {nearAWP, nearSafe, farAWP, farElim, skillsAuton, skillsDriver, redField, blueField};
+    autonSubdock1Buttons = {nearAWP, nearSafe, farAWP, farElim};
     autonSubdock2Buttons = {skillsAuton, skillsDriver, redField, blueField};
   }
 

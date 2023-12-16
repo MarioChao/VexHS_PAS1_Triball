@@ -4,6 +4,7 @@ enum autonomousType {
     Left,
     Right,
     NearAWP,
+    NearAWPSafe,
     NearElim,
     FarAWP,
     FarElim,

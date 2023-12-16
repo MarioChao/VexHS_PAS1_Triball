@@ -13,14 +13,14 @@ namespace {
     void autonTest();
 
     void runAutonNearAWP();
-    void runAutonNearAWPBackside();
+    void runAutonNearAWPSafe();
     void runAutonNearElim();
     void runAutonFarAWP();
     void runAutonFarElim();
     void runAutonSkills();
 
     bool userRunningAutonomous = false;
-    autonomousType auton_runType = autonomousType::None;
+    autonomousType auton_runType = autonomousType::FarAWP;
     int auton_allianceId;
 }
 
@@ -29,6 +29,10 @@ void setAutonRunType(int allianceId, autonomousType autonType) {
         case autonomousType::NearAWP:
             printOnController("Auton: NearAWP");
             printf("Nearaw\n");
+            break;
+        case autonomousType::NearAWPSafe:
+            printOnController("Auton: NearSafe");
+            printf("Nearaw Safe\n");
             break;
         case autonomousType::NearElim:
             printOnController("Auton: NearElim");
@@ -76,11 +80,13 @@ void runAutonomous() {
     userRunningAutonomous = false;
     switch (auton_runType) {
         case autonomousType::NearAWP:
-            // runAutonNearAWP();
-            runAutonNearAWPBackside();
+            runAutonNearAWP();
+            break;
+        case autonomousType::NearAWPSafe:
+            runAutonNearAWPSafe();
             break;
         case autonomousType::NearElim:
-            runAutonNearElim();
+            // runAutonNearElim();
             break;
         case autonomousType::FarAWP:
             runAutonFarAWP();
@@ -151,50 +157,12 @@ namespace {
     /// @brief Run the 15-seconds near-side AWP autonomous.
     void runAutonNearAWP() {
         // For PASVEX's Robot
-        setRotation(0.0);
-        
-        // Intake middle ball
-        driveAndTurnDistanceTiles(2.3, 15.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        setIntakeState(1);
-        turnToAngle(30.0, halfRobotLengthIn, defaultTurnAngleErrorRange, 1.5);
-
-        // Push middle ball over the middle barrier
-        turnToAngle(90.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.0);
-        turnToAngle(270.0, 0.0, defaultTurnAngleErrorRange, 1.5);
-        setIntakeState(0);
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(-1.5, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
-        setRightWingState(false);
-
-        // Drive to match load zone
-        driveAndTurnDistanceTiles(0.3, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
-        turnToAngle(215.0, 0.0, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.1, 215.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
-        // Face upward-parallel to the match load bar
-        turnToAngle(315.0, halfRobotLengthIn, defaultTurnAngleErrorRange, 1.5);
-        // Swing the ball out
-        setLeftWingState(true);
-        driveAndTurnDistanceTiles(-1.0, 270.0, 100.0, 350.0, defaultMoveTilesErrorRange, 1.5);
-        setLeftWingState(false);
-        
-        // Push the preload and former-corner ball over to the offensive zone
-        driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-
-        // Touch the elevation bar
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(-0.25, 270.0, 50.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        turnToAngle(275.0, 0.0, defaultTurnAngleErrorRange, 1.5);
-        // Robot is touching the elevation bar
-
-    }
-
-    void runAutonNearAWPBackside() {
-        // For PASVEX's Robot
         timer autontimer;
         setRotation(180.0);
         
         // Push middle balls over the middle barrier
         driveAndTurnDistanceTiles(-1.82, 195.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        setIntakeState(0);
         setRightWingState(true);
         turnToAngleVelocity(270.0, 60.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.3);
         driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 200.0, defaultMoveTilesErrorRange, 1.3);
@@ -210,17 +178,18 @@ namespace {
         setLeftWingState(true);
         turnToAngle(300, 0.0, defaultTurnAngleErrorRange, 1.0);
         driveAndTurnDistanceTiles(-0.7, 290.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.5);
-        turnToAngle(310, 0.0, defaultTurnAngleErrorRange, 1.0);
         setLeftWingState(false);
+        task::sleep(500);
+        turnToAngleVelocity(310, 40.0, 0.0, defaultTurnAngleErrorRange, 1.5);
         
         // Prepare to push balls over to the offensive zone
-        task::sleep(300);
+        task::sleep(500);
         driveAndTurnDistanceTiles(-0.5, 270.0, 30.0, 8.0, defaultMoveTilesErrorRange, 1.7);
         turnToAngle(250.0, halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
         turnToAngle(270.0, -halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
 
-        // Idle until 12th second of autonomous
-        while (autontimer.value() < 12.0) {
+        // Idle until 11th second of autonomous
+        while (autontimer.value() < 11.0) {
             task::sleep(20);
         }
 
@@ -232,65 +201,67 @@ namespace {
         driveAndTurnDistanceTiles(-0.8, 250.0, 20.0, 100.0, defaultMoveTilesErrorRange, 2.5);
         turnToAngle(300.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.5);
         // Robot is touching the elevation bar
-
     }
 
-    /// @brief Run the 15-seconds near-side Eliminations autonomous.
-    void runAutonNearElim() {
-        setRotation(36);
-
-        // Expand left wing to push preload triball
-        setLeftWingState(true);
-        task retractWing([] () -> int {
-            task::sleep(150);
-            setLeftWingState(false);
-            return 1;
-        });
-
-        // Push the middle balls over the barrier
-        driveAndTurnDistanceTiles(2.42, -10.0, 100.0, 560.0, 0.05, 2.3);
-        setLeftWingState(true);
-        turnToAngle(91.5, halfRobotLengthIn * 0.5, 3.0, 1.0); // Face the barrier
-        driveAndTurnDistanceTiles(1.72, 90.0, 100.0, 100.0, 0.05, 1.4);
-        setLeftWingState(false);
-
-        // Push the corner triball out
-        driveDistanceTiles(-0.5, 100.0, 0.05, 1.0);
-        turnToAngle(33, halfRobotLengthIn, 3.0, 1.0); // Face the matchload zone
-        driveAndTurnDistanceTiles(-sqrt(pow(1.9, 2) + pow(1.9, 2)), 33, 100.0, 70.0, 0.05, 2.5);
-        turnToAngle(135, -halfRobotLengthIn * 0.7, 3.0, 1.0); // Face parallel to the matchload zone
-        // setAnchorState(true);
-        task::sleep(100);
-        turnToAngle(75, -halfRobotLengthIn * 1.5, 3.0, 1.0); // Anchor push the triball
-        // setAnchorState(false);
-
-        // Push the former-corner and elevation-bar balls
-        turnToAngle(-75, 0.0, 3.0, 1.0); // Back-side face down-right (more right)
-        driveAndTurnDistanceTiles(-1.75, -90, 100.0, 200.0, 0.05, 2.5);
+    /// @brief Run the 15-seconds near-side AWP-safe autonomous.
+    void runAutonNearAWPSafe() {
+        // For PASVEX's Robot
+        timer autontimer;
+        setRotation(180.0);
         
-        // Go to matchload position
-        driveAndTurnDistanceTiles(2.5, -45, 100.0, 240.0, 0.05, 2.5);
-        turnToAngle(110, 0.0, 3.0, 1.0); // Face down-right (more right)
-        // setAnchorState(true);
-        task::sleep(100);
-        turnToAngle(90, halfRobotLengthIn * 3.0, 3.0, 1.0);
+        // Don't push middle balls over the middle barrier
+        driveAndTurnDistanceTiles(-1.2, 195.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        setIntakeState(0);
+
+        // Drive to match load zone
+        turnToAngle(195.0, 0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(0.9, 235.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        // Face upward-parallel to the match load bar
+        turnToAngle(315.0, halfRobotLengthIn * 1.25, defaultTurnAngleErrorRange, 1.5);
+        // Swing the ball out
+        setLeftWingState(true);
+        turnToAngle(300, 0.0, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-0.7, 290.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.5);
+        setLeftWingState(false);
+        task::sleep(500);
+        turnToAngleVelocity(310, 40.0, 0.0, defaultTurnAngleErrorRange, 1.5);
+        
+        // Prepare to push balls over to the offensive zone
+        task::sleep(500);
+        driveAndTurnDistanceTiles(-0.5, 270.0, 30.0, 8.0, defaultMoveTilesErrorRange, 1.7);
+        turnToAngle(250.0, halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
+        turnToAngle(270.0, -halfRobotLengthIn * 0.75, defaultTurnAngleErrorRange, 0.7);
+
+        // Idle until 11th second of autonomous
+        while (autontimer.value() < 11.0) {
+            task::sleep(20);
+        }
+
+        // Push the preload and former-corner ball over to the offensive zone
+        driveAndTurnDistanceTiles(-0.8, 270.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+
+        // Touch the elevation bar
+        setRightWingState(true);
+        driveAndTurnDistanceTiles(-0.8, 250.0, 20.0, 100.0, defaultMoveTilesErrorRange, 2.5);
+        turnToAngle(300.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.5);
+        // Robot is touching the elevation bar
     }
 
     /// @brief Run the 15-seconds far-side AWP autonomous.
     void runAutonFarAWP() {
-        setRotation(-90.0);
+        setRotation(-90.0 - 360.0);
         
         // Intake ball below elevation bar
         setIntakeState(1);
         driveAndTurnDistanceTiles(0.4, -85.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.6);
 
         // Go to match load zone while pushing preload ball
-        driveAndTurnDistanceTiles(-1.7, -150.0, 70.0, 7.0, defaultMoveTilesErrorRange, 1.6);
+        driveAndTurnDistanceTiles(-1.6, -150.0, 70.0, 7.0, defaultMoveTilesErrorRange, 1.6);
         // Swing the corner ball out
         setLeftWingState(true);
         task::sleep(20);
         setLeftWingState(false, 0.5);
-        driveAndTurnDistanceTiles(-0.7, -160.0, 100.0, 70.0, defaultMoveTilesErrorRange, 0.7);
+        driveAndTurnDistanceTiles(-0.8, -160.0, 100.0, 70.0, defaultMoveTilesErrorRange, 0.7);
         // Turn around
         turnToAngle(-330.0, 0.0, defaultTurnAngleErrorRange, 1.0);
         // Push three balls through the bottom-side of the goal
@@ -316,14 +287,14 @@ namespace {
         turnToAngle(-10.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         // Intake ball
         setIntakeState(1);
-        driveAndTurnDistanceTiles(1.0, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 5.0);
+        driveAndTurnDistanceTiles(1.0, -30.0, 40.0, 400.0, defaultMoveTilesErrorRange, 1.3);
         // Push two balls through left-side of the goal
-        turnToAngle(-80.0, 0.0, defaultTurnAngleErrorRange, 0.6);
+        turnToAngle(-85.0, 0.0, defaultTurnAngleErrorRange, 0.6);
         setWingsState(true);
         driveAndTurnDistanceTiles(-2.0, -90.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.75);
         // Push loaded ball into the goal
         driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
-        turnToAngle(90.0, 0.0, defaultTurnAngleErrorRange, 0.7);
+        turnToAngle(90.0, 0.0, defaultTurnAngleErrorRange, 0.8);
         setWingsState(false);
         setIntakeState(-1);
         driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
@@ -335,7 +306,6 @@ namespace {
         setLeftWingState(true);
         driveAndTurnDistanceTiles(-1.0, 0.0, 70.0, 70.0, defaultMoveTilesErrorRange, 1.5);
         // Robot is touching the elevation bar
-
     }
 
     /// @brief Run the 15-seconds far-side Eliminations autonomous.
