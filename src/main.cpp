@@ -89,14 +89,14 @@ void pre_auton(void) {
     task intakeTask([] () -> int { intakeThread(); return 1; });
     // Controller task
     task rum([] () -> int { preautonControllerThread(); return 1; });
-    // Show auton state
-    showAutonRunType();
     // Stopping brake-types
     preautonDrive();
 
     // Initialize sensors & components
     // Pre-auton
     runPreauton();
+    // Show auton state
+    showAutonRunType();
 }
 
 /******************* ---------- *******************/

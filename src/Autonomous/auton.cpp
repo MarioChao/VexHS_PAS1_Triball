@@ -20,7 +20,7 @@ namespace {
     void runAutonSkills();
 
     bool userRunningAutonomous = false;
-    autonomousType auton_runType = autonomousType::AutonSkills;
+    autonomousType auton_runType = autonomousType::FarAWP;
     int auton_allianceId;
 }
 
@@ -262,9 +262,9 @@ namespace {
         setLeftWingState(true);
         task::sleep(20);
         setLeftWingState(false, 0.5);
-        driveAndTurnDistanceTiles(-0.5, -178.0, 50.0, 30.0, defaultMoveTilesErrorRange, 0.7);
+        driveAndTurnDistanceTiles(-0.5, -175.0, 50.0, 30.0, defaultMoveTilesErrorRange, 0.7);
         // Push two balls through the bottom-side of the goal
-        turnToAngle(-160, 0.0, defaultTurnAngleErrorRange, 0.6);
+        turnToAngle(-158, 0.0, defaultTurnAngleErrorRange, 0.6);
         task::sleep(100);
         driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 1000.0, defaultMoveTilesErrorRange, 0.6);
 
@@ -305,8 +305,9 @@ namespace {
         setIntakeState(0);
         
         // Drive and touch the elevation bar using wings
-        setLeftWingState(true, 1.05);
-        driveAndTurnDistanceTiles(-4.0, 0.0, 120.0, 90.0, defaultMoveTilesErrorRange, 2.5);
+        driveAndTurnDistanceTiles(-1.0, -10.0, 130.0, 90.0, defaultMoveTilesErrorRange, 1.3);
+        // setLeftWingState(true, 1.05);
+        // driveAndTurnDistanceTiles(-3.8, -10.0, 130.0, 90.0, defaultMoveTilesErrorRange, 2.5);
         // Robot is touching the elevation bar
     }
 

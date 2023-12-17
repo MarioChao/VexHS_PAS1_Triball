@@ -1,4 +1,5 @@
 #include "Mechanics/botWings.h"
+#include "Mechanics/botFlywheel.h"
 #include "main.h"
 
 namespace {
@@ -27,6 +28,11 @@ namespace {
             int oldValue = LeftWingPneumatic.value();
             int newValue = oldValue ^ 1;
             setWingsState(newValue);
+            if (newValue == true) {
+                setFlywheelSpeed(460);
+            } else {
+                setFlywheelSpeed(0);
+            }
             task::sleep(50);
 
             wingsDebounce = false;
