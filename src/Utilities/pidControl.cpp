@@ -21,7 +21,7 @@ void PIDControl::computeFromError(double error) {
 
     // Calculate errors
     currentError = error;
-    bool isCrossZero = (currentError > 0 && previousError < 0) || (currentError < 0 && previousError > 0);
+    bool isCrossZero = (currentError >= 0 && previousError <= 0) || (currentError <= 0 && previousError >= 0);
     if (isCrossZero) {
         cumulativeError = 0;
     } else {
