@@ -3,7 +3,7 @@
 
 namespace botinfo {
     // Robot info
-    double robotLengthIn = 23 * 0.500;
+    double robotLengthIn = 24 * 0.500;
     double halfRobotLengthIn = robotLengthIn / 2;
 
     double driveWheelRadiusIn = 3.25 / 2;
