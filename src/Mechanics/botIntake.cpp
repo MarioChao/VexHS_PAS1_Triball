@@ -64,12 +64,12 @@ namespace {
         if (intakeResolveState) {
             // Stop condition: intake is considered "stuck"
             if (intakeIsStuck) {
-                IntakeMotor.stop();
+                // IntakeMotor.stop();
                 return;
             }
 
             // Spin the intake
-            IntakeMotor.spin(fwd, spinVelocityPct, pct);
+            // IntakeMotor.spin(fwd, spinVelocityPct, pct);
             
             // Update stuck state
             if (intakeIsStopped()) {
@@ -85,13 +85,14 @@ namespace {
             }
         } else {
             // Stop the intake
-            IntakeMotor.stop();
+            // IntakeMotor.stop();
             // Reset stuck state
             resetIntakeStuckState();
         }
     }
     bool intakeIsStopped() {
-        return fabs(IntakeMotor.velocity(pct)) < 20;
+        // return fabs(IntakeMotor.velocity(pct)) < 20;
+        return false;
     }
     void resetIntakeStuckState() {
         intakeIsStuck = false;

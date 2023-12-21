@@ -9,14 +9,14 @@ extern controller Controller2;
 extern motor LeftMotorA;
 extern motor LeftMotorB;
 extern motor LeftMotorC;
-extern motor_group LeftMotors;
+extern motor LeftMotorD;
 extern motor RightMotorA;
 extern motor RightMotorB;
 extern motor RightMotorC;
+extern motor RightMotorD;
+extern motor_group LeftMotors;
 extern motor_group RightMotors;
 extern motor_group LeftRightMotors;
-extern motor IntakeMotor;
-extern motor FlywheelMotor;
 
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;

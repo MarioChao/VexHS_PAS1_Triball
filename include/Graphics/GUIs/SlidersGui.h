@@ -1,5 +1,4 @@
-#ifndef __SlidersGui__
-#define __SlidersGui__
+#pragma once
 
 #include "GuiClass.h"
 
@@ -29,5 +28,3 @@ class SliderGui : public GuiClass {
     virtual void check() override;
     void check(double mouseX, double mouseY);
 };
-
-#endif

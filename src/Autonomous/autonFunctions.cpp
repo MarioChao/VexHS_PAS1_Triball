@@ -5,7 +5,6 @@
 #include "Utilities/robotInfo.h"
 #include "Utilities/fieldInfo.h"
 #include "Mechanics/botIntake.h"
-#include "Mechanics/botFlywheel.h"
 #include "main.h"
 
 namespace {
@@ -224,12 +223,6 @@ namespace auton {
     /// @param state Intaking: 1, off: 0, outtaking: -1.
     void setIntakeState(int state, double velocityPct) {
         setIntakeResolveState(state, velocityPct);
-    }
-
-    /// @brief Set the flywheel's spinning speed to a specified revolutions per minute.
-    /// @param rpm The velocity of the flywheel motor in rpm.
-    void setFlywheelSpeedRpm(double rpm) {
-        setFlywheelSpeed(rpm);
     }
 
     /// @brief Set the state of Left Wing's pneumatic.

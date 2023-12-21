@@ -1,5 +1,4 @@
-#ifndef __ShapesGui__
-#define __ShapesGui__
+#pragma once
 
 #include "GuiClass.h"
 
@@ -110,5 +109,3 @@ class Circle : public ShapeGui {
     virtual void draw() override;
     virtual bool isTouching(double x, double y) override;
 };
-
-#endif

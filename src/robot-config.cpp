@@ -9,17 +9,17 @@ brain Brain;
 controller Controller1(primary);
 controller Controller2(partner);
 
-motor LeftMotorA(PORT18, ratio6_1, true);
-motor LeftMotorB(PORT19, ratio6_1, true);
-motor LeftMotorC(PORT20, ratio6_1, true);
-motor_group LeftMotors(LeftMotorA, LeftMotorB, LeftMotorC);
-motor RightMotorA(PORT15, ratio6_1);
-motor RightMotorB(PORT16, ratio6_1);
-motor RightMotorC(PORT17, ratio6_1);
-motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC);
-motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, RightMotorA, RightMotorB, RightMotorC);
-motor IntakeMotor(PORT13, ratio6_1);
-motor FlywheelMotor(PORT14, ratio6_1);
+motor LeftMotorA(PORT19, ratio6_1, true);
+motor LeftMotorB(PORT20, ratio6_1, true);
+motor LeftMotorC(PORT17, ratio6_1);
+motor LeftMotorD(PORT18, ratio6_1);
+motor RightMotorA(PORT11, ratio6_1);
+motor RightMotorB(PORT13, ratio6_1);
+motor RightMotorC(PORT12, ratio6_1, true);
+motor RightMotorD(PORT14, ratio6_1, true);
+motor_group LeftMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD);
+motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC, RightMotorD);
+motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD, RightMotorA, RightMotorB, RightMotorC, RightMotorD);
 
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.B);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);

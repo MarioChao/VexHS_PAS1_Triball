@@ -1,5 +1,4 @@
-#ifndef __ButtonsGui__
-#define __ButtonsGui__
+#pragma once
 
 #include "GuiClass.h"
 
@@ -51,5 +50,3 @@ class ButtonGui : public GuiClass {
     void setUsability(bool usability);
     bool getUsability();
 };
-
-#endif

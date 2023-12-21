@@ -1,5 +1,4 @@
-#ifndef __DocksGui__
-#define __DocksGui__
+#pragma once
 
 #include "GuiClass.h"
 
@@ -32,5 +31,3 @@ class DockGui : public GuiClass {
     void setEnabled(bool enabled);
     bool getEnabled();
 };
-
-#endif

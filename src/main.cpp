@@ -17,18 +17,12 @@
     Cosmetic:
         ButtonLeft              --> animation (switch)
 
-    Match-load:
-        ButtonUp                --> flywheel forward (switch)
-        ButtonDown              --> flywheel reverse (switch)
-        ButtonY                 --> anchor (switch)
-
     Endgame:
         ButtonB                 --> lift / elevation / climbing (switch)
 
     Driving:
-        ButtonR1                --> intake (hold)
-        ButtonR2                --> intake (hold)
-        ButtonL1                --> wings (switch)
+        Button?                 --> intake (hold)
+        Button?                 --> wings (switch)
 
     Driving Mode - Arcade drive two stick:
         Axis3                   --> arcade forward (hold)
@@ -54,7 +48,6 @@
 #include "Autonomous/auton.h"
 
 #include "Mechanics/botDrive.h"
-#include "Mechanics/botFlywheel.h"
 #include "Mechanics/botIntake.h"
 #include "Mechanics/botLift.h"
 #include "Mechanics/botWings.h"
@@ -83,8 +76,6 @@ void pre_auton(void) {
     vexcodeInit();
 
     // Activites before the competition starts
-    // Flywheel task
-    task flywheelTask([] () -> int { flywheelThread(); return 1; });
     // Intake task
     task intakeTask([] () -> int { intakeThread(); return 1; });
     // Controller task
@@ -142,7 +133,6 @@ void usercontrol(void) {
 
     // Keybinds
     keybindDrive();
-    keybindFlywheel();
     keybindLift();
     keybindWings();
     keybindVideos();

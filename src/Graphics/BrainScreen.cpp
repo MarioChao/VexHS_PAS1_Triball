@@ -568,37 +568,18 @@ namespace {
     Brain.Screen.setFillColor(color::transparent);
     Brain.Screen.setFont(fontType::mono20);
 
-    // Base motors
-    double leftAPct = LeftMotorA.temperature();
-    double leftBPct = LeftMotorB.temperature();
-    double leftCPct = LeftMotorC.temperature();
-    double rightAPct = RightMotorA.temperature();
-    double rightBPct = RightMotorB.temperature();
-    double rightCPct = RightMotorC.temperature();
-    Brain.Screen.printAt(10, 40, 1, "L1: %s%%, L2: %s%%, L3: %s%%", leadTrailZero(3, 3, leftAPct).c_str(), leadTrailZero(3, 3, leftBPct).c_str(), leadTrailZero(3, 3, leftCPct).c_str());
-    Brain.Screen.printAt(10, 65, 1, "R1: %s%%, R2: %s%%, R3: %s%%", leadTrailZero(3, 3, rightAPct).c_str(), leadTrailZero(3, 3, rightBPct).c_str(), leadTrailZero(3, 3, rightCPct).c_str());
-
-    // Intake motor
-    double intakePct = IntakeMotor.temperature();
-    Brain.Screen.printAt(10, 90, 1, "Intake: %s%%", leadTrailZero(3, 3, intakePct).c_str());
-
-    // Flywheel motor
-    double flywheelPct = FlywheelMotor.temperature();
-    Brain.Screen.printAt(250, 95, 1, "Flywheel: %s%%", leadTrailZero(3, 3, flywheelPct).c_str());
-
     // Celsius temperatures
     double leftAC = LeftMotorA.temperature(celsius);
     double leftBC = LeftMotorB.temperature(celsius);
     double leftCC = LeftMotorC.temperature(celsius);
+    double leftDC = LeftMotorD.temperature(celsius);
     double rightAC = RightMotorA.temperature(celsius);
     double rightBC = RightMotorB.temperature(celsius);
     double rightCC = RightMotorC.temperature(celsius);
-    double intakeC = IntakeMotor.temperature(celsius);
-    double flywheelC = FlywheelMotor.temperature(celsius);
-    Brain.Screen.printAt(10, 140, 1, "L1: %s°C, L2: %s°C, L3: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, leftCC).c_str());
-    Brain.Screen.printAt(10, 165, 1, "R1: %s°C, R2: %s°C, R3: %s°C", leadTrailZero(3, 3, rightAC).c_str(), leadTrailZero(3, 3, rightBC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
-    Brain.Screen.printAt(10, 190, 1, "Intake: %s°C", leadTrailZero(3, 3, intakeC).c_str());
-    Brain.Screen.printAt(250, 190, 1, "Flywheel: %s°C", leadTrailZero(3, 3, flywheelC).c_str());
-
+    double rightDC = RightMotorD.temperature(celsius);
+    Brain.Screen.printAt(10, 140, 1, "L1: %s°C, R1: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, rightAC).c_str());
+    Brain.Screen.printAt(10, 165, 1, "L2: %s°C, R2: %s°C", leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, rightBC).c_str());
+    Brain.Screen.printAt(10, 140, 1, "L3: %s°C, R3: %s°C", leadTrailZero(3, 3, leftCC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
+    Brain.Screen.printAt(10, 165, 1, "L4: %s°C, R4: %s°C", leadTrailZero(3, 3, leftDC).c_str(), leadTrailZero(3, 3, rightDC).c_str());
   }
 }

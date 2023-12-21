@@ -1,5 +1,4 @@
-#ifndef __GraphicConstants__
-#define __GraphicConstants__
+#pragma once
 
 #include "vex.h"
 #include <iostream>
@@ -26,5 +25,3 @@ namespace gfxmain {
     extern vector<double> getClosestPointOnLine(double pointX, double pointY, double startX, double startY, double endX, double endY);
     extern vector<double> getClosestPointOnLineSegment(double pointX, double pointY, double startX, double startY, double endX, double endY);
 }
-
-#endif

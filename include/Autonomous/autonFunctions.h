@@ -17,8 +17,6 @@ namespace auton {
 
     void setIntakeState(int state, double velocityPct = 100.0);
 
-    void setFlywheelSpeedRpm(double rpm);
-
     void setLeftWingState(bool state, double delaySec = 0);
     void setRightWingState(bool state, double delaySec = 0);
     void setWingsState(bool state, double delaySec = 0);

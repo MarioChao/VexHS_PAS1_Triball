@@ -6,7 +6,7 @@ namespace botinfo {
     double robotLengthIn = 23 * 0.500;
     double halfRobotLengthIn = robotLengthIn / 2;
 
-    double driveWheelRadiusIn = 2.75 / 2;
+    double driveWheelRadiusIn = 3.25 / 2;
     double driveWheelCircumIn = 2 * M_PI * driveWheelRadiusIn;
     double driveWheelMotorGearRatio = (48.0 / 36.0);
 

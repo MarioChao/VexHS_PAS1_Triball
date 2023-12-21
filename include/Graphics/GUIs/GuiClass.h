@@ -1,8 +1,6 @@
-#ifndef __GuiClass__
-#define __GuiClass__
+#pragma once
 
 #include "vex.h"
-// #include <cstdio>
 #include <iostream>
 #include <vector>
 
@@ -18,5 +16,3 @@ class GuiClass {
   private:
     bool visible = true;
 };
-
-#endif

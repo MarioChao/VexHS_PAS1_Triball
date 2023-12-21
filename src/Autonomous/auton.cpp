@@ -108,7 +108,7 @@ void autonSkillsIntro() {
     setRotation(135);
 
     // Prepare for matchload
-    setFlywheelSpeedRpm(460);
+    // setFlywheelSpeedRpm(460);
     // Push the two alliance triballs
     driveAndTurnDistanceTiles(-2.0, 180, 75.0, 500.0, defaultMoveTilesErrorRange, 1.4);
     setIntakeState(0);
@@ -127,7 +127,7 @@ void autonSkillsIntro() {
     while (duration.value() < 10.0) {
         task::sleep(10);
     }
-    setFlywheelSpeedRpm(480);
+    // setFlywheelSpeedRpm(480);
     while (duration.value() < 23.0) {
         task::sleep(10);
     }
@@ -138,7 +138,7 @@ void autonSkillsIntro() {
     // }
 
     // Finish matchload
-    setFlywheelSpeedRpm(0);
+    // setFlywheelSpeedRpm(0);
     
     // Back-side face the elevation bar
     turnToAngle(-60, 0.0, defaultTurnAngleErrorRange, 1.0);
