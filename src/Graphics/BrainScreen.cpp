@@ -577,9 +577,9 @@ namespace {
     double rightBC = RightMotorB.temperature(celsius);
     double rightCC = RightMotorC.temperature(celsius);
     double rightDC = RightMotorD.temperature(celsius);
-    Brain.Screen.printAt(10, 140, 1, "L1: %s°C, R1: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, rightAC).c_str());
-    Brain.Screen.printAt(10, 165, 1, "L2: %s°C, R2: %s°C", leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, rightBC).c_str());
-    Brain.Screen.printAt(10, 140, 1, "L3: %s°C, R3: %s°C", leadTrailZero(3, 3, leftCC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
-    Brain.Screen.printAt(10, 165, 1, "L4: %s°C, R4: %s°C", leadTrailZero(3, 3, leftDC).c_str(), leadTrailZero(3, 3, rightDC).c_str());
+    Brain.Screen.printAt(10, 40, 1, "L1: %s°C, R1: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, rightAC).c_str());
+    Brain.Screen.printAt(10, 65, 1, "L2: %s°C, R2: %s°C", leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, rightBC).c_str());
+    Brain.Screen.printAt(10, 90, 1, "L3: %s°C, R3: %s°C", leadTrailZero(3, 3, leftCC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
+    Brain.Screen.printAt(10, 115, 1, "L4: %s°C, R4: %s°C", leadTrailZero(3, 3, leftDC).c_str(), leadTrailZero(3, 3, rightDC).c_str());
   }
 }
