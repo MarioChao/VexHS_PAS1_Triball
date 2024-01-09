@@ -18,6 +18,7 @@ extern motor_group LeftMotors;
 extern motor_group RightMotors;
 extern motor_group LeftRightMotors;
 
+extern pneumatics IntakePneumatic;
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
 extern pneumatics LiftPneumatic1;

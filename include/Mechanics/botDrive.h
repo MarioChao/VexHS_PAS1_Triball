@@ -2,6 +2,7 @@
 
 enum controlType {
     ArcadeTwoStick,
+    ArcadeTwoStickControlledTurn,
     ArcadeSingleStick,
     Mario
 };

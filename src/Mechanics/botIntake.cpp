@@ -51,7 +51,7 @@ namespace {
     void resolveIntake() {
         // Make sure intakeResolveState is within [-1, 1]
         intakeResolveState = (intakeResolveState > 0) - (intakeResolveState < 0);
-        double spinVelocityPct = intakeResolveState * intakeVelocityPct;
+        // double spinVelocityPct = intakeResolveState * intakeVelocityPct;
 
         // Make sure intake state reset is resolved
         if (intakeFrameResetted) {
@@ -68,7 +68,8 @@ namespace {
                 return;
             }
 
-            // Spin the intake
+            // Activate intake
+            IntakePneumatic.set(true);
             // IntakeMotor.spin(fwd, spinVelocityPct, pct);
             
             // Update stuck state
@@ -84,8 +85,10 @@ namespace {
                 resetIntakeStuckState();
             }
         } else {
-            // Stop the intake
+            // Deactivate intake
+            IntakePneumatic.set(false);
             // IntakeMotor.stop();
+            
             // Reset stuck state
             resetIntakeStuckState();
         }

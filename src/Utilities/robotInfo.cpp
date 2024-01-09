@@ -3,12 +3,12 @@
 
 namespace botinfo {
     // Robot info
-    double robotLengthIn = 24 * 0.500;
+    double robotLengthIn = 21 * 0.500;
     double halfRobotLengthIn = robotLengthIn / 2;
 
-    double driveWheelRadiusIn = 3.25 / 2;
+    double driveWheelRadiusIn = 2.75 / 2;
     double driveWheelCircumIn = 2 * M_PI * driveWheelRadiusIn;
-    double driveWheelMotorGearRatio = (48.0 / 36.0);
+    double driveWheelMotorGearRatio = (1.00);
 
     // Velocity from pct to rev/s
     // 100% = 600/60 rev/s

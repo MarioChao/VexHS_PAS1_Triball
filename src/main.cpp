@@ -16,6 +16,7 @@
 /*
     Cosmetic:
         ButtonLeft              --> animation (switch)
+        ButtonX                 --> switch driving mode
 
     Endgame:
         ButtonB                 --> lift / elevation / climbing (switch)
@@ -24,7 +25,7 @@
         Button?                 --> intake (hold)
         Button?                 --> wings (switch)
 
-    Driving Mode - Arcade drive two stick:
+    Driving Mode - Arcade drive two stick (also controlled turn):
         Axis3                   --> arcade forward (hold)
         Axis1                   --> arcade turn (hold)
 

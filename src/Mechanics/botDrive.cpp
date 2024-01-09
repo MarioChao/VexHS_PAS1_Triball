@@ -8,6 +8,7 @@ namespace {
 
     void switchDriveMode();
     void controlArcadeTwoStick();
+    void controlArcadeTwoStickControlledTurn();
     void controlArcadeSingleStick();
     void controlMario();
     void drive(double initLeftPct, double initRightPct, double initPolarRotatePct, double rotateCenterOffsetIn = 0);
@@ -27,7 +28,7 @@ void preautonDrive() {
 }
 
 void keybindDrive() {
-    Controller2.ButtonX.pressed([] () -> void {
+    Controller1.ButtonX.pressed([] () -> void {
         switchDriveMode();
     });
 }
@@ -36,6 +37,9 @@ void controlDrive() {
     switch (driveMode) {
         case controlType::ArcadeTwoStick:
             controlArcadeTwoStick();
+            break;
+        case controlType::ArcadeTwoStickControlledTurn:
+            controlArcadeTwoStickControlledTurn();
             break;
         case controlType::ArcadeSingleStick:
             controlArcadeSingleStick();
@@ -57,7 +61,10 @@ namespace {
 
             switch (driveMode) {
                 case controlType::ArcadeTwoStick:
-                    driveMode = controlType::ArcadeSingleStick;
+                    driveMode = controlType::ArcadeTwoStickControlledTurn;
+                    break;
+                case controlType::ArcadeTwoStickControlledTurn:
+                    driveMode = controlType::ArcadeTwoStick;
                     break;
                 case controlType::ArcadeSingleStick:
                     driveMode = controlType::Mario;
@@ -80,7 +87,23 @@ namespace {
         if (fabs(axis3) < 2) axis3 = 0;
         double axis1 = Controller1.Axis1.position();
         if (fabs(axis1) < 2) axis1 = 0;
-        drive(axis3, axis3, -axis1);
+        drive(axis3, axis3, -axis1 * 0.9);
+    }
+
+    void controlArcadeTwoStickControlledTurn() {
+        double axis3 = Controller1.Axis3.position();
+        if (fabs(axis3) < 2) axis3 = 0;
+        double axis1 = Controller1.Axis1.position();
+        if (fabs(axis1) < 2) axis1 = 0;
+
+        // Off-center rotation (modified from Mario drive)
+        double rotateYaw = axis1;
+        double rotateFactor = (1 - fmin(fabs(rotateYaw), 100.0) / 100.0) * 1.5; // Bigger the axis1, smaller the center offset (more turn)
+        double rotateSign = (rotateYaw > 0) - (rotateYaw < 0);
+        double speedFactor = fmin(fabs(axis3 / 100.0), 100.0) * 0.6; // Greater the speed, greater the center offset (less turn)
+        double centerOffset = robotLengthIn * rotateSign * rotateFactor * speedFactor;
+
+        drive(axis3, axis3, -axis1, centerOffset);
     }
 
     /// @brief Drive in arcade mode (Axis3 forward/backward, Axis4 rotation)
@@ -113,10 +136,10 @@ namespace {
 
         // Off-center rotation
         double rotateYaw = Controller1.Axis4.position();
-        double offcenterFactor = (1 - fabs(rotateYaw / 100.0)) * 1.5; // Bigger the axis4, smaller the center offset
+        double rotateFactor = (1 - fmin(fabs(rotateYaw), 100.0) / 100.0) * 1.5; // Bigger the axis4, smaller the center offset
         double rotateSign = (rotateYaw > 0) - (rotateYaw < 0);
-        double speedFactor = fabs(marioVelocityPct / 100.0) * 0.6; // Greater the speed, greater the center offset
-        double centerOffset = robotLengthIn * rotateSign * offcenterFactor * speedFactor;
+        double speedFactor = fmin(fabs(marioVelocityPct / 100.0), 100.0) * 0.6; // Greater the speed, greater the center offset
+        double centerOffset = robotLengthIn * rotateSign * rotateFactor * speedFactor;
 
         // Drive with velocity
         drive(marioVelocityPct, marioVelocityPct, -Controller1.Axis4.position(), centerOffset);
