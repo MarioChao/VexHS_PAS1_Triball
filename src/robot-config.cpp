@@ -9,14 +9,14 @@ brain Brain;
 controller Controller1(primary);
 controller Controller2(partner);
 
-motor LeftMotorA(PORT1, ratio6_1);
-motor LeftMotorB(PORT2, ratio6_1);
-motor LeftMotorC(PORT3, ratio6_1);
-motor LeftMotorD(PORT4, ratio6_1);
-motor RightMotorA(PORT7, ratio6_1, true);
-motor RightMotorB(PORT8, ratio6_1, true);
-motor RightMotorC(PORT9, ratio6_1, true);
-motor RightMotorD(PORT10, ratio6_1, true);
+motor LeftMotorA(PORT17, ratio6_1);
+motor LeftMotorB(PORT18, ratio6_1);
+motor LeftMotorC(PORT19, ratio6_1);
+motor LeftMotorD(PORT20, ratio6_1);
+motor RightMotorA(PORT11, ratio6_1, true);
+motor RightMotorB(PORT12, ratio6_1, true);
+motor RightMotorC(PORT14, ratio6_1, true);
+motor RightMotorD(PORT15, ratio6_1, true);
 motor_group LeftMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD);
 motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC, RightMotorD);
 motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD, RightMotorA, RightMotorB, RightMotorC, RightMotorD);
@@ -27,7 +27,7 @@ pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);
 pneumatics LiftPneumatic1(Brain.ThreeWirePort.E);
 pneumatics LiftPneumatic2(Brain.ThreeWirePort.F);
 
-inertial InertialSensor(PORT6);
+inertial InertialSensor(PORT13);
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

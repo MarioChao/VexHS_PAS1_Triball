@@ -29,10 +29,6 @@ ButtonGui::ButtonGui(double x, double y, double width, double height, double rad
   centerX = x;
   centerY = y;
   /*
-  this -> width = width;
-  this -> height = height;
-  cornerRadius = radius;
-
   outlineColor = outlineCol;
   outlineWidth = strokeWeight;*/
 

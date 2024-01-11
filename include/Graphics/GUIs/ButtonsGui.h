@@ -9,7 +9,6 @@ class ButtonGui : public GuiClass {
   private:
     // Attributes
     double centerX, centerY;
-    double width, height, cornerRadius;
 
     double outlineWidth;
     color outlineColor;

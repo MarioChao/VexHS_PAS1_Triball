@@ -18,7 +18,6 @@ class ShapeGui : public GuiClass {
   private:
     // Attributes
     ShapeType shapeName;
-
   protected:
     // Inherited attributes
     double centerX, centerY;

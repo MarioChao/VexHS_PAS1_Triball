@@ -1,6 +1,7 @@
 #include "Mechanics/botDrive.h"
 #include "Utilities/pidControl.h"
 #include "Utilities/robotInfo.h"
+#include "Utilities/debugFunctions.h"
 #include "main.h"
 
 namespace {
@@ -62,9 +63,11 @@ namespace {
             switch (driveMode) {
                 case controlType::ArcadeTwoStick:
                     driveMode = controlType::ArcadeTwoStickControlledTurn;
+                    debug::printOnController("Arcade: controlled [X]");
                     break;
                 case controlType::ArcadeTwoStickControlledTurn:
                     driveMode = controlType::ArcadeTwoStick;
+                    debug::printOnController("Arcade: normal [X]");
                     break;
                 case controlType::ArcadeSingleStick:
                     driveMode = controlType::Mario;
@@ -87,7 +90,7 @@ namespace {
         if (fabs(axis3) < 2) axis3 = 0;
         double axis1 = Controller1.Axis1.position();
         if (fabs(axis1) < 2) axis1 = 0;
-        drive(axis3, axis3, -axis1 * 0.9);
+        drive(axis3, axis3, -axis1 * 0.8);
     }
 
     void controlArcadeTwoStickControlledTurn() {
