@@ -219,10 +219,11 @@ namespace auton {
         LeftRightMotors.stop(brake);
     }
 
-    /// @brief Set the state of the intake.
-    /// @param state Intaking: 1, off: 0, outtaking: -1.
-    void setIntakeState(int state, double velocityPct) {
-        setIntakeResolveState(state, velocityPct);
+    /// @brief Set the state of the intake pneumatic.
+    /// @param state Holding: 1, released: 0
+    void setIntakeState(int state) {
+        // Actual resolve state is inversed (holding : 0, released : 1)
+        setIntakeResolveState(state ^ 1);
     }
 
     /// @brief Set the state of Left Wing's pneumatic.
@@ -274,8 +275,7 @@ namespace auton {
     /// @brief Set the state of the lift's pneumatic.
     /// @param state Lifted: true, lowered: false
     void setLiftState(bool state) {
-        LiftPneumatic1.set(state);
-        LiftPneumatic2.set(state);
+        LiftPneumatic.set(state);
     }    
 }
 

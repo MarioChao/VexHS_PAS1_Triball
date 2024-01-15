@@ -21,11 +21,10 @@ motor_group LeftMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD);
 motor_group RightMotors(RightMotorA, RightMotorB, RightMotorC, RightMotorD);
 motor_group LeftRightMotors(LeftMotorA, LeftMotorB, LeftMotorC, LeftMotorD, RightMotorA, RightMotorB, RightMotorC, RightMotorD);
 
-pneumatics IntakePneumatic(Brain.ThreeWirePort.A);
-pneumatics LeftWingPneumatic(Brain.ThreeWirePort.B);
-pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);
-pneumatics LiftPneumatic1(Brain.ThreeWirePort.E);
-pneumatics LiftPneumatic2(Brain.ThreeWirePort.F);
+pneumatics IntakePneumatic(Brain.ThreeWirePort.B);
+pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
+pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);
+pneumatics LiftPneumatic(Brain.ThreeWirePort.A);
 
 inertial InertialSensor(PORT13);
 

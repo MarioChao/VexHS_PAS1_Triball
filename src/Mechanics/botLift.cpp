@@ -17,8 +17,7 @@ void keybindLift() {
 }
 void setLiftState(bool value) {
     liftState = value;
-    LiftPneumatic1.set(liftState);
-    LiftPneumatic2.set(liftState);
+    LiftPneumatic.set(liftState);
 }
 
 namespace {

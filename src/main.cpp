@@ -19,11 +19,13 @@
         ButtonX                 --> switch driving mode
 
     Endgame:
-        ButtonB                 --> lift / elevation / climbing (switch)
+        ButtonB                 --> lift / elevation (switch)
 
     Driving:
-        Button?                 --> intake (hold)
-        Button?                 --> wings (switch)
+        ButtonR1                --> intake (hold)
+        ButtonL1                --> both wings (switch)
+        ButtonL2                --> left wings (switch)
+        ButtonR2                --> right wings (switch)
 
     Driving Mode - Arcade drive two stick (also controlled turn):
         Axis3                   --> arcade forward (hold)

@@ -21,8 +21,7 @@ extern motor_group LeftRightMotors;
 extern pneumatics IntakePneumatic;
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
-extern pneumatics LiftPneumatic1;
-extern pneumatics LiftPneumatic2;
+extern pneumatics LiftPneumatic;
 
 extern inertial InertialSensor;
 
