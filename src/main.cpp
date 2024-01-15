@@ -101,9 +101,6 @@ void autonomous(void) {
     // Start autonomous
     timer benchmark;
 
-    // Reset
-    resetIntake();
-
     // Autonomous user code
     runAutonomous();
 
@@ -141,7 +138,6 @@ void usercontrol(void) {
     keybindVideos();
 
     // Reset
-    resetIntake();
     setWingsState(false);
 
     while (1) {

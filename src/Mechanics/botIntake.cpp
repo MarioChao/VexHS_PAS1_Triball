@@ -9,10 +9,6 @@ namespace {
     bool canControlIntake = true;
 }
 
-void resetIntake() {
-    setIntakeResolveState(1);
-    task::sleep(300);
-}
 void intakeThread() {
     // Intake loop
     while (true) {

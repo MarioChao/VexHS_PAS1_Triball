@@ -147,17 +147,17 @@ void autonSkillsIntro() {
 namespace {
     void autonTest() {
         setRotation(0.0);
-        // driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        // driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        // driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        // driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        // driveAndTurnDistanceTiles(2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
-        // driveAndTurnDistanceTiles(-2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
-        turnToAngle(90);
-        turnToAngle(-90);
-        turnToAngle(180);
-        turnToAngle(-180);
-        turnToAngle(0);
+        driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        driveAndTurnDistanceTiles(-2.0, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
+        // turnToAngle(90);
+        // turnToAngle(-90);
+        // turnToAngle(180);
+        // turnToAngle(-180);
+        // turnToAngle(0);
     }
 
     /// @brief Run the 15-seconds near-side AWP autonomous.
@@ -168,23 +168,21 @@ namespace {
         
         // Push middle balls over the middle barrier
         driveAndTurnDistanceTiles(-1.82, 195.0, 800.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        setIntakeState(0);
         setRightWingState(true);
         turnToAngleVelocity(270.0, 60.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.3);
+        setIntakeState(0);
         driveAndTurnDistanceTiles(-1.3, 270.0, 100.0, 200.0, defaultMoveTilesErrorRange, 1.3);
         setRightWingState(false, 0.3);
 
         // Drive to match load zone
         driveAndTurnDistanceTiles(0.3, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
         turnToAngle(215.0, -halfRobotLengthIn, defaultTurnAngleErrorRange, 1.5);
-        driveAndTurnDistanceTiles(2.13, 235.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
-        // Face upward-parallel to the match load bar
-        turnToAngle(315.0, halfRobotLengthIn * 1.25, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(2.2, 235.0, 100.0, 100.0, defaultMoveTilesErrorRange, 2.0);
         // Swing the ball out
-        setLeftWingState(true);
-        turnToAngle(300, 0.0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-0.7, 290.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.5);
-        setLeftWingState(false);
+        setRightWingState(true);
+        turnToAngle(135, 0.0, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(1.0, 80.0, 60.0, 400.0, defaultMoveTilesErrorRange, 1.5);
+        setRightWingState(false);
         task::sleep(500);
         turnToAngleVelocity(310, 40.0, 0.0, defaultTurnAngleErrorRange, 1.5);
         
@@ -200,12 +198,10 @@ namespace {
         }
 
         // Push the preload and former-corner ball over to the offensive zone
-        driveAndTurnDistanceTiles(-0.8, 270.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-1.0, 270.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.5);
 
         // Touch the elevation bar
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(-0.8, 260.0, 20.0, 20.0, defaultMoveTilesErrorRange, 2.5);
-        turnToAngle(300.0, -halfRobotLengthIn * 0.5, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-0.8, 270.0, 50.0, 20.0, defaultMoveTilesErrorRange, 2.5);
         // Robot is touching the elevation bar
     }
 

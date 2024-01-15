@@ -11,7 +11,10 @@ namespace {
     using namespace angle;
     using namespace botinfo;
     using namespace field;
+    using std::vector;
 
+    vector<double> getMotorRevolutions();
+    double getAverageDifference(vector<double> vector1, vector<double> vector2);
     void driveVelocity(double leftVelocityPct, double rightVelocityPct);
 
     double setLeftWing_DelaySec;
@@ -57,7 +60,7 @@ namespace auton {
         // PID
         // L_vel = L_dist / time
         // R_vel = R_dist / time = L_vel * (R_dist / L_dist)
-        PIDControl rotateTargetAnglePid(0.487, 0, 0, errorRange); // Reach goal
+        PIDControl rotateTargetAnglePid(0.3, 0, 0, errorRange); // Reach goal
         timer timeout;
         while (!rotateTargetAnglePid.isSettled() && timeout.value() < runTimeout) {
             // Compute rotate error
@@ -124,19 +127,17 @@ namespace auton {
         
         // Variables
         double motorTargetDistanceRev = distanceInches * (1.0 / driveWheelCircumIn) * (driveWheelMotorGearRatio);
-        double leftMotorInitRev = LeftMotors.position(rev);
-        double rightMotorInitRev = RightMotors.position(rev);
+        vector<double> initRevolutions = getMotorRevolutions();
 
         // PID
         PIDControl driveTargetDistancePid(25, 0, 0, errorRange);
-        PIDControl rotateTargetAnglePid(0.6, 0, 0, defaultTurnAngleErrorRange);
+        PIDControl rotateTargetAnglePid(0.3, 0, 0, defaultTurnAngleErrorRange);
 
         timer timeout;
         while ((!driveTargetDistancePid.isSettled() || !rotateTargetAnglePid.isSettled()) && timeout.value() < runTimeout) {
             // Compute average traveled motor revolutions
-            double leftTravelRev = LeftMotors.position(rev) - leftMotorInitRev;
-            double rightTravelRev = RightMotors.position(rev) - rightMotorInitRev;
-            double averageTravelRev = (leftTravelRev + rightTravelRev) / 2;
+            vector<double> travelRevolutions = getMotorRevolutions();
+            double averageTravelRev = getAverageDifference(initRevolutions, travelRevolutions);
 
             // Compute motor velocity pid-value from error
             double distanceError = (motorTargetDistanceRev - averageTravelRev);
@@ -236,7 +237,8 @@ namespace auton {
             if (setLeftWing_DelaySec > 1e-9) {
                 task::sleep(setLeftWing_DelaySec * 1000);
             }
-            LeftWingPneumatic.set(setLeftWing_LeftWingState);
+            // LeftWingPneumatic.set(setLeftWing_LeftWingState);
+            RightWingPneumatic.set(setLeftWing_LeftWingState);
             return 1;
         });
     }
@@ -251,7 +253,8 @@ namespace auton {
             if (setRightWing_DelaySec > 1e-9) {
                 task::sleep(setRightWing_DelaySec * 1000);
             }
-            RightWingPneumatic.set(setRightWing_RightWingState);
+            // RightWingPneumatic.set(setRightWing_RightWingState);
+            LeftWingPneumatic.set(setRightWing_RightWingState);
             return 1;
         });
     }
@@ -280,6 +283,31 @@ namespace auton {
 }
 
 namespace {
+    vector<double> getMotorRevolutions() {
+        vector<double> ret = {
+            LeftMotorA.position(rev),
+            LeftMotorB.position(rev),
+            LeftMotorC.position(rev),
+            LeftMotorD.position(rev),
+            RightMotorA.position(rev),
+            RightMotorB.position(rev),
+            RightMotorC.position(rev),
+            RightMotorD.position(rev),
+        };
+        return ret;
+    }
+    /// @brief Returns the average value of vector2[i] - vector1[i].
+    double getAverageDifference(vector<double> vector1, vector<double> vector2) {
+        int vectorSize = std::min((int) vector1.size(), (int) vector2.size());
+        double totalDifference = 0;
+        for (int i = 0; i < vectorSize; i++) {
+            double difference = vector2[i] - vector1[i];
+            totalDifference += difference;
+        }
+        double averageDifference = totalDifference / vectorSize;
+        return averageDifference;
+    }
+
     void driveVelocity(double leftVelocityPct, double rightVelocityPct) {
         // Scale percentages if overshoot
         double scaleFactor = 100.0 / fmax(100.0, fmax(fabs(leftVelocityPct), fabs(rightVelocityPct)));

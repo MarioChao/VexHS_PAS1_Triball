@@ -26,7 +26,7 @@ pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);
 pneumatics LiftPneumatic(Brain.ThreeWirePort.A);
 
-inertial InertialSensor(PORT13);
+inertial InertialSensor(PORT16);
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
