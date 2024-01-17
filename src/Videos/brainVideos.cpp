@@ -6,13 +6,17 @@
 
 namespace {
     void drawFrame(int x, int y, int width, int height, int frameId);
-    void switchVideoState(bool increment = true);
 
     std::vector< std::vector< std::vector<int> > > video;
+    std::vector< std::vector< std::vector<bool> > > boolVideo;
 
-    int videoCount = 1;
+    int videoCount = 3;
     double frameDelayMs;
     int frameId;
+
+    int videoType = 0; // 0 : video, 1 : bool video
+
+    std::pair<color, color> boolVideoColors;
 }
 
 void keybindVideos() {
@@ -23,85 +27,68 @@ void keybindVideos() {
 
 void brainVideosThread() {
     frameId = 0;
-    switchVideoState(false);
+    switchVideoState(0);
     while (true) {
         if (playingVideoId > 0 && frameId >= 0) {
             drawFrame(0, 0, 480, 240, frameId);
             frameId++;
-            frameId %= (int) video.size();
+            if (videoType == 0) {
+                frameId %= (int) video.size();
+            } else if (videoType == 1) {
+                frameId %= (int) boolVideo.size();
+            }
         }
         task::sleep(frameDelayMs);
     }
 }
 
+bool videoDebounce = false;
+void switchVideoState(int increment) {
+    if (!videoDebounce) {
+        videoDebounce = true;
+
+        frameId = -10;
+        // Increment video id
+        playingVideoId += increment;
+        playingVideoId %= (videoCount + 1);
+        if (playingVideoId > 0) {
+            // printf("Playing video %d!\n", playingVideoId);
+        }
+
+        // Switch video
+        switch (playingVideoId) {
+            case 1:
+                teamLogo.loadVideo(&video, &frameDelayMs);
+                videoType = 0;
+                break;
+            case 2:
+                yoruNiKakeru.loadVideo(&video, &frameDelayMs);
+                videoType = 0;
+                break;
+            case 3:
+                badApple.loadVideo(&boolVideo, &frameDelayMs);
+                boolVideoColors = badApple.getColors();
+                videoType = 1;
+                break;
+            case 0:
+                video.clear();
+                boolVideo.clear();
+        }
+        task::sleep(30);
+        frameId = 0;
+        task::sleep(30);
+
+        videoDebounce = false;
+    }
+}
+
 namespace {
     void drawFrame(int x, int y, int width, int height, int frameId) {
-        if (frameId < 0 || frameId >= (int) video.size()) {
-            return;
-        }
-        // Get frame
-        // printf("frame %d\n", frameId);
-        std::vector< std::vector<int> > frame = video[frameId];
-        // Draw frame at position
-        int rgb;
-        int posX, posY;
-        // Loop through columns
-        double iStep = (double) frame.size() / height;
-        posY = y;
-        for (double i = 0; i < (int) frame.size(); i += iStep) {
-            int frameI = (int) i;
-            // Loop through rows
-            double jStep = (double) frame[frameI].size() / width;
-            posX = x;
-            for (double j = 0; j < (int) frame[frameI].size(); j += jStep) {
-                int frameJ = (int) j;
-                // Draw pixel
-                rgb = frame[frameI][frameJ];
-                if (rgb != -1) {
-                    Brain.Screen.setPenWidth(1);
-                    Brain.Screen.setPenColor(color(rgb));
-                    Brain.Screen.drawPixel(posX, posY);
-                }
-                // Update
-                posX++;
-            }
-            posY++;
-        }
-    }
-
-    bool videoDebounce = false;
-    void switchVideoState(bool increment) {
-        if (!videoDebounce) {
-            videoDebounce = true;
-
-            frameId = -10;
-            // Increment video id
-            if (increment) {
-                playingVideoId++;
-                playingVideoId %= (videoCount + 1);
-            }
-            if (playingVideoId > 0) {
-                // printf("Playing video %d!\n", playingVideoId);
-            }
-            // Switch video
-            switch (playingVideoId) {
-                case 1:
-                    teamLogo.loadVideo(&video, &frameDelayMs);
-                    break;
-                case 2:
-                    yoruNiKakeru.loadVideo(&video, &frameDelayMs);
-                    break;
-                case 3:
-                    badApple.loadVideo(&video, &frameDelayMs);
-                    break;
-                case 0:
-                    video.clear();
-            }
-            task::sleep(30);
-            frameId = 0;
-            task::sleep(30);
-
-            videoDebounce = false;
+        // Two types of videos
+        if (videoType == 0) {
+            VideoInfo::drawFrame(&video, x, y, width, height, frameId);
+        } else if (videoType == 1) {
+            BoolVideoInfo::drawFrame(&boolVideo, x, y, width, height, frameId, boolVideoColors.first, boolVideoColors.second);
         }
     }
 }

@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Videos/videoInfo.h"
+#include "Videos/boolVideoInfo.h"
 
-extern VideoInfo badApple;
+extern BoolVideoInfo badApple;

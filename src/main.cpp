@@ -101,6 +101,13 @@ void autonomous(void) {
     // Start autonomous
     timer benchmark;
 
+    // Switch to a random video
+    task switchVideo([] () -> int {
+        srand(Brain.Timer.systemHighResolution());
+        switchVideoState(rand() % 3 + 1);
+        return 1;
+    });
+
     // Autonomous user code
     runAutonomous();
 
