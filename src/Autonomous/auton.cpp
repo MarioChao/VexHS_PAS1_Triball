@@ -20,7 +20,7 @@ namespace {
     void runAutonSkills();
 
     bool userRunningAutonomous = false;
-    autonomousType auton_runType = autonomousType::NearAWP;
+    autonomousType auton_runType = autonomousType::FarAWP;
     int auton_allianceId;
 }
 
@@ -213,65 +213,59 @@ namespace {
 
     /// @brief Run the 15-seconds far-side AWP autonomous.
     void runAutonFarAWP() {
-        setRotation(-90.0);
-        
-        // Intake ball below elevation bar
-        setIntakeState(1);
-        driveAndTurnDistanceTiles(0.4, -85.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.6);
+        setRotation(0.0);
 
-        // Go to match load zone while pushing preload ball
-        driveAndTurnDistanceTiles(-1.6, -160.0, 60.0, 6.0, defaultMoveTilesErrorRange, 1.6);
-        // Swing the corner ball out
-        setLeftWingState(true);
-        task::sleep(20);
-        setLeftWingState(false, 0.5);
-        driveAndTurnDistanceTiles(-0.5, -175.0, 50.0, 30.0, defaultMoveTilesErrorRange, 0.7);
-        // Push two balls through the bottom-side of the goal
-        turnToAngle(-158, 0.0, defaultTurnAngleErrorRange, 0.6);
-        task::sleep(100);
-        driveAndTurnDistanceTiles(-2.0, -180.0, 100.0, 1000.0, defaultMoveTilesErrorRange, 0.6);
-
-        // Face and drive partially to center-down ball
-        driveAndTurnDistanceTiles(1.0, -60.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.9);
-        driveAndTurnDistanceTiles(1.0, -60.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
-        // Face goal and out-take ball
-        turnToAngle(49, 0.0, defaultTurnAngleErrorRange, 1.5);
-        setIntakeState(-1);
-        task::sleep(250);
+        // Go near the center
+        driveAndTurnDistanceTiles(1.60, 0.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.5);
+        // Face goal and release preload ball
+        turnToAngle(45.0, halfRobotLengthIn, defaultTurnAngleErrorRange, 1.0);
+        task::sleep(200);
+        setIntakeState(0);
 
         // Face center-down ball
-        turnToAngle(-70.0, 0.0, defaultTurnAngleErrorRange, 1.5);
+        driveAndTurnDistanceTiles(-0.70, 45.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.0);
+        turnToAngle(-90.0, 0.0, defaultTurnAngleErrorRange, 1.5);
         // Intake ball
+        driveAndTurnDistanceTiles(0.90, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         setIntakeState(1);
-        driveAndTurnDistanceTiles(0.87, -70.0, 100.0, 200.0, defaultMoveTilesErrorRange, 1.3);
-        // Face goal, drive, and out-take ball
-        turnToAngle(57.0, 0.0, defaultTurnAngleErrorRange, 0.8);
-        driveAndTurnDistanceTiles(0.7, 57.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
-        setIntakeState(-1);
-        task::sleep(250);
+        task::sleep(100);
+        // Face goal, drive, and release ball
+        turnToAngle(60.0, 0.0, defaultTurnAngleErrorRange, 0.8);
+        driveAndTurnDistanceTiles(0.90, 60.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
+        task::sleep(200);
+        setIntakeState(0);
+        driveAndTurnDistanceTiles(-0.60, 60.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.0);
 
         // Face center-middle ball
-        turnToAngle(-60.0, 0.0, defaultTurnAngleErrorRange, 0.7);
+        turnToAngle(-45.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         // Intake ball
+        driveAndTurnDistanceTiles(0.60, -30.0, 70.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         setIntakeState(1);
-        driveAndTurnDistanceTiles(0.85, -30.0, 70.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         // Push two balls through left-side of the goal
-        turnToAngle(-85.0, 0.0, defaultTurnAngleErrorRange, 0.6);
+        turnToAngle(-85.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         setWingsState(true);
-        driveAndTurnDistanceTiles(-2.0, -90.0, 100.0, 300.0, defaultMoveTilesErrorRange, 0.75);
-        // Push loaded ball into the goal
-        driveAndTurnDistanceTiles(0.5, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
-        turnToAngle(90.0, 0.0, defaultTurnAngleErrorRange, 0.9);
+        tasl::sleep(200);
+        driveAndTurnDistanceTiles(-1.90, -90.0, 100.0, 300.0, defaultMoveTilesErrorRange, 2.0);
         setWingsState(false);
-        setIntakeState(-1);
-        driveAndTurnDistanceTiles(1.5, 90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        // Release loaded ball into the goal
+        turnToAngle(90.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         setIntakeState(0);
+        driveAndTurnDistanceTiles(-0.30, 90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
+        setIntakeState(1);
+        driveAndTurnDistanceTiles(-0.50, 90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         
-        // Drive and touch the elevation bar using wings
-        driveAndTurnDistanceTiles(-1.0, -10.0, 130.0, 90.0, defaultMoveTilesErrorRange, 1.3);
-        // setLeftWingState(true, 1.05);
-        // driveAndTurnDistanceTiles(-3.8, -10.0, 130.0, 90.0, defaultMoveTilesErrorRange, 2.5);
-        // Robot is touching the elevation bar
+        // Intake ball below elevation bar (not included)
+
+        // Go to matchload zone
+        turnToAngle(180.0, 0.0, defaultTurnAngleErrorRange, 0.7);
+        driveAndTurnDistanceTiles(1.70, 150.0, 100.0, 8.0, defaultMoveTilesErrorRange, 1.7);
+        // Swing the corner ball out
+        setRightWingState(true);
+        turnToAngle(0.0, -halfRobotLengthIn, defaultTurnAngleErrorRange, 1.7);
+        setRightWingState(false);
+        // Push ball through the bottom-side of the goal
+        turnToAngle(-165.0, 0.0, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-1.50, -180.0, 100.0, 1000.0, defaultMoveTilesErrorRange, 1.3);
     }
 
     /// @brief Run the 15-seconds far-side Eliminations autonomous.
