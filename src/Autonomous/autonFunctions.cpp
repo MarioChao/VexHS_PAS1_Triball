@@ -285,14 +285,14 @@ namespace auton {
 namespace {
     vector<double> getMotorRevolutions() {
         vector<double> ret = {
-            LeftMotorA.position(rev),
+            // LeftMotorA.position(rev),
             LeftMotorB.position(rev),
             LeftMotorC.position(rev),
-            LeftMotorD.position(rev),
-            RightMotorA.position(rev),
+            // LeftMotorD.position(rev),
+            // RightMotorA.position(rev),
             RightMotorB.position(rev),
             RightMotorC.position(rev),
-            RightMotorD.position(rev),
+            // RightMotorD.position(rev),
         };
         return ret;
     }
