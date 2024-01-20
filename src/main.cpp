@@ -133,7 +133,7 @@ void userRunAutonomous() {
 void usercontrol(void) {
     // Skills intro
     if (getAutonRunType() == autonomousType::DrivingSkills) {
-        autonSkillsIntro();
+        // autonSkillsIntro();
     } else if (isUserRunningAuton()) {
         userRunAutonomous();
     }
