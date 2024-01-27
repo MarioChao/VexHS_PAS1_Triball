@@ -22,7 +22,7 @@
         ButtonB                 --> lift / elevation (switch)
 
     Driving:
-        ButtonR1                --> intake (hold)
+        ButtonR1                --> intake (hold) (ROBOT HAS NO INTAKE)
         ButtonL1                --> both wings (switch)
         ButtonL2                --> left wings (switch)
         ButtonR2                --> right wings (switch)
@@ -51,8 +51,8 @@
 #include "Autonomous/auton.h"
 
 #include "Mechanics/botDrive.h"
-#include "Mechanics/botIntake.h"
 #include "Mechanics/botLift.h"
+#include "Mechanics/botPuncher.h"
 #include "Mechanics/botWings.h"
 
 #include "Utilities/fieldInfo.h"
@@ -79,8 +79,8 @@ void pre_auton(void) {
     vexcodeInit();
 
     // Activites before the competition starts
-    // Intake task
-    task intakeTask([] () -> int { intakeThread(); return 1; });
+    // Puncher task
+    task puncherTask([] () -> int { puncherThread(); return 1; });
     // Controller task
     task rum([] () -> int { preautonControllerThread(); return 1; });
     // Stopping brake-types
@@ -107,6 +107,9 @@ void autonomous(void) {
         switchVideoState(rand() % 3 + 1);
         return 1;
     });
+
+    // Reset puncher
+    resetPuncherCall();
 
     // Autonomous user code
     runAutonomous();
@@ -146,13 +149,12 @@ void usercontrol(void) {
 
     // Reset
     setWingsState(false);
+    resetPuncherCall();
 
     while (1) {
         // Joystick feedback
         // Drive
         controlDrive();
-        // Intake
-        controlIntake();
 
         // Short delay
         task::sleep(20);

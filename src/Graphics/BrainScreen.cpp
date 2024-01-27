@@ -572,14 +572,14 @@ namespace {
     double leftAC = LeftMotorA.temperature(celsius);
     double leftBC = LeftMotorB.temperature(celsius);
     double leftCC = LeftMotorC.temperature(celsius);
-    double leftDC = LeftMotorD.temperature(celsius);
+    // double leftDC = LeftMotorD.temperature(celsius);
     double rightAC = RightMotorA.temperature(celsius);
     double rightBC = RightMotorB.temperature(celsius);
     double rightCC = RightMotorC.temperature(celsius);
-    double rightDC = RightMotorD.temperature(celsius);
+    // double rightDC = RightMotorD.temperature(celsius);
     Brain.Screen.printAt(10, 40, 1, "L1: %s°C, R1: %s°C", leadTrailZero(3, 3, leftAC).c_str(), leadTrailZero(3, 3, rightAC).c_str());
     Brain.Screen.printAt(10, 65, 1, "L2: %s°C, R2: %s°C", leadTrailZero(3, 3, leftBC).c_str(), leadTrailZero(3, 3, rightBC).c_str());
     Brain.Screen.printAt(10, 90, 1, "L3: %s°C, R3: %s°C", leadTrailZero(3, 3, leftCC).c_str(), leadTrailZero(3, 3, rightCC).c_str());
-    Brain.Screen.printAt(10, 115, 1, "L4: %s°C, R4: %s°C", leadTrailZero(3, 3, leftDC).c_str(), leadTrailZero(3, 3, rightDC).c_str());
+    // Brain.Screen.printAt(10, 115, 1, "L4: %s°C, R4: %s°C", leadTrailZero(3, 3, leftDC).c_str(), leadTrailZero(3, 3, rightDC).c_str());
   }
 }

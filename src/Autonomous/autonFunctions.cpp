@@ -4,7 +4,6 @@
 #include "Utilities/motionProfile.h"
 #include "Utilities/robotInfo.h"
 #include "Utilities/fieldInfo.h"
-#include "Mechanics/botIntake.h"
 #include "main.h"
 
 namespace {
@@ -224,7 +223,7 @@ namespace auton {
     /// @param state Holding: 1, released: 0
     void setIntakeState(int state) {
         // Actual resolve state is inversed (holding : 0, released : 1)
-        setIntakeResolveState(state ^ 1);
+        // setIntakeResolveState(state ^ 1);
     }
 
     /// @brief Set the state of Left Wing's pneumatic.
