@@ -22,11 +22,11 @@ MotionProfile::MotionProfile(double accelTime, double middleTime, double decelTi
 /// @brief Set the motion profile to be calculated from movement details.
 /// @param startAccel The magnitude of acceleration at the start (positive).
 /// @param endDecel The magnitude of deceleration at the end (positive).
-/// @param maxVelocity The maximum velocity of the motion profile (positive or negative).
+/// @param maxVelocity The maximum velocity of the motion profile (positive).
 void MotionProfile::setModeAcceleration(double startAccel, double endDecel, double maxVelocity) {
     startAcceleration = fmax(0.05, fabs(startAccel));
     endDeceleration = -fmax(0.05, fabs(endDecel));
-    velocityCap = maxVelocity;
+    velocityCap = fabs(maxVelocity);
     if (fabs(velocityCap) <= 1e-9) {
         velocityCap = 0.05;
     }

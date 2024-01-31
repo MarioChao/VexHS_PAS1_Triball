@@ -42,6 +42,9 @@ namespace {
             task::sleep(30);
         }
         printf("Calibrated!\n");
+
+        // Reset encoder
+        LookEncoder.resetRotation();
         
         initComponentFinished = true;
     }

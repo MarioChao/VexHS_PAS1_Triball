@@ -104,16 +104,6 @@ void runAutonomous() {
     }
 }
 
-void autonSkillsIntro() {
-    setRotation(-45);
-
-    // Push the two alliance triballs
-    driveAndTurnDistanceTiles(-2.0, 0, 75.0, 500.0, defaultMoveTilesErrorRange, 1.4);
-
-    // Go to match load position
-    driveAndTurnDistanceTiles(1.2, -60.0, 60.0, 900.0, defaultMoveTilesErrorRange, 1.5);
-}
-
 namespace {
     void autonTest() {
         setRotation(0.0);
@@ -250,8 +240,8 @@ namespace {
 
     /// @brief Run the skills autonomous.
     void runAutonSkills() {
+        setRotation(0.0);
         timer autonTimer;
-        autonSkillsIntro();
 
         // Tunneling
         while (autonTimer.value() < 53.0) {

@@ -10,4 +10,8 @@ namespace botinfo {
     extern double driveWheelMotorGearRatio;
 
     extern double driveMotorRevToPercentSecFactor;
+
+    extern double trackingLookWheelRadiusIn;
+    extern double trackingLookWheelCircumIn;
+    extern double trackingLookWheelEncoderGearRatio;
 }

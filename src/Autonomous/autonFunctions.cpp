@@ -22,6 +22,8 @@ namespace {
     bool setLeftWing_LeftWingState;
     bool setRightWing_RightWingState;
     bool setWings_WingsState;
+
+    bool useEncoderForPid = true;
 }
 
 namespace auton {
@@ -127,19 +129,34 @@ namespace auton {
         // Variables
         double motorTargetDistanceRev = distanceInches * (1.0 / driveWheelCircumIn) * (driveWheelMotorGearRatio);
         vector<double> initRevolutions = getMotorRevolutions();
+        double lookEncoderTargetDistanceRev = distanceInches * (1.0 / trackingLookWheelCircumIn) * (trackingLookWheelEncoderGearRatio);
+        double lookEncoderInitialRevolution = LookEncoder.rotation(rev);
 
         // PID
+        // TODO: Tune pid
         PIDControl driveTargetDistancePid(25, 0, 0, errorRange);
         PIDControl rotateTargetAnglePid(0.3, 0, 0, defaultTurnAngleErrorRange);
 
         timer timeout;
         while ((!driveTargetDistancePid.isSettled() || !rotateTargetAnglePid.isSettled()) && timeout.value() < runTimeout) {
-            // Compute average traveled motor revolutions
-            vector<double> travelRevolutions = getMotorRevolutions();
-            double averageTravelRev = getAverageDifference(initRevolutions, travelRevolutions);
+            // Compute linear distance error
+            double distanceError;
+            if (useEncoderForPid) {
+                // Compute current encoder revolutions
+                double lookEncoderCurrentRev = LookEncoder.rotation(rev);
+
+                double revolutionError = (LookEncoder.rotation(rev) - lookEncoderCurrentRev);
+                distanceError = revolutionError * (1.0 / trackingLookWheelEncoderGearRatio) * (trackingLookWheelCircumIn / 1.0);
+            } else {
+                // Compute average traveled motor revolutions
+                vector<double> travelRevolutions = getMotorRevolutions();
+                double averageTravelRev = getAverageDifference(initRevolutions, travelRevolutions);
+
+                double revolutionError = (motorTargetDistanceRev - averageTravelRev);
+                distanceError = revolutionError * (1.0 / driveWheelMotorGearRatio) * (driveWheelCircumIn / 1.0);
+            }
 
             // Compute motor velocity pid-value from error
-            double distanceError = (motorTargetDistanceRev - averageTravelRev);
             driveTargetDistancePid.computeFromError(distanceError);
             double velocityPct = fmin(maxVelocityPct, fmax(-maxVelocityPct, driveTargetDistancePid.getValue()));
 
@@ -170,6 +187,8 @@ namespace auton {
     /// @param errorRange The allowed inch errors from the target distance.
     /// @param runTimeout Maximum seconds the function will run for.
     void driveAndTurnDistanceWithInchesMotionProfile(double distanceInches, double targetRotation, double maxVelocityPct, double maxTurnVelocityPct, double errorRange, double runTimeout) {
+        /* Currently not used */
+        
         // Variables
         double motorTargetDistanceRev = distanceInches / driveWheelCircumIn * (driveWheelMotorGearRatio);
         double leftMotorInitRev = LeftMotors.position(rev);

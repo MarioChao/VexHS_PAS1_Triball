@@ -79,16 +79,24 @@ void pre_auton(void) {
     vexcodeInit();
 
     // Activites before the competition starts
-    // Puncher task
+    // Tasks
     task puncherTask([] () -> int { puncherThread(); return 1; });
-    // Controller task
     task rum([] () -> int { preautonControllerThread(); return 1; });
+    /*task printEncoder([] () -> int {
+        while (true) {
+            printf("Encoder rotation: %.3f\n", LookEncoder.rotation(rev));
+            task::sleep(30);
+        }
+        return 1;
+    });*/
+
     // Stopping brake-types
     preautonDrive();
 
     // Initialize sensors & components
     // Pre-auton
     runPreauton();
+    
     // Show auton state
     showAutonRunType();
 }

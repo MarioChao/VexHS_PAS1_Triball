@@ -26,6 +26,8 @@ pneumatics LeftWingPneumatic(Brain.ThreeWirePort.G);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.H);
 pneumatics LiftPneumatic(Brain.ThreeWirePort.A);
 
+encoder LookEncoder(Brain.ThreeWirePort.G);
+
 inertial InertialSensor(PORT16);
 distance DistanceSensor(PORT3);
 

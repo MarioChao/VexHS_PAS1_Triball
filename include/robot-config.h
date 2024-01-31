@@ -23,6 +23,8 @@ extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
 extern pneumatics LiftPneumatic;
 
+extern encoder LookEncoder;
+
 extern inertial InertialSensor;
 extern distance DistanceSensor;
 

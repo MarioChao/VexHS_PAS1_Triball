@@ -69,6 +69,11 @@ namespace {
             return;
         }
 
+        // Validate puncher
+        if (!PuncherMotorA.installed()) {
+            return;
+        }
+
         // Check if an object is within detection distance
         if (DistanceSensor.objectDistance(mm) <= ballDetectionDistanceMm) {
             // Punch once
@@ -91,11 +96,12 @@ namespace {
     }
     void spinPuncherToPosition(double targetMotorDegrees) {
         // Set up pid
-        PIDControl rotateTargetAnglePid(0.42, 0, 0, 7.0, 5.0);
+        // TODO: tune the pid to make the puncher faster
+        PIDControl rotateTargetAnglePid(0.5, 0, 0.03, 7.0, 5.0);
         timer runTimeout;
 
         // Spin puncher to position
-        while (!rotateTargetAnglePid.isSettled() && runTimeout.value() < 0.6) {
+        while (!rotateTargetAnglePid.isSettled() && runTimeout.value() < 0.5) {
             // Get error
             double currentMotorDegrees = PuncherMotors.position(deg);
             double error = targetMotorDegrees - currentMotorDegrees;
