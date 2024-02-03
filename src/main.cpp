@@ -56,6 +56,7 @@
 #include "Mechanics/botWings.h"
 
 #include "Utilities/fieldInfo.h"
+#include "Utilities/debugFunctions.h"
 
 #include "Videos/brainVideos.h"
 
@@ -163,6 +164,7 @@ void usercontrol(void) {
         // Joystick feedback
         // Drive
         controlDrive();
+        // printf("Encoder: %.3f\n", LookEncoder.rotation(rev));
 
         // Short delay
         task::sleep(20);

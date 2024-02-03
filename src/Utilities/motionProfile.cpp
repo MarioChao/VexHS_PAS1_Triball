@@ -67,33 +67,49 @@ void MotionProfile::createProfile(double distance) {
             break;
     }
     motionSign = (distance > 0) - (distance < 0);
-    printf("TargetSt: %.3f, TargetEd: %.3f, MotionEnd: %.3f\n", targetStartTime, targetEndTime, motionEndTime);
+    // printf("TargetSt: %.3f, TargetEd: %.3f, MotionEnd: %.3f\n", targetStartTime, targetEndTime, motionEndTime);
 }
 
 void MotionProfile::start() {
     motionTimer.reset();
 }
 
-double MotionProfile::getDistance() {
-    double currentTime = motionTimer.value();
+double MotionProfile::getDistanceAtTime(double timeSeconds) {
     double distance = 0;
-    if (currentTime < targetStartTime) {
-        distance += startAcceleration * pow(currentTime, 2) / 2;
-    } else if (currentTime < targetEndTime) {
+    if (timeSeconds < targetStartTime) {
+        distance += startAcceleration * pow(timeSeconds, 2) / 2;
+
+    } else if (timeSeconds < targetEndTime) {
         distance += startAcceleration * pow(targetStartTime, 2) / 2;
-        distance += (startAcceleration * targetStartTime) * (currentTime - targetStartTime);
-    } else if (currentTime < motionEndTime) {
+        distance += (startAcceleration * targetStartTime) * (timeSeconds - targetStartTime);
+
+    } else if (timeSeconds < motionEndTime) {
         distance += startAcceleration * pow(targetStartTime, 2) / 2;
         distance += (startAcceleration * targetStartTime) * (targetEndTime - targetStartTime);
-        distance += (startAcceleration * targetStartTime) * (currentTime - targetEndTime);
-        distance += endDeceleration * pow(currentTime - targetEndTime, 2) / 2;
+        distance += (startAcceleration * targetStartTime) * (timeSeconds - targetEndTime);
+        distance += endDeceleration * pow(timeSeconds - targetEndTime, 2) / 2;
+
     } else {
         distance += startAcceleration * pow(targetStartTime, 2) / 2;
         distance += (startAcceleration * targetStartTime) * (targetEndTime - targetStartTime);
         distance += (startAcceleration * targetStartTime) * (motionEndTime - targetEndTime);
         distance += endDeceleration * pow(motionEndTime - targetEndTime, 2) / 2;
+
     }
     return distance *= motionSign;
+}
+double MotionProfile::getDistance() {
+    return getDistanceAtTime(motionTimer.value());
+}
+double MotionProfile::getNextSectionDistance() {
+    double currentTimeSeconds = motionTimer.value();
+    if (currentTimeSeconds < targetStartTime) {
+        return getDistanceAtTime(targetStartTime);
+    } else if (currentTimeSeconds < targetEndTime) {
+        return getDistanceAtTime(targetEndTime);
+    } else {
+        return getDistanceAtTime(motionEndTime);
+    }
 }
 double MotionProfile::getVelocity() {
     double currentTime = motionTimer.value();
@@ -152,8 +168,8 @@ void MotionProfile::createFromMovementDetails(double distance) {
         targetEndTime = targetStartTime + (absDistance - (distanceStart + distanceEnd)) / velocityCap;
         motionEndTime = targetEndTime + (-velocityCap / endDeceleration);
         printf("Trapezoidal motion profile.\n");
-        printf("D1: %.3f, D2: %.3f, D3: %.3f\n", distanceStart, absDistance - (distanceStart + distanceEnd), distanceEnd);
-        printf("A1: %.3f, MV: %.3f, A3: %.3f\n", startAcceleration, velocityCap, endDeceleration);
+        // printf("D1: %.3f, D2: %.3f, D3: %.3f\n", distanceStart, absDistance - (distanceStart + distanceEnd), distanceEnd);
+        // printf("A1: %.3f, MV: %.3f, A3: %.3f\n", startAcceleration, velocityCap, endDeceleration);
 
     }
 }

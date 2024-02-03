@@ -12,7 +12,9 @@ class MotionProfile {
         void createProfile(double distance);
 
         void start();
+        double getDistanceAtTime(double currentTimeSeconds);
         double getDistance();
+        double getNextSectionDistance();
         double getVelocity();
         double getMotionEndTime();
         bool isDone();

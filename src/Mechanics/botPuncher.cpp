@@ -19,9 +19,15 @@ namespace {
     bool canSpinPuncher = false;
 
     bool isPuncherResetted = false;
+
+    bool disablePuncher = false;
 }
 
 void resetPuncherCall() {
+    if (disablePuncher) {
+        return;
+    }
+    
     // Validate isPuncherResetted
     if (isPuncherResetted) {
         return;
@@ -40,6 +46,10 @@ void resetPuncherCall() {
 }
 
 void puncherThread() {
+    if (disablePuncher) {
+        return;
+    }
+
     // Set puncher brake types
     PuncherMotors.setStopping(hold);
 
@@ -101,18 +111,24 @@ namespace {
         timer runTimeout;
 
         // Spin puncher to position
-        while (!rotateTargetAnglePid.isSettled() && runTimeout.value() < 0.5) {
-            // Get error
-            double currentMotorDegrees = PuncherMotors.position(deg);
-            double error = targetMotorDegrees - currentMotorDegrees;
+        // while (!rotateTargetAnglePid.isSettled() && runTimeout.value() < 0.5) {
+        //     // Get error
+        //     double currentMotorDegrees = PuncherMotors.position(deg);
+        //     double error = targetMotorDegrees - currentMotorDegrees;
 
-            // Get velocity from pid
-            rotateTargetAnglePid.computeFromError(error);
-            double spinVelocity = rotateTargetAnglePid.getValue();
+        //     // Get velocity from pid
+        //     rotateTargetAnglePid.computeFromError(error);
+        //     double spinVelocity = rotateTargetAnglePid.getValue();
 
-            // Spin puncher
-            spinPuncherVelocity(spinVelocity);
-            task::sleep(10);
+        //     // Spin puncher
+        //     spinPuncherVelocity(spinVelocity);
+        //     task::sleep(10);
+        // }
+
+        // Spin puncher until position
+        PuncherMotors.spin(fwd, 12, volt);
+        while (PuncherMotors.position(deg) < targetMotorDegrees) {
+            task::sleep(20);
         }
 
         // Stop puncher

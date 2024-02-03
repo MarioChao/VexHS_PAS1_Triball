@@ -15,7 +15,7 @@ namespace botinfo {
     // 100.0 * 60.0 / 600.0 (%s/rev) = 1
     double driveMotorRevToPercentSecFactor = 100.0 * 60.0 / 600.0;
 
-    double trackingLookWheelRadiusIn = 2.00 / 2;
-    double trackingLookWheelCircumIn = 2 * M_1_PI * trackingLookWheelRadiusIn;
+    double trackingLookWheelRadiusIn = 2.75 / 2;
+    double trackingLookWheelCircumIn = 2 * M_PI * trackingLookWheelRadiusIn;
     double trackingLookWheelEncoderGearRatio = 1.0;
 }
