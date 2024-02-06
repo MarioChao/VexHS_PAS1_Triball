@@ -17,9 +17,10 @@ namespace auton {
 
     void setIntakeState(int state);
 
+    void setFrontWingsState(bool state, double delaySec = 0);
     void setLeftWingState(bool state, double delaySec = 0);
     void setRightWingState(bool state, double delaySec = 0);
-    void setWingsState(bool state, double delaySec = 0);
+    void setBackWingsState(bool state, double delaySec = 0);
 
     void setLiftState(bool state);
 }

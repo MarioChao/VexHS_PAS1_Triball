@@ -2,3 +2,4 @@
 
 void resetPuncherCall();
 void puncherThread();
+int getPunchedCount();

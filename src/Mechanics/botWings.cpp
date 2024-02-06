@@ -2,11 +2,13 @@
 #include "main.h"
 
 namespace {
+    void changeFrontWingsState();
     void changeBothWingsToSameState();
     void changeBothWingsToDifferentState();
     void changeLeftWingState();
     void changeRightWingState();
     
+    double frontWingsDebounce = false;
     double wingsDebounce = false;
     double leftWingDebounce = false;
     double rightWingDebounce = false;
@@ -14,7 +16,8 @@ namespace {
 
 void keybindWings() {
     Controller1.ButtonL1.pressed([] () -> void {
-        changeBothWingsToSameState();
+        // changeBothWingsToSameState();
+        changeFrontWingsState();
     });
     Controller1.ButtonL2.pressed([] () -> void {
         changeLeftWingState();
@@ -29,6 +32,18 @@ void setWingsState(bool state) {
 }
 
 namespace {
+    void changeFrontWingsState() {
+        if (!frontWingsDebounce) {
+            frontWingsDebounce = true;
+
+            int oldValue = FrontWingsPneumatic.value();
+            int newValue = oldValue ^ 1;
+            FrontWingsPneumatic.set(newValue);
+            task::sleep(50);
+
+            frontWingsDebounce = false;
+        }
+    }
     void changeBothWingsToSameState() {
         if (!wingsDebounce) {
             wingsDebounce = true;

@@ -17,9 +17,11 @@ namespace {
     void driveVelocity(double leftVelocityPct, double rightVelocityPct);
     void driveVoltage(double leftVoltagePct, double rightVoltagePct);
 
+    double setFrontWings_DelaySec;
     double setLeftWing_DelaySec;
     double setRightWing_DelaySec;
     double setWings_DelaySec;
+    bool setFrontWings_WingState;
     bool setLeftWing_LeftWingState;
     bool setRightWing_RightWingState;
     bool setWings_WingsState;
@@ -303,6 +305,21 @@ namespace auton {
         // setIntakeResolveState(state ^ 1);
     }
 
+    /// @brief Set the state of Front Wings's pneumatic.
+    /// @param state Expanded: true, retracted: false.
+    /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
+    void setFrontWingsState(bool state, double delaySec) {
+        setFrontWings_WingState = state;
+        setFrontWings_DelaySec = delaySec;
+        task setPneumaticState([] () -> int {
+            if (setFrontWings_DelaySec > 1e-9) {
+                task::sleep(setFrontWings_DelaySec * 1000);
+            }
+            FrontWingsPneumatic.set(setFrontWings_WingState);
+            return 1;
+        });
+    }
+
     /// @brief Set the state of Left Wing's pneumatic.
     /// @param state Expanded: true, retracted: false.
     /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
@@ -313,8 +330,8 @@ namespace auton {
             if (setLeftWing_DelaySec > 1e-9) {
                 task::sleep(setLeftWing_DelaySec * 1000);
             }
-            // LeftWingPneumatic.set(setLeftWing_LeftWingState);
-            RightWingPneumatic.set(setLeftWing_LeftWingState);
+            LeftWingPneumatic.set(setLeftWing_LeftWingState);
+            // RightWingPneumatic.set(setLeftWing_LeftWingState);
             return 1;
         });
     }
@@ -329,8 +346,8 @@ namespace auton {
             if (setRightWing_DelaySec > 1e-9) {
                 task::sleep(setRightWing_DelaySec * 1000);
             }
-            // RightWingPneumatic.set(setRightWing_RightWingState);
-            LeftWingPneumatic.set(setRightWing_RightWingState);
+            RightWingPneumatic.set(setRightWing_RightWingState);
+            // LeftWingPneumatic.set(setRightWing_RightWingState);
             return 1;
         });
     }
@@ -338,7 +355,7 @@ namespace auton {
     /// @brief Set the state of Left and Right Wing's pneumatic.
     /// @param state Expanded: true, retracted: false.
     /// @param delaySec Number of seconds to wait before setting the pneumatic set (in a task).
-    void setWingsState(bool state, double delaySec) {
+    void setBackWingsState(bool state, double delaySec) {
         setWings_WingsState = state;
         setWings_DelaySec = delaySec;
         task setPneumaticsState([] () -> int {

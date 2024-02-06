@@ -15,6 +15,8 @@ namespace {
     
     int currentPuncherRevolution = 0;
 
+    int punchedCount = 0;
+
     bool runPuncherDebounce = false;
     bool canSpinPuncher = false;
 
@@ -54,10 +56,15 @@ void puncherThread() {
     PuncherMotors.setStopping(hold);
 
     // Puncher loop
+    punchedCount = 0;
     while (true) {
         resolvePuncher();
         task::sleep(20);
     }
+}
+
+int getPunchedCount() {
+    return punchedCount;
 }
 
 namespace {
@@ -88,6 +95,8 @@ namespace {
         if (DistanceSensor.objectDistance(mm) <= ballDetectionDistanceMm) {
             // Punch once
             runPuncherOnce();
+            punchedCount++;
+            printf("Punched: %d\n", punchedCount);
         }
     }
     void runPuncherOnce() {

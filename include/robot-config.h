@@ -19,6 +19,7 @@ extern motor PuncherMotorA;
 extern motor PuncherMotorB;
 extern motor_group PuncherMotors;
 
+extern pneumatics FrontWingsPneumatic;
 extern pneumatics LeftWingPneumatic;
 extern pneumatics RightWingPneumatic;
 extern pneumatics LiftPneumatic;
