@@ -22,7 +22,7 @@ namespace {
 
     bool isPuncherResetted = false;
 
-    bool disablePuncher = false;
+    bool disablePuncher = true;
 }
 
 void resetPuncherCall() {
