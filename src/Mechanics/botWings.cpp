@@ -16,14 +16,10 @@ namespace {
 
 void keybindWings() {
     Controller1.ButtonL1.pressed([] () -> void {
-        // changeBothWingsToSameState();
         changeFrontWingsState();
     });
     Controller1.ButtonL2.pressed([] () -> void {
-        changeLeftWingState();
-    });
-    Controller1.ButtonR2.pressed([] () -> void {
-        changeRightWingState();
+        changeBothWingsToSameState();
     });
 }
 void setWingsState(bool state) {

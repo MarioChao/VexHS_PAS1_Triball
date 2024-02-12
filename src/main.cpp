@@ -22,10 +22,9 @@
         ButtonB                 --> lift / elevation (switch)
 
     Driving:
-        ButtonR1                --> intake (hold) (ROBOT HAS NO INTAKE)
-        ButtonL1                --> both wings (switch)
-        ButtonL2                --> left wings (switch)
-        ButtonR2                --> right wings (switch)
+        ButtonR1                --> intake (hold) (*ROBOT HAS NO INTAKE)
+        ButtonL1                --> front wings (switch)
+        ButtonL2                --> both back wings (switch)
 
     Driving Mode - Arcade drive two stick (also controlled turn):
         Axis3                   --> arcade forward (hold)
