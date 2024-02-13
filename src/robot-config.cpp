@@ -22,7 +22,7 @@ motor PuncherMotorA(PORT1, ratio18_1, true);
 motor PuncherMotorB(PORT17, ratio18_1);
 motor_group PuncherMotors(PuncherMotorA, PuncherMotorB);
 
-pneumatics FrontWingsPneumatic(Brain.ThreeWirePort.A);
+pneumatics FrontWingsPneumatic(Brain.ThreeWirePort.D);
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.B);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);
 pneumatics LiftPneumatic(Brain.ThreeWirePort.E);
