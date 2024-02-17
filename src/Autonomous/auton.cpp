@@ -255,55 +255,59 @@ namespace {
 
         // Position for match-load
         driveAndTurnDistanceTiles(-0.80, 135.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.0);
-        turnToAngle(74.0, 0.0, defaultTurnAngleErrorRange, 0.6);
-        setRightWingState(true);
-        driveAndTurnDistanceTiles(-0.30, 74.0, 30.0, 60.0, defaultMoveTilesErrorRange, 0.4);
+        setRightWingState(true, 0.4);
+        turnToAngle(73.5, 0.0, defaultTurnAngleErrorRange, 0.6);
 
         // Match-load 46 balls until at most 25 seconds of skills passed
-        while (getPunchedCount() < 46 && autonTimer.value() < 23.5) {
+        while (getPunchedCount() < 46 && autonTimer.value() < 23.5 && autonTimer.value() < 7) {
             task::sleep(10);
         }
 
         // TODO: lower the time elapsed in each section
         
-        // Push the right, near-side corner triball out (3.6 s)
+        /* Near side corner triball */
+        // Push the right, near-side corner triball out (3.1 s)
         setRightWingState(false);
         driveAndTurnDistanceTiles(0.30, 45.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.0);
         setLeftWingState(true, 0.4);
-        turnToAngleVelocity(-45.0, 75.0, halfRobotLengthIn * 0.70, defaultTurnAngleErrorRange, 1.5);
+        turnToAngleVelocity(-45.0, 75.0, halfRobotLengthIn * 0.65, defaultTurnAngleErrorRange, 1.5);
         setLeftWingState(false, 0.6);
         driveAndTurnDistanceTiles(-0.50, -90.0, 60.0, 100.0, defaultMoveTilesErrorRange, 0.6);
 
-        /* Right side of the goal */
+        /* Score 1: Right side of the goal */
         // Push balls into the goal from the right (7.0 s)
         // Push the right, far-side corner triball out (4.3 s)
-        turnToAngle(-70.0, 0.0, defaultTurnAngleErrorRange, 0.5);
-        driveAndTurnDistanceTiles(-0.50, -90.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.4);
-        turnToAngle(-92.0, 0.0, defaultTurnAngleErrorRange, 0.4);
-        driveAndTurnDistanceTiles(-1.35, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.1);
+        turnToAngle(-67.0, 0.0, defaultTurnAngleErrorRange, 0.5);
+        driveAndTurnDistanceTiles(-0.80, -90.0, 80.0, 100.0, defaultMoveTilesErrorRange, 0.6);
+        turnToAngle(-90.0, halfRobotLengthIn * 1.00, defaultTurnAngleErrorRange, 0.4);
+        driveAndTurnDistanceTiles(-1.78, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-0.73, -90.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.6);
-        driveAndTurnDistanceTiles(-1.25, -130.0, 90.0, 100.0, defaultMoveTilesErrorRange, 1.3);
-        setBackWingsState(true);
+        turnToAngle(-88.0, 0.0, defaultTurnAngleErrorRange, 0.4);
+        driveAndTurnDistanceTiles(-1.25, -130.0, 92.0, 100.0, defaultMoveTilesErrorRange, 1.3);
+        // setBackWingsState(true);
+        turnToAngle(-135.0, halfRobotLengthIn * 0.50, defaultTurnAngleErrorRange, 0.3);
+        // setLeftWingState(false, 0.2);
         driveAndTurnDistanceTiles(-0.50, -180.0, 60.0, 100.0, defaultMoveTilesErrorRange, 0.5);
         // Push balls into goal (2.7 s)
         turnToAngle(-150.0, 0.0, defaultTurnAngleErrorRange, 0.5);
-        setLeftWingState(false, 0.1);
         driveAndTurnDistanceTiles(-1.20, -180.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.7);
-        driveAndTurnDistanceTiles(0.40, -180.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        driveAndTurnDistanceTiles(0.40, -170.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
         setBackWingsState(false);
         turnToAngle(-160.0, 0.0, defaultTurnAngleErrorRange, 0.4);
-        driveAndTurnDistanceTiles(-0.90, -180.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.6);
+        driveAndTurnDistanceTiles(-0.90, -180.0, 85.0, 100.0, defaultMoveTilesErrorRange, 0.6);
+        driveAndTurnDistanceTiles(0.40, -170.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        turnToAngle(20.0, 0.0, defaultTurnAngleErrorRange, 0.8);
+        driveAndTurnDistanceTiles(0.70, 0.0, 85.0, 100.0, defaultMoveTilesErrorRange, 0.6);
 
-        /* Bottom side of the goal */
+        /* Score 2: Bottom side of the goal */
         // Push balls into the goal from the right-bottom (5.1 s)
-        driveAndTurnDistanceTiles(0.50, -135.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.5);
-        turnToAngle(102.0, 0.0, defaultTurnAngleErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-1.35, 90.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.3);
+        driveAndTurnDistanceTiles(-0.30, 45.0, 75.0, 100.0, defaultMoveTilesErrorRange, 0.4);
+        turnToAngle(103.0, -halfRobotLengthIn * 0.90, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-1.40, 90.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.3);
         setRightWingState(true);
         turnToAngleVelocity(260.0, 50.0, -halfRobotLengthIn * 0.70, defaultTurnAngleErrorRange, 1.3);
         // Push to goal
-        driveAndTurnDistanceTiles(-1.30, 270.0, 80.0, 150.0, defaultMoveTilesErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-1.30, 270.0, 70.0, 150.0, defaultMoveTilesErrorRange, 1.0);
         // driveAndTurnDistanceTiles(0.50, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
         // turnToAngle(270.0, 0.0, defaultTurnAngleErrorRange, 0.5);
         // driveAndTurnDistanceTiles(-0.70, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
@@ -313,57 +317,54 @@ namespace {
         driveAndTurnDistanceTiles(1.20, 180.0, 75.0, 100.0, defaultMoveTilesErrorRange, 1.0);
         turnToAngle(180.0, 0.0, defaultTurnAngleErrorRange, 0.4);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-0.40, 180.0, 60.0, 100.0, defaultMoveTilesErrorRange, 0.5);
-        turnToAngleVelocity(280.0, 50.0, -halfRobotLengthIn * 1.00, defaultTurnAngleErrorRange, 1.0);
+        driveAndTurnDistanceTiles(-0.45, 180.0, 60.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        turnToAngleVelocity(275.0, 50.0, -halfRobotLengthIn * 1.00, defaultTurnAngleErrorRange, 1.0);
         setLeftWingState(true);
         setRightWingState(false);
         // Push to goal
-        driveAndTurnDistanceTiles(-1.50, 270.0, 70.0, 100.0, defaultMoveTilesErrorRange, 1.1);
+        driveAndTurnDistanceTiles(-1.30, 270.0, 70.0, 100.0, defaultMoveTilesErrorRange, 1.0);
         // driveAndTurnDistanceTiles(0.50, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
         // turnToAngle(270.0, 0.0, defaultTurnAngleErrorRange, 0.5);
         // driveAndTurnDistanceTiles(-1.00, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.7);
-        // Again, but from the left-bottom (6.1 s)
+        // Again, but from the left-bottom (6.7 s)
         driveAndTurnDistanceTiles(0.30, 270.0, 30.0, 100.0, defaultMoveTilesErrorRange, 0.3);
         setBackWingsState(false);
-        driveAndTurnDistanceTiles(1.20, 180.0, 75.0, 100.0, defaultMoveTilesErrorRange, 1.0);
+        driveAndTurnDistanceTiles(1.20, 225.0, 75.0, 100.0, defaultMoveTilesErrorRange, 1.0);
         turnToAngle(180.0, 0.0, defaultTurnAngleErrorRange, 0.4);
         setRightWingState(true);
-        driveAndTurnDistanceTiles(-1.60, 180.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.3);
-        driveAndTurnDistanceTiles(0.30, 180.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.4);
-        turnToAngleVelocity(345.0, 50.0, -halfRobotLengthIn * 0.70, defaultTurnAngleErrorRange, 1.3);
+        driveAndTurnDistanceTiles(-0.40, 180.0, 75.0, 100.0, defaultMoveTilesErrorRange, 0.6);
+        turnToAngleVelocity(280.0, 50.0, -halfRobotLengthIn * 0.60, defaultTurnAngleErrorRange, 1.3);
         setLeftWingState(true);
         // Push to goal
         setRightWingState(false, 0.2);
-        driveAndTurnDistanceTiles(-1.50, 270.0, 45.0, 100.0, defaultMoveTilesErrorRange, 1.1);
-        turnToAngle(270.0, halfRobotLengthIn * 0.50, defaultTurnAngleErrorRange, 0.4);
-        driveAndTurnDistanceTiles(-0.70, 270.0, 45.0, 100.0, defaultMoveTilesErrorRange, 0.3);
+        driveAndTurnDistanceTiles(-1.30, 270.0, 70.0, 150.0, defaultMoveTilesErrorRange, 1.0);
+        // driveAndTurnDistanceTiles(0.50, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        // turnToAngle(270.0, 0.0, defaultTurnAngleErrorRange, 0.5);
+        // driveAndTurnDistanceTiles(-0.90, 270.0, 45.0, 100.0, defaultMoveTilesErrorRange, 0.7);
 
-        /* Left side of the goal */
-        // Push balls into the goal from the left (9.1 s)
-        // Push some balls to top-left corner (3.2 s)
+        /* Score 3: Left side of the goal */
+        // Push balls into the goal from the left (7.7 s)
+        // Push the left, far-side corner triball out (4.9 s)
         setBackWingsState(false, 0.3);
-        driveAndTurnDistanceTiles(0.30, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
-        turnToAngle(450.0, halfRobotLengthIn * 1.10, defaultTurnAngleErrorRange, 1.3);
-        driveAndTurnDistanceTiles(1.00, 435.0, 70.0, 100.0, defaultMoveTilesErrorRange, 1.0);
-        driveAndTurnDistanceTiles(-0.30, 450.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.4);
-        // Push the left, far-side corner triball out (2.6 s)
-        turnToAngle(360.0, 0.0, defaultTurnAngleErrorRange, 0.7);
-        driveAndTurnDistanceTiles(0.20, 375.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.2);
-        turnToAngle(270.0, -halfRobotLengthIn * 1.30, defaultTurnAngleErrorRange, 0.7);
+        driveAndTurnDistanceTiles(0.50, 270.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.5);
+        turnToAngle(183.0, 0.0, defaultTurnAngleErrorRange, 0.7);
+        driveAndTurnDistanceTiles(-1.80, 180.0, 80.0, 100.0, defaultMoveTilesErrorRange, 1.8);
+        turnToAngle(270.0, 0.0, defaultTurnAngleErrorRange, 0.7);
         setLeftWingState(true);
-        setRightWingState(true, 0.2);
-        turnToAngleVelocity(315.0, 75.0, -halfRobotLengthIn * 1.50, defaultTurnAngleErrorRange, 0.5);
+        turnToAngle(315.0, -halfRobotLengthIn * 1.20, defaultTurnAngleErrorRange, 0.7);
+        // setRightWingState(true);
         driveAndTurnDistanceTiles(-0.60, 360.0, 60.0, 90.0, defaultMoveTilesErrorRange, 0.5);
-        setRightWingState(false);
-        // Push balls into goal (3.1 s)
-        turnToAngle(330.0, 0.0, defaultTurnAngleErrorRange, 0.3);
-        driveAndTurnDistanceTiles(0.20, 330.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.3);
+        // setRightWingState(false);
+        // Push balls into goal (2.8 s)
+        turnToAngle(340.0, 0.0, defaultTurnAngleErrorRange, 0.3);
+        driveAndTurnDistanceTiles(0.20, 320.0, 100.0, 100.0, defaultMoveTilesErrorRange, 0.3);
         driveAndTurnDistanceTiles(-1.20, 360.0, 85.0, 100.0, defaultMoveTilesErrorRange, 0.8);
         driveAndTurnDistanceTiles(0.40, 345.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.5);
         setBackWingsState(false);
         turnToAngle(330.0, 0.0, defaultTurnAngleErrorRange, 0.3);
         driveAndTurnDistanceTiles(-1.00, 360.0, 90.0, 100.0, defaultMoveTilesErrorRange, 0.6);
 
+        /* Endgame */
         // Elevation (4.0 s)
         // Prepare for elevation
         driveAndTurnDistanceTiles(0.30, 345.0, 70.0, 100.0, defaultMoveTilesErrorRange, 0.5);
