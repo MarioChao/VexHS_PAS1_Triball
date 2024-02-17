@@ -19,7 +19,7 @@
         ButtonX                 --> switch driving mode
 
     Endgame:
-        ButtonB                 --> lift / elevation (switch)
+        ButtonR2                 --> lift / elevation (switch)
 
     Driving:
         ButtonR1                --> intake (hold) (*ROBOT HAS NO INTAKE)

@@ -10,7 +10,7 @@ namespace {
 }
 
 void keybindLift() {
-    Controller1.ButtonB.pressed([] () -> void {
+    Controller1.ButtonR2.pressed([] () -> void {
         switchLiftState();
     });
 }

@@ -25,7 +25,7 @@ motor_group PuncherMotors(PuncherMotorA, PuncherMotorB);
 pneumatics FrontWingsPneumatic(Brain.ThreeWirePort.D);
 pneumatics LeftWingPneumatic(Brain.ThreeWirePort.B);
 pneumatics RightWingPneumatic(Brain.ThreeWirePort.C);
-pneumatics LiftPneumatic(Brain.ThreeWirePort.E);
+pneumatics LiftPneumatic(Brain.ThreeWirePort.A);
 
 encoder LookEncoder(Brain.ThreeWirePort.G);
 
