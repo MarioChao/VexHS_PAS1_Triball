@@ -137,9 +137,9 @@ namespace auton {
 
         // PID
         // TODO: Tune pid
-        PIDControl driveTargetDistancePid(5.3, 0, 0, errorRange, 10.0);
-        PIDControl rotateTargetAnglePid(0.3, 0, 0, defaultTurnAngleErrorRange, 10.0);
-        PIDControl synchronizeVelocityPid(0.4, 0, 0, 5.0, 10.0);
+        PIDControl driveTargetDistancePid(5.3, 0, 0, errorRange);
+        PIDControl rotateTargetAnglePid(0.3, 0, 0, defaultTurnAngleErrorRange);
+        PIDControl synchronizeVelocityPid(0.4, 0, 0, 5.0);
 
         timer timeout;
         printf("Drive with inches\n");
